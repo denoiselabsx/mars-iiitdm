@@ -26,11 +26,11 @@ const board = [
   {
     rank: 0,
     suffix: "",
-    label: "DIA",
+    label: "Award",
     code: "SHAASTRA",
     full: "Caterpillar Autonomy Challenge 2026",
     org: "IIT Madras",
-    note: "Design Innovation Award for KUTTI's underbelly scooping mechanism.",
+    note: "Design Innovation Award for KUTTI's underbelly scooping mechanism — debuting at IIT Madras's flagship technical fest.",
     isText: true,
   },
 ];
