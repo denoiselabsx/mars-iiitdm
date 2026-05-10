@@ -12,9 +12,9 @@ export function Footer() {
               <Image
                 src="/brand/mars-logo.png"
                 alt=""
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
+                width={56}
+                height={56}
+                className="h-12 w-12 object-contain drop-shadow-[0_0_10px_rgba(193,68,14,0.25)]"
               />
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-[color:var(--color-paper)]">

@@ -45,10 +45,10 @@ export function Nav() {
           <Image
             src="/brand/mars-logo.png"
             alt=""
-            width={32}
-            height={32}
+            width={48}
+            height={48}
             priority
-            className="h-8 w-8 object-contain transition-transform duration-500 group-hover:rotate-[10deg]"
+            className="h-10 w-10 object-contain drop-shadow-[0_0_8px_rgba(193,68,14,0.25)] transition-transform duration-500 group-hover:rotate-[8deg]"
           />
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-[color:var(--color-paper)]">
             MaRS
