@@ -52,7 +52,6 @@ export function TheBoard() {
 
       <div className="container-page">
         <SectionHeader
-          channel="TLM-001 // SCOREBOARD"
           eyebrow="2025–26 Season"
           title={
             <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   useGLTF,
@@ -59,13 +59,13 @@ function Rover({ progressRef }: { progressRef: React.RefObject<number> }) {
     if (!group.current) return;
     const p = progressRef.current ?? 0;
 
-    // Continuous slow rotation + scroll-driven offset
-    const targetY = p * Math.PI * 1.6 - 0.4;
-    group.current.rotation.y += (targetY - group.current.rotation.y) * Math.min(1, delta * 4);
+    // Continuous idle rotation (slow) — augmented by scroll
+    // Idle: 0.08 rad/sec. Scroll adds up to ~1.5 rad of extra Y.
+    group.current.rotation.y += delta * (0.08 + p * 0.5);
 
-    // Slight tilt that intensifies past 60% scroll
-    const targetX = p > 0.6 ? -0.15 * (p - 0.6) / 0.4 : 0;
-    group.current.rotation.x += (targetX - group.current.rotation.x) * Math.min(1, delta * 4);
+    // Subtle pitch as user scrolls — emphasises the chassis underneath
+    const targetX = -0.12 * p;
+    group.current.rotation.x += (targetX - group.current.rotation.x) * Math.min(1, delta * 3);
   });
 
   return (
@@ -82,19 +82,15 @@ function CameraRig({ progressRef }: { progressRef: React.RefObject<number> }) {
   useFrame((_, delta) => {
     const p = progressRef.current ?? 0;
 
-    // Distance: pulls in at 50%, pulls out at 100%
-    const baseDist = isPortrait ? 6.5 : 5.2;
-    const targetZ = baseDist - Math.sin(p * Math.PI) * 1.1;
+    // Slightly oblique, low-angle hero framing — pulls in subtly on scroll
+    const baseDist = isPortrait ? 6.2 : 4.4;
+    const targetZ = baseDist - p * 0.7;
+    const targetY = 0.5 + p * 0.4;
+    const targetX = 0.3 - p * 0.3;
 
-    // Slight elevation lift through scroll
-    const targetY = 0.4 + p * 0.6;
-
-    // Sideways pan: subtle dolly
-    const targetX = Math.sin(p * Math.PI * 0.8) * 0.4;
-
-    camera.position.x += (targetX - camera.position.x) * Math.min(1, delta * 3);
-    camera.position.y += (targetY - camera.position.y) * Math.min(1, delta * 3);
-    camera.position.z += (targetZ - camera.position.z) * Math.min(1, delta * 3);
+    camera.position.x += (targetX - camera.position.x) * Math.min(1, delta * 2.5);
+    camera.position.y += (targetY - camera.position.y) * Math.min(1, delta * 2.5);
+    camera.position.z += (targetZ - camera.position.z) * Math.min(1, delta * 2.5);
     camera.lookAt(0, 0.2, 0);
   });
 

@@ -49,7 +49,6 @@ export function FieldStrip() {
     <section className="relative py-32 md:py-48 overflow-hidden">
       <div className="container-page mb-16 md:mb-20">
         <SectionHeader
-          channel="TLM-004 // FIELD-LOG"
           eyebrow="From the field"
           title={
             <>

@@ -1,26 +1,16 @@
 "use client";
 
 import { motion } from "motion/react";
-import { TelemetryLabel } from "./telemetry-label";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  channel: string;
   eyebrow: string;
   title: React.ReactNode;
   className?: string;
   align?: "left" | "center";
-  live?: boolean;
 };
 
-export function SectionHeader({
-  channel,
-  eyebrow,
-  title,
-  className,
-  align = "left",
-  live = false,
-}: Props) {
+export function SectionHeader({ eyebrow, title, className, align = "left" }: Props) {
   return (
     <div className={cn(align === "center" && "text-center mx-auto", className)}>
       <motion.div
@@ -33,16 +23,15 @@ export function SectionHeader({
           align === "center" && "mx-auto",
         )}
       />
-      <motion.div
+      <motion.p
         initial={{ opacity: 0, y: 8 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-15% 0px" }}
         transition={{ duration: 0.5, delay: 0.2 }}
+        className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]"
       >
-        <TelemetryLabel channel={channel} live={live}>
-          {eyebrow}
-        </TelemetryLabel>
-      </motion.div>
+        {eyebrow}
+      </motion.p>
       <motion.h2
         initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}

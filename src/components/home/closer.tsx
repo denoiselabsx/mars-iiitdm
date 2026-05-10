@@ -25,7 +25,7 @@ export function Closer() {
           transition={{ duration: 0.6 }}
           className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-faint)]"
         >
-          ◉ Recruitment opens · July 2026
+          Recruitment opens · July 2026
         </motion.p>
 
         <motion.h2
@@ -52,28 +52,14 @@ export function Closer() {
           <Magnetic>
             <Link
               href="/join"
-              className="group inline-flex items-center gap-3 bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-8 py-4 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--color-paper)] transition-colors"
-              style={{
-                clipPath:
-                  "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
-              }}
+              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-mars)] text-[color:var(--color-void)] hover:text-[color:var(--color-paper)] px-8 py-4 text-sm font-medium transition-colors"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#5cf2b0] animate-pulse" />
               Apply to MaRS
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </Magnetic>
         </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-20% 0px" }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-10 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-faint)]"
-        >
-          mars@iiitdm.ac.in · @mars_iiitdm
-        </motion.p>
       </div>
     </section>
   );

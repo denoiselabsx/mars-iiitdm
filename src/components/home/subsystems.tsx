@@ -41,7 +41,6 @@ export function Subsystems() {
     <section className="relative py-32 md:py-48">
       <div className="container-page">
         <SectionHeader
-          channel="TLM-002 // SUBSYSTEMS"
           eyebrow="What we build"
           title={
             <>

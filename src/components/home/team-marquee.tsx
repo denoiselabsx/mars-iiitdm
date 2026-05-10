@@ -76,7 +76,6 @@ export function TeamMarquee() {
     <section className="relative py-32 md:py-48 overflow-hidden">
       <div className="container-page mb-16 md:mb-24">
         <SectionHeader
-          channel="TLM-003 // TEAM SHUNYA"
           eyebrow="Thirty engineers, one rover"
           title={
             <>

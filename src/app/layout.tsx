@@ -8,7 +8,6 @@ import { MotionProvider } from "@/components/providers/motion-provider";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { CursorTrail } from "@/components/site/cursor-trail";
-import { CoordinateStamp } from "@/components/site/coordinate-stamp";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -97,7 +96,6 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
             <CursorTrail />
-            <CoordinateStamp />
           </LenisProvider>
         </MotionProvider>
         <Analytics />

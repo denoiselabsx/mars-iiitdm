@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { nav as primaryNav, site } from "@/lib/site";
-import { MissionClock } from "@/components/motion/mission-clock";
 
 const visibleNav = primaryNav.filter((n) => n.href !== "/join" && n.href !== "/");
 
@@ -37,28 +36,23 @@ export function Nav() {
       )}
     >
       <div className="container-page flex h-20 items-center justify-between">
-        {/* Left: hex logo + mission clock */}
+        {/* Left: logo + wordmark */}
         <Link
           href="/"
           aria-label={`${site.name} home`}
-          className="group flex items-center gap-4"
+          className="group flex items-center gap-3"
         >
-          <div className="relative">
-            <Image
-              src="/brand/mars-logo.png"
-              alt=""
-              width={56}
-              height={56}
-              priority
-              className="h-11 w-11 object-contain drop-shadow-[0_0_12px_rgba(193,68,14,0.3)] transition-transform duration-700 group-hover:rotate-[12deg]"
-            />
-          </div>
-          <div className="hidden sm:flex flex-col gap-0.5">
-            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-paper)] leading-none">
-              MaRS
-            </span>
-            <MissionClock className="leading-none" />
-          </div>
+          <Image
+            src="/brand/mars-logo.png"
+            alt=""
+            width={56}
+            height={56}
+            priority
+            className="h-11 w-11 object-contain drop-shadow-[0_0_12px_rgba(193,68,14,0.3)] transition-transform duration-700 group-hover:rotate-[12deg]"
+          />
+          <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-paper)]">
+            MaRS
+          </span>
         </Link>
 
         {/* Center: links */}
@@ -99,14 +93,10 @@ export function Nav() {
         <div className="flex items-center gap-3">
           <Link
             href="/join"
-            className="hidden sm:inline-flex items-center gap-2 rounded-none border border-[color:var(--color-mars)]/60 bg-[color:var(--color-mars)]/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-paper)] transition-all hover:bg-[color:var(--color-mars)] hover:border-[color:var(--color-mars)]"
-            style={{
-              clipPath:
-                "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)",
-            }}
+            className="hidden sm:inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-mars)] hover:bg-[color:var(--color-mars)] px-5 py-2 text-sm font-medium text-[color:var(--color-paper)] transition-all"
           >
-            <span className="h-1 w-1 rounded-full bg-[#5cf2b0] animate-pulse" />
             Join MaRS
+            <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>
 
           <button
