@@ -26,7 +26,7 @@ const board = [
   {
     rank: 0,
     suffix: "",
-    label: "Award",
+    label: "Innovation",
     code: "SHAASTRA",
     full: "Caterpillar Autonomy Challenge 2026",
     org: "IIT Madras",
@@ -78,7 +78,7 @@ export function TheBoard() {
                 {/* Massive numeral / text */}
                 <div className="col-span-12 md:col-span-5 flex items-baseline gap-2">
                   {b.isText ? (
-                    <span className="font-sans text-[20vw] md:text-[12vw] lg:text-[10vw] leading-[0.85] font-medium tracking-[-0.04em] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
+                    <span className="font-serif italic text-[18vw] md:text-[10vw] lg:text-[8.5vw] leading-[0.9] tracking-[-0.02em] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
                       {b.label}
                     </span>
                   ) : (
