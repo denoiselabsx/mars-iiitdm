@@ -11,7 +11,11 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 
-useGLTF.preload("/models/rover.glb");
+// DRACO decoder hosted by Google (cached across the web; ~30KB gzipped).
+// The rover GLB uses DRACO mesh compression — without this the file fails to load.
+const DRACO_DECODER = "https://www.gstatic.com/draco/v1/decoders/";
+
+useGLTF.preload("/models/rover.glb", DRACO_DECODER);
 
 type Refs = {
   progressRef: React.RefObject<number>;
@@ -20,7 +24,7 @@ type Refs = {
 };
 
 function Rover({ progressRef, velocityRef, dragOffsetRef }: Refs) {
-  const { scene } = useGLTF("/models/rover.glb");
+  const { scene } = useGLTF("/models/rover.glb", DRACO_DECODER);
   const group = useRef<THREE.Group>(null);
   const spin = useRef(0); // accumulated inertial spin
 
