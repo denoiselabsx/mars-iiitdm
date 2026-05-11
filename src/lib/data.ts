@@ -16,43 +16,60 @@ export type Rover = {
   status: RoverStatus;
   blurb: string;
   highlight?: string;
+  /** Competition year this build targets / debuted at — drives newest-first sort */
+  year?: number;
+  /** Competition the rover was built for, e.g. "IRC 2026", "ERC 2025" */
+  forEvent?: string;
 };
 
+// Rover lineup, newest competition year first. Vajra (2023–24) lives in
+// the "legacy" bucket as the rover that put MaRS on the map.
 export const rovers: Rover[] = [
+  // ── IN DEVELOPMENT ───────────────────────────────────────────────────
+  {
+    slug: "rudra",
+    name: "Rudra",
+    kind: "rover",
+    status: "designing",
+    year: 2026,
+    forEvent: "ERC 2026",
+    blurb:
+      "Team Shunya's next-generation autonomous Mars-exploration rover, in active development for the European Rover Challenge 2026. 5-DOF manipulator with custom cycloidal gearboxes, Ackermann steering, and a redesigned science module capable of 30 cm-deep sample collection. ROS2 + Nav2 autonomy with EKF localisation, ZED 2i stereo vision, YOLO-based object detection, and intelligent safety mechanisms. Backed by Ubiquiti + LoRa comms for reliable operation in harsh Martian-like terrain.",
+    highlight: "ERC 2026 — cycloidal gearing, Ackermann steer, 30 cm sample drill.",
+  },
+  {
+    slug: "scout-drone",
+    name: "Scout Drone",
+    kind: "drone",
+    status: "designing",
+    year: 2026,
+    forEvent: "ERC 2026 — alongside Rudra",
+    blurb:
+      "Aerial counterpart developed in tandem with Rudra. Designed to support aerial mapping and reconnaissance during ERC missions — terrain scouting ahead of rover traverses, plus an extra perspective for the autonomy stack.",
+  },
+
+  // ── ACTIVE (most recent first) ───────────────────────────────────────
   {
     slug: "shaurya",
     name: "Shaurya",
     kind: "rover",
     status: "active",
+    year: 2026,
+    forEvent: "IRC 2026",
     blurb:
-      "Team Shunya's IRC 2026 build — an autonomous Mars rover for terrain navigation, scientific exploration, and precision manipulation. 4WD differential drive, ROS2 autonomy stack, 5-DOF manipulator with Cartesian control, and a science cache for soil and atmospheric analysis. ZED 2i stereo vision, EKF localisation, LoRa backup comms, and intelligent power management — built to perform in harsh Martian-like environments.",
-    highlight: "IRC 2026 build — ROS2 autonomy, ZED stereo, science cache.",
+      "Team Shunya's IRC 2026 build — an autonomous Mars rover for terrain navigation, scientific exploration, and precision manipulation. 4WD differential drive, ROS2 autonomy stack, 5-DOF manipulator with Cartesian control, and a science cache for soil and atmospheric analysis. ZED 2i stereo vision, EKF localisation, LoRa backup comms, and intelligent power management.",
+    highlight: "IRC 2026 — ROS2 autonomy, ZED stereo, science cache.",
   },
   {
     slug: "lakshya",
     name: "Lakshya",
     kind: "rover",
     status: "active",
+    year: 2025,
+    forEvent: "ERC 2025",
     blurb:
-      "Team Shunya's Project Lakshya — a Mars-exploration rover built for the European Rover Challenge 2025. Designed for harsh Martian-analog environments with ROS-based autonomy, a 5-DOF robotic arm, advanced communications, and a science-cache mechanism. Built to take on autonomous navigation, terrain traversal, manipulation, and sample-collection mission tasks.",
-    highlight: "ERC 2025 flagship — autonomy, manipulation, science cache.",
-  },
-  {
-    slug: "vajra-rover",
-    name: "Vajra",
-    kind: "rover",
-    status: "active",
-    blurb:
-      "Our flagship rover. Six-wheel rocker-bogie chassis, low centre of gravity, custom suspension engineered for Mars-analog terrain. Carries the manipulator that earned recognition at IRC and ERC.",
-    highlight: "Featured rover at ERC 2023 Onsite & IRC 2024 — 21st globally.",
-  },
-  {
-    slug: "vajra-manipulator",
-    name: "Vajra Manipulator",
-    kind: "manipulator",
-    status: "active",
-    blurb:
-      "Five-degree-of-freedom robotic arm with interchangeable end-effectors. Designed for sample collection, valve actuation, and equipment servicing in field-mission conditions.",
+      "Built for the European Rover Challenge 2025. ROS-based autonomy, a 5-DOF robotic arm, advanced communications, and a science-cache mechanism — engineered for autonomous navigation, terrain traversal, manipulation, and sample collection in harsh Martian-analog environments.",
+    highlight: "ERC 2025 build — autonomy, manipulation, science cache.",
   },
   {
     slug: "destiny-rover",
@@ -75,10 +92,36 @@ export const rovers: Rover[] = [
     name: "Vetri",
     kind: "rover",
     status: "active",
+    year: 2026,
+    forEvent: "SHAASTRA Caterpillar Autonomy 2026",
     blurb:
       "Debuted at SHAASTRA 2026 Caterpillar Autonomy Challenge. Earned the Design Innovation Award for its custom-engineered underbelly scooping mechanism — an in-house solution to autonomous berm construction.",
-    highlight: "Design Innovation Award · SHAASTRA Caterpillar Autonomy 2026.",
+    highlight: "Design Innovation Award · SHAASTRA Caterpillar 2026.",
   },
+
+  // ── LEGACY (the rover that put MaRS on the map) ──────────────────────
+  {
+    slug: "vajra-rover",
+    name: "Vajra",
+    kind: "rover",
+    status: "retired",
+    year: 2024,
+    forEvent: "ERC 2023 Onsite · IRC 2024",
+    blurb:
+      "The original flagship. Six-wheel rocker-bogie chassis, low centre of gravity, custom suspension engineered for Mars-analog terrain. Carried the manipulator that put MaRS on the international podium.",
+    highlight: "ERC 2023 Onsite & IRC 2024 — 21st globally.",
+  },
+  {
+    slug: "vajra-manipulator",
+    name: "Vajra Manipulator",
+    kind: "manipulator",
+    status: "retired",
+    year: 2024,
+    blurb:
+      "Five-degree-of-freedom arm with interchangeable end-effectors. Designed for sample collection, valve actuation, and equipment servicing in field-mission conditions — the manipulator on the original Vajra platform.",
+  },
+
+  // ── ON THE BENCH ─────────────────────────────────────────────────────
   {
     slug: "legged-dog-rover",
     name: "Legged Dog Rover",
@@ -86,14 +129,6 @@ export const rovers: Rover[] = [
     status: "designing",
     blurb:
       "Four-legged locomotion platform — designed for terrain too irregular for wheeled rovers. Design phase complete; fabrication next.",
-  },
-  {
-    slug: "drone",
-    name: "Drone",
-    kind: "drone",
-    status: "concept",
-    blurb:
-      "Aerial counterpart to the rover programme. Currently in concept design — to be deployed for terrain mapping and scouting ahead of rover traverses.",
   },
   {
     slug: "spider-bot",

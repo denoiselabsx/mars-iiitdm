@@ -13,12 +13,29 @@ export const metadata = routeMeta("/rovers", {
     "Every rover MaRS has built — Shaurya (IRC 2026), Lakshya (ERC 2025), Vajra, Destiny, Vetri — and Rudra, the next-gen build for ERC 2026.",
 });
 
-const active = rovers.filter((r) => r.status === "active");
-const upcoming = rovers.filter((r) => r.status === "designing" || r.status === "concept");
+// Newest competition year first. Rovers without a year sort last in their bucket.
+const byRecency = (a: { year?: number }, b: { year?: number }) =>
+  (b.year ?? -Infinity) - (a.year ?? -Infinity);
+
+// Section 1 — competition-bound builds currently in development (Rudra, Scout Drone)
+const inDevelopment = rovers
+  .filter((r) => r.status === "designing" && r.forEvent)
+  .sort(byRecency);
+
+// Section 2 — active fleet (newest competition first)
+const active = rovers.filter((r) => r.status === "active").sort(byRecency);
+
+// Section 3 — legacy (retired). The rover(s) that put MaRS on the map.
+const legacy = rovers.filter((r) => r.status === "retired").sort(byRecency);
+
+// Section 4 — bench projects (no competition target yet) + concepts
+const bench = rovers.filter(
+  (r) => (r.status === "designing" && !r.forEvent) || r.status === "concept",
+);
 
 const statusLabel = {
   active: "Active",
-  designing: "Designing",
+  designing: "In development",
   concept: "Concept",
   retired: "Retired",
 } as const;
@@ -46,7 +63,7 @@ export default function RoversPage() {
             .
           </>
         }
-        lead="Every drivetrain, arm, and PCB is designed and machined by students. Three platforms in active rotation — and three more on the bench."
+        lead={`Every drivetrain, arm, and PCB is designed and machined by students. ${active.length} platforms in active rotation, ${inDevelopment.length} in development for the next competition season, and the lineage that started it all.`}
       />
 
       {/* ── Active rovers ─────────────────────────────────────────────── */}
