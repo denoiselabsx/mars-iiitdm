@@ -170,8 +170,8 @@ export function Footer() {
             className="group inline-flex items-center gap-3 text-[10px] text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
           >
             <span className="font-mono uppercase tracking-[0.2em]">Crafted by</span>
-            <span className="opacity-60 group-hover:opacity-100 transition-opacity">
-              <DenoiseMark height={18} />
+            <span className="opacity-70 group-hover:opacity-100 transition-opacity">
+              <DenoiseMark height={22} variant="plate" />
             </span>
             <span className="overflow-hidden inline-flex items-center max-w-0 group-hover:max-w-[260px] transition-[max-width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] whitespace-nowrap">
               <span className="font-mono uppercase tracking-[0.2em] pl-3 border-l border-[color:var(--color-line)] ml-3">

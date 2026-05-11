@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Magnetic } from "@/components/motion/magnetic";
+import { DenoiseMark } from "@/components/site/denoise-mark";
 
 export default function NotFound() {
   return (

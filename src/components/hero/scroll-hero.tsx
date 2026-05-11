@@ -320,10 +320,10 @@ function DesktopHeroText() {
 function MobileHeroText() {
   return (
     <>
-      <h1 className="font-sans text-[9vw] xs:text-[8vw] sm:text-[7vw] font-medium leading-[1.02] tracking-[-0.02em] text-balance text-[color:var(--color-paper)]">
+      <h1 className="font-sans text-[8.5vw] xs:text-[7.5vw] sm:text-[6.5vw] font-medium leading-[1.02] tracking-[-0.02em] text-balance text-[color:var(--color-paper)]">
         <HeroLine delay={0.2}>India&rsquo;s student rover team,</HeroLine>
         <HeroLine delay={0.4}>
-          out of{" "}
+          out of IIITDM{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">
             Kancheepuram
           </span>
