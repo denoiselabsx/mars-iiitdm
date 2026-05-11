@@ -247,9 +247,10 @@ export const competitions: Competition[] = [
     code: "ERC 2025 Remote",
     full: "European Rover Challenge — Remote Edition",
     org: "European Space Foundation",
-    result: "3rd in Asia · 6th Globally",
+    result: "4th Globally · 215 pts",
     year: 2025,
     group: "global",
+    note: "Best-ever ERC Remote finish — behind only Sapienza, IITB, and CRISS Robotics.",
   },
   {
     code: "ERC 2023 Onsite",
