@@ -6,7 +6,7 @@ export const site = {
   description:
     "Interdisciplinary student project at IIITDM Kancheepuram — 40+ engineers building next-generation autonomous rovers and robotic arms for extreme terrains and planetary exploration.",
   url: "https://marsiiitdm.vercel.app",
-  email: "ec23i1015@iiitdm.ac.in", // Team Lead — Avichal Anurag
+  email: "mars@iiitdm.ac.in", // Club general inbox
   address: "IIITDM Kancheepuram, Vandalur-Kelambakkam Road, Chennai – 600127, India",
   social: {
     instagram: "https://instagram.com/mars_iiitdm",
