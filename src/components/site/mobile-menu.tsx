@@ -46,7 +46,7 @@ export function MobileMenu({ open, onClose }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[70] md:hidden"
+          className="fixed inset-0 z-[70] md:hidden h-[100dvh] overflow-y-auto overscroll-contain"
         >
           {/* Full-bleed backdrop */}
           <motion.div
@@ -68,7 +68,7 @@ export function MobileMenu({ open, onClose }: Props) {
           />
 
           {/* Content */}
-          <div className="relative h-full flex flex-col">
+          <div className="relative min-h-[100dvh] flex flex-col">
             {/* Top bar */}
             <div className="container-page flex items-center justify-between h-20">
               <Link
@@ -102,14 +102,14 @@ export function MobileMenu({ open, onClose }: Props) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.5 }}
-              className="container-page mt-6 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
+              className="container-page mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
             >
               <span className="text-[color:var(--color-mars)]">—</span> Navigate
             </motion.p>
 
             {/* Links — big editorial */}
-            <nav className="container-page flex-1 flex flex-col justify-center -mt-8">
-              <ul className="space-y-1.5">
+            <nav className="container-page flex-1 flex flex-col justify-center py-6">
+              <ul className="space-y-0.5">
                 {items.map((item, i) => (
                   <motion.li
                     key={item.href}
@@ -124,9 +124,9 @@ export function MobileMenu({ open, onClose }: Props) {
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="group flex items-baseline justify-between gap-4 py-2 border-b border-[color:var(--color-line)]/40"
+                      className="group flex items-baseline justify-between gap-4 py-2.5 border-b border-[color:var(--color-line)]/40"
                     >
-                      <span className="font-sans text-5xl font-medium tracking-tight leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-signal)] transition-colors">
+                      <span className="font-sans text-[2.25rem] sm:text-5xl font-medium tracking-tight leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-signal)] transition-colors">
                         {item.label}
                       </span>
                       <span
@@ -145,7 +145,7 @@ export function MobileMenu({ open, onClose }: Props) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.85, duration: 0.6 }}
-                className="mt-12 max-w-xs font-serif italic text-2xl leading-snug text-[color:var(--color-muted)]"
+                className="mt-8 max-w-xs font-serif italic text-xl sm:text-2xl leading-snug text-[color:var(--color-muted)]"
               >
                 Exploration begins{" "}
                 <span className="text-[color:var(--color-mars)]">here</span>.
@@ -157,14 +157,14 @@ export function MobileMenu({ open, onClose }: Props) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.95, duration: 0.6 }}
-              className="container-page pb-10"
+              className="container-page pb-[max(env(safe-area-inset-bottom),2rem)]"
             >
               <Link
                 href="/join"
                 onClick={onClose}
-                className="group flex items-center justify-between w-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-6 py-5 text-[color:var(--color-paper)] transition-colors rounded-full"
+                className="group flex items-center justify-between w-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-6 py-4 text-[color:var(--color-paper)] transition-colors rounded-full"
               >
-                <span className="font-sans text-lg font-medium">Join MaRS</span>
+                <span className="font-sans text-base font-medium">Join MaRS</span>
                 <span
                   aria-hidden
                   className="transition-transform group-hover:translate-x-1"
@@ -173,7 +173,7 @@ export function MobileMenu({ open, onClose }: Props) {
                 </span>
               </Link>
 
-              <div className="mt-6 flex items-center justify-between">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-y-2">
                 <div className="flex items-center gap-5">
                   <a
                     href={site.social.instagram}
