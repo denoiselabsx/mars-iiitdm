@@ -98,7 +98,7 @@ Any newspaper articles, online coverage, magazine features. Even Tamil regional 
 - **Past members / alumni** — names + current placements / orgs. Builds credibility for new recruits.
 - **Quotes** — one sentence from each lead about why MaRS matters to them. Used as editorial pull-quotes.
 - **Notion / Github links** — any public project boards, build documentation, GitHub orgs.
-- **Brand guide** — we've tuned the site's red to `#D63828` to match the MaRS logo. If you have an official brand color hex (or guidelines), send it and we'll align exactly.
+- **Brand guide** — we've tuned the site's red to `#dc2626` to match the MaRS logo. If you have an official brand color hex (or guidelines), send it and we'll align exactly.
 - **Past competition footage** — YouTube links to your team's rover competing.
 
 ---

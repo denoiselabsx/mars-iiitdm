@@ -4,7 +4,7 @@
 
 :root {
   /* Brand — stable across scenes */
-  --color-mars: #d63828;          /* primary accent — matches MaRS logo red */
+  --color-mars: #dc2626;          /* primary accent — matches MaRS logo red */
   --color-mars-glow: #e84738;     /* hover/highlight only */
   --color-signal: #5cf2ff;        /* interaction channel — hover/focus */
 

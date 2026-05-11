@@ -119,7 +119,7 @@ export default function PressPage() {
                 <img
                   src="/brand/mars-logo.png"
                   alt="MaRS logo"
-                  className="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_24px_rgba(214, 56, 40,0.3)]"
+                  className="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_24px_rgba(220, 38, 38,0.3)]"
                 />
               </div>
               <div className="border-t border-[color:var(--color-line)]/40 px-6 py-4 flex items-center justify-between">
@@ -142,7 +142,7 @@ export default function PressPage() {
                 <img
                   src="/brand/mars-logo.png"
                   alt="MaRS logo on dark"
-                  className="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_24px_rgba(214, 56, 40,0.3)]"
+                  className="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_24px_rgba(220, 38, 38,0.3)]"
                 />
               </div>
               <div className="border-t border-[color:var(--color-line)]/40 px-6 py-4 flex items-center justify-between">
@@ -163,7 +163,7 @@ export default function PressPage() {
           {/* Colour palette */}
           <RevealStagger className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
             {[
-              { name: "Mars", hex: "#D63828", role: "Primary accent" },
+              { name: "Mars", hex: "#DC2626", role: "Primary accent" },
               { name: "Void", hex: "#08080C", role: "Background" },
               { name: "Paper", hex: "#F5F2EE", role: "Primary text" },
               { name: "Signal", hex: "#5CF2FF", role: "Interaction" },
