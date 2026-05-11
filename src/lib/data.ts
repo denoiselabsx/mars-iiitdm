@@ -199,6 +199,14 @@ export type Competition = {
   year: number;
   group: "global" | "national";
   note?: string;
+  /** Path to a verification screenshot (leaderboard/ranking) in /public */
+  proofImage?: string;
+  /** Pixel dimensions of `proofImage` for Next/Image */
+  proofImageDimensions?: { width: number; height: number };
+  /** Optional supporting photo (e.g. felicitation) for richer entries */
+  supportImage?: string;
+  supportImageDimensions?: { width: number; height: number };
+  supportImageCaption?: string;
 };
 
 // Sourced from SHUNYA brochure pg 3 "Our Legacy" + booklet pages 4-9
@@ -212,6 +220,8 @@ export const competitions: Competition[] = [
     result: "10th Globally · 408 pts",
     year: 2026,
     group: "global",
+    proofImage: "/achievements/irc-2026-rankings.jpeg",
+    proofImageDimensions: { width: 863, height: 1108 },
   },
   {
     code: "ISDC 2026",
@@ -223,6 +233,8 @@ export const competitions: Competition[] = [
     year: 2026,
     group: "global",
     note: "Khoj Drone's debut event.",
+    proofImage: "/achievements/isdc-2026-rankings.jpeg",
+    proofImageDimensions: { width: 866, height: 1087 },
   },
   {
     code: "SHAASTRA 2026",
@@ -239,9 +251,11 @@ export const competitions: Competition[] = [
     code: "IRC 2025",
     full: "International Rover Challenge",
     org: "Space Robotics Society",
-    result: "16th Globally",
+    result: "16th Globally · 188 pts",
     year: 2025,
     group: "global",
+    proofImage: "/achievements/irc-2025-rankings.jpeg",
+    proofImageDimensions: { width: 748, height: 759 },
   },
   {
     code: "ERC 2025 Remote",
@@ -251,6 +265,8 @@ export const competitions: Competition[] = [
     year: 2025,
     group: "global",
     note: "Best-ever ERC Remote finish — behind only Sapienza, IITB, and CRISS Robotics.",
+    proofImage: "/achievements/erc-2025-leaderboard.jpeg",
+    proofImageDimensions: { width: 1600, height: 492 },
   },
   {
     code: "ERC 2023 Onsite",
@@ -269,6 +285,8 @@ export const competitions: Competition[] = [
     year: 2023,
     group: "global",
     note: "Top-25 finish secured a spot at the ERC World Finals in Poland.",
+    proofImage: "/achievements/erc-2023-onsite-qualification.jpeg",
+    proofImageDimensions: { width: 930, height: 929 },
   },
   {
     code: "IRoC-U 2024",
@@ -280,6 +298,11 @@ export const competitions: Competition[] = [
     year: 2024,
     group: "national",
     note: "Rover presented to President of India Smt. Droupadi Murmu and ISRO Chairman Dr. S. Somanath.",
+    proofImage: "/achievements/iroc-u-2024-results.jpeg",
+    proofImageDimensions: { width: 700, height: 950 },
+    supportImage: "/achievements/iroc-u-2024-felicitation.jpeg",
+    supportImageDimensions: { width: 1065, height: 474 },
+    supportImageCaption: "SHUNYA delegates at the ISRO felicitation, URSC Bengaluru.",
   },
   {
     code: "IRC 2024 Onsite",
@@ -299,12 +322,14 @@ export const competitions: Competition[] = [
     note: "2nd Globally and 1st in Asia in qualification round.",
   },
   {
-    code: "ERC 2023 Qualification",
-    full: "European Rover Challenge — Remote Qualification A",
+    code: "ERC 2023 Remote",
+    full: "European Rover Challenge — Remote Qualification",
     org: "European Space Foundation",
-    result: "2nd Highest Score in India",
+    result: "6th Globally · 312 pts · 2nd in India",
     year: 2023,
     group: "global",
+    proofImage: "/achievements/erc-2023-remote-leaderboard.jpeg",
+    proofImageDimensions: { width: 1043, height: 853 },
   },
   {
     code: "ARCh 2022-23",
@@ -313,6 +338,53 @@ export const competitions: Competition[] = [
     result: "1st in Asia · 5th Globally",
     year: 2023,
     group: "global",
+  },
+];
+
+// ─── PRESS CLIPPINGS ────────────────────────────────────────────────────
+// Scanned newspaper / online article clippings covering MaRS milestones.
+// Each `image` path resolves to /public, with `width`/`height` matching the
+// source file so Next/Image can reserve layout space.
+
+export type PressClipping = {
+  /** Publication name as it appears on the clipping; honest placeholder if unclear */
+  publication: string;
+  /** ISO-ish date string, e.g. "2023-06-03" or "2023" if only the year is visible */
+  date: string;
+  /** Headline visible on the clipping */
+  headline: string;
+  /** /public path to the scan */
+  image: string;
+  width: number;
+  height: number;
+  /** Optional: external article URL when one exists */
+  href?: string;
+};
+
+export const pressClippings: PressClipping[] = [
+  {
+    publication: "DT Next",
+    date: "2023-06-03",
+    headline: "IIITDM team to represent India at European Rover Challenge",
+    image: "/achievements/press-dtnext-erc-2023.jpeg",
+    width: 716,
+    height: 780,
+  },
+  {
+    publication: "Chennai daily",
+    date: "2023",
+    headline: "Mars rover model wins award",
+    image: "/achievements/press-chennai-erc-2023.jpeg",
+    width: 306,
+    height: 616,
+  },
+  {
+    publication: "Newspaper clipping",
+    date: "2023",
+    headline: "INBRIEF — finishes second at international event",
+    image: "/achievements/press-inbrief-erc-2023.jpeg",
+    width: 1200,
+    height: 1600,
   },
 ];
 

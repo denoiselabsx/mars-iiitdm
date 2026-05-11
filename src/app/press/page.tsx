@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
-import { leads, org, competitions } from "@/lib/data";
+import { leads, org, competitions, pressClippings } from "@/lib/data";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/press", {
@@ -233,6 +234,68 @@ export default function PressPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* ── In the press (newspaper clippings) ──────────────────────── */}
+      <section className="container-page pb-24 md:pb-32">
+        <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-end mb-12 md:mb-16">
+          <div className="md:col-span-7">
+            <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+              In the press
+            </p>
+            <h2 className="mt-6 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+              Clippings from{" "}
+              <span className="font-serif italic text-[color:var(--color-mars)]">
+                the field
+              </span>
+              .
+            </h2>
+          </div>
+          <p className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm">
+            Coverage from the ERC 2023 run — the rover, the trip to Poland,
+            and the squad that flew the flag. Click any clipping to view full size.
+          </p>
+        </div>
+
+        <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
+          {pressClippings.map((p) => (
+            <Reveal
+              key={p.image}
+              className="group bg-[color:var(--color-void)] flex flex-col"
+            >
+              <a
+                href={p.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-surface)]">
+                  <Image
+                    src={p.image}
+                    alt={`${p.publication} — ${p.headline}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+              </a>
+              <div className="p-6 border-t border-[color:var(--color-line)]/40">
+                <p className="font-serif italic text-base md:text-lg leading-snug text-[color:var(--color-paper)]">
+                  &ldquo;{p.headline}&rdquo;
+                </p>
+                <div className="mt-4 flex items-baseline justify-between gap-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+                    {p.publication}
+                  </p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-faint)]">
+                    {p.date}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </RevealStagger>
       </section>
 
       {/* ── Press contact ────────────────────────────────────────────── */}

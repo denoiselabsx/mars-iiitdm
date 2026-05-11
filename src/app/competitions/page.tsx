@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
@@ -154,6 +155,59 @@ export default function CompetitionsPage() {
                         <p className="mt-4 text-sm text-[color:var(--color-muted)] leading-relaxed max-w-2xl">
                           {c.note}
                         </p>
+                      )}
+                      {(c.proofImage || c.supportImage) && (
+                        <div className="mt-6 flex flex-wrap items-start gap-4">
+                          {c.proofImage && c.proofImageDimensions && (
+                            <a
+                              href={c.proofImage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group/proof block max-w-[14rem] md:max-w-[16rem]"
+                            >
+                              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
+                                Verified ranking ↗
+                              </p>
+                              <div className="relative overflow-hidden border border-[color:var(--color-line)]/60 bg-[color:var(--color-surface)] transition-colors group-hover/proof:border-[color:var(--color-mars)]/60">
+                                <Image
+                                  src={c.proofImage}
+                                  alt={`${c.code} official ranking screenshot — ${c.result}`}
+                                  width={c.proofImageDimensions.width}
+                                  height={c.proofImageDimensions.height}
+                                  className="h-auto w-full object-cover"
+                                  sizes="(max-width: 768px) 60vw, 16rem"
+                                />
+                              </div>
+                            </a>
+                          )}
+                          {c.supportImage && c.supportImageDimensions && (
+                            <a
+                              href={c.supportImage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group/support block max-w-[18rem] md:max-w-[20rem]"
+                            >
+                              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
+                                On the ground ↗
+                              </p>
+                              <div className="relative overflow-hidden border border-[color:var(--color-line)]/60 bg-[color:var(--color-surface)] transition-colors group-hover/support:border-[color:var(--color-mars)]/60">
+                                <Image
+                                  src={c.supportImage}
+                                  alt={c.supportImageCaption ?? `${c.code} supporting photo`}
+                                  width={c.supportImageDimensions.width}
+                                  height={c.supportImageDimensions.height}
+                                  className="h-auto w-full object-cover"
+                                  sizes="(max-width: 768px) 70vw, 20rem"
+                                />
+                              </div>
+                              {c.supportImageCaption && (
+                                <p className="mt-2 font-serif italic text-xs text-[color:var(--color-muted)] leading-snug">
+                                  {c.supportImageCaption}
+                                </p>
+                              )}
+                            </a>
+                          )}
+                        </div>
                       )}
                     </Reveal>
                   ))}
