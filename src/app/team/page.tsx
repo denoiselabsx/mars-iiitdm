@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/motion/reveal";
 import { MonoLabel } from "@/components/motion/mono-label";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/team", {
   title: "Team",
   description:
-    "Thirty engineers across mechanical, electronics, and computer science. The team behind MaRS — Team Shunya.",
-};
+    "40+ engineers across mechanical, electronics, and software. The team behind MaRS — Team SHUNYA.",
+});
 
 const subteams = [
   { tag: "MECH", name: "Mechanical", focus: "Chassis, suspension, end-effectors" },

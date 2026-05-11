@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { leads, org, competitions } from "@/lib/data";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/press", {
   title: "Press & Media Kit",
   description:
     "MaRS press kit — official logo, brand colours, fact sheet, and direct contacts for media inquiries.",
-};
+});
 
 const factSheet = [
   { k: "Founded at", v: "IIITDM Kancheepuram" },

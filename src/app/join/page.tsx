@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Magnetic } from "@/components/motion/magnetic";
 import { leads, org } from "@/lib/data";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/join", {
   title: "Join",
   description:
     "Apply to MaRS as a first-year IIITDM engineer. Recruitment opens July 2026 — Open House is the entry point.",
-};
+});
 
 export default function JoinPage() {
   return (

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
@@ -6,13 +5,14 @@ import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { DenoiseMark } from "@/components/site/denoise-mark";
 import { site } from "@/lib/site";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/credits", {
   title: "Credits",
   description:
     "The people, partners, and open-source work that made the MaRS website possible.",
   robots: { index: true, follow: true },
-};
+});
 
 const stack = [
   { name: "Next.js", href: "https://nextjs.org", role: "App Router · React framework" },

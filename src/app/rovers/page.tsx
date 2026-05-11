@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { rovers, process } from "@/lib/data";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/rovers", {
   title: "Rovers",
   description:
     "Every rover MaRS has built — Vajra, Destiny, Kutti — and what's next. Specs, subsystems, and the process behind them.",
-};
+});
 
 const active = rovers.filter((r) => r.status === "active");
 const upcoming = rovers.filter((r) => r.status === "designing" || r.status === "concept");

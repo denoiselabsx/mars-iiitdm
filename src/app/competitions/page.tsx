@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { competitions } from "@/lib/data";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/competitions", {
   title: "Competitions",
   description:
     "MaRS at ERC, IRC, ISDC, IRoC-U, SHAASTRA — every international and national result from 2022 to 2026.",
-};
+});
 
 // Group results by year, newest first
 const byYear = competitions.reduce<Record<number, typeof competitions>>(

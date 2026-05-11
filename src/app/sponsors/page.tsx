@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
@@ -11,12 +10,13 @@ import {
   leads,
   org,
 } from "@/lib/data";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/sponsors", {
   title: "Sponsors",
   description:
     "Partner with MaRS — sponsorship tiers, ways to support, current partners, and direct contacts for the team leadership.",
-};
+});
 
 export default function SponsorsPage() {
   return (

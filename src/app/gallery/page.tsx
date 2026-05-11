@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/motion/reveal";
 import { MonoLabel } from "@/components/motion/mono-label";
+import { routeMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = routeMeta("/gallery", {
   title: "Gallery",
   description: "Photos from the field — competitions, builds, demos, and the team.",
-};
+});
 
 export default function GalleryPage() {
   return (
