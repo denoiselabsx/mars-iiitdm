@@ -308,26 +308,10 @@ function DesktopHeroText() {
         IRC, ISDC, IRoC-U.
       </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.95 }}
-        className="mt-8 inline-flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]"
-      >
-        <span className="h-px w-8 bg-[color:var(--color-mars)]" />
-        <span>
-          Ranked 10<sup className="text-[7px] -top-1.5 relative">th</sup> · IRC 2026
-        </span>
-        <span className="text-[color:var(--color-faint)]">·</span>
-        <span>
-          9<sup className="text-[7px] -top-1.5 relative">th</sup> · ISDC 2026
-        </span>
-      </motion.p>
-
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
         className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4"
       >
         <Magnetic>
@@ -365,25 +349,10 @@ function MobileHeroText() {
         </HeroLine>
       </h1>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.85 }}
-        className="mt-5 inline-flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]"
-      >
-        <span className="h-px w-8 bg-[color:var(--color-mars)]" />
-        <span>
-          10<sup className="text-[7px] -top-1.5 relative">th</sup> IRC ·
-        </span>
-        <span>
-          9<sup className="text-[7px] -top-1.5 relative">th</sup> ISDC
-        </span>
-      </motion.p>
-
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
         className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3"
       >
         <Link

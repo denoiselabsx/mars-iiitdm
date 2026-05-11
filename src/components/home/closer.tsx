@@ -7,47 +7,65 @@ import { Magnetic } from "@/components/motion/magnetic";
 export function Closer() {
   return (
     <section className="relative py-40 md:py-56 overflow-hidden">
-      {/* Horizon glow */}
+      {/* Asymmetric Mars-rust wash — pushed right + low, not centered */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-[60vh]"
+        className="pointer-events-none absolute right-0 bottom-0 w-[120%] h-[80vh] -z-10"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, color-mix(in oklab, var(--color-mars) 20%, transparent) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 60% at 85% 90%, color-mix(in oklab, var(--color-mars) 24%, transparent) 0%, transparent 65%)",
         }}
       />
 
-      <div className="container-page relative text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20% 0px" }}
-          transition={{ duration: 0.6 }}
-          className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-faint)]"
-        >
-          Recruitment opens · July 2026
-        </motion.p>
+      <div className="container-page relative">
+        {/* Top row: small label + recruitment status, on the right */}
+        <div className="flex justify-end mb-12 md:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-20% 0px" }}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-mars)]" />
+            Recruitment · July 2026
+          </motion.div>
+        </div>
 
+        {/* Headline — left-aligned, oversized, bleeds toward the right edge */}
         <motion.h2
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-20% 0px" }}
           transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 max-w-5xl mx-auto text-balance font-sans text-5xl md:text-7xl lg:text-[7.5rem] font-medium leading-[0.96] tracking-tight"
+          className="max-w-[16ch] md:max-w-none text-balance font-sans text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
         >
           Build something that{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">
-            moves on another world
+            moves
+          </span>
+        </motion.h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-20% 0px" }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-[16ch] md:max-w-none -mt-2 md:-mt-4 text-balance font-sans text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
+        >
+          on{" "}
+          <span className="font-serif italic text-[color:var(--color-mars)]">
+            another world
           </span>
           .
         </motion.h2>
 
+        {/* CTA row — left-aligned, doesn't return to center */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20% 0px" }}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="mt-12 inline-block"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-14 md:mt-20 flex flex-wrap items-center gap-x-8 gap-y-4"
         >
           <Magnetic>
             <Link
@@ -58,8 +76,14 @@ export function Closer() {
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </Magnetic>
+          <Link
+            href="/team"
+            className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+          >
+            Meet the team
+            <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+          </Link>
         </motion.div>
-
       </div>
     </section>
   );

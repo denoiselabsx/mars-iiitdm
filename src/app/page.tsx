@@ -1,8 +1,7 @@
 import { ScrollHero } from "@/components/hero/scroll-hero";
 import { TheBoard } from "@/components/home/the-board";
 import { Subsystems } from "@/components/home/subsystems";
-import { TeamMarquee } from "@/components/home/team-marquee";
-import { FieldStrip } from "@/components/home/field-strip";
+import { SpecSheet } from "@/components/home/spec-sheet";
 import { Closer } from "@/components/home/closer";
 
 export default function Home() {
@@ -13,9 +12,8 @@ export default function Home() {
 
       <ScrollHero />
       <TheBoard />
+      <SpecSheet />
       <Subsystems />
-      <TeamMarquee />
-      <FieldStrip />
       <Closer />
     </>
   );
