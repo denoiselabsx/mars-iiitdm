@@ -93,6 +93,17 @@ html[data-theme="dark"] .theme-light-only,
 html:not([data-theme="light"]) .theme-light-only { display: none !important; }
 html[data-theme="light"] .theme-dark-only { display: none !important; }
 
+/* ─── Decorative mars-glow overlays in light mode ─────────────────────────
+       The site has ~15 ambient radial-gradient overlays tuned for dark bg.
+       On cream they read as dirty pink smears. Dim + desaturate site-wide
+       so the editorial bg stays clean. Targets only aria-hidden inline-style
+       backgrounds, never user-facing imagery. */
+html[data-theme="light"] [aria-hidden="true"][style*="radial-gradient"],
+html[data-theme="light"] [aria-hidden=""][style*="radial-gradient"] {
+  opacity: 0.08;
+  filter: saturate(0.3);
+}
+
 
 @theme inline {
   --color-mars: var(--color-mars);

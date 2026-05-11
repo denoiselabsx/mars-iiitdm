@@ -50,12 +50,12 @@ export default function TeamPage() {
           <>
             {totalMembers} engineers,{" "}
             <span className="font-serif italic text-[color:var(--color-mars)]">
-              one rover
+              one team
             </span>
             .
           </>
         }
-        lead="MaRS pulls undergrads from mechanical, electronics, computer science, and the basic sciences. Year-round, we design, fabricate, debug, and field rovers as one team — Team Shunya."
+        lead="MaRS pulls undergrads from mechanical, electronics, computer science, and the basic sciences. Year-round, we design, fabricate, debug, and field rovers as Team Shunya."
       />
 
       {/* ── Top-tier leadership ─────────────────────────────────────── */}
