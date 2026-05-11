@@ -30,5 +30,6 @@ export const nav = [
 /** Secondary routes — reachable via footer, mobile menu, direct URL. Not in primary nav. */
 export const secondaryNav = [
   { href: "/sponsors", label: "Sponsors" },
+  { href: "/press", label: "Press" },
   { href: "/credits", label: "Credits" },
 ] as const;
