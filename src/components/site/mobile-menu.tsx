@@ -125,12 +125,12 @@ export function MobileMenu({ open, onClose }: Props) {
                       onClick={onClose}
                       className="group flex items-baseline justify-between gap-4 py-2 border-b border-[color:var(--color-line)]/40"
                     >
-                      <span className="font-sans text-5xl font-medium tracking-tight leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors">
+                      <span className="font-sans text-5xl font-medium tracking-tight leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-signal)] transition-colors">
                         {item.label}
                       </span>
                       <span
                         aria-hidden
-                        className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors translate-y-[-2px]"
+                        className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-signal)] transition-colors translate-y-[-2px]"
                       >
                         0{i + 1}
                       </span>

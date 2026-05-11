@@ -52,7 +52,7 @@ export function Closer() {
           <Magnetic>
             <Link
               href="/join"
-              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-mars)] text-[color:var(--color-void)] hover:text-[color:var(--color-paper)] px-8 py-4 text-sm font-medium transition-colors"
+              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-8 py-4 text-sm font-medium transition-colors"
             >
               Apply to MaRS
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>

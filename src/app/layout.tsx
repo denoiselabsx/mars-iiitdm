@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import { MotionProvider } from "@/components/providers/motion-provider";
+import { SceneController } from "@/components/providers/scene-controller";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { CursorTrail } from "@/components/site/cursor-trail";
@@ -140,6 +141,7 @@ export default function RootLayout({
         />
         <MotionProvider>
           <LenisProvider>
+            <SceneController />
             <Nav />
             <main className="flex-1">{children}</main>
             <Footer />

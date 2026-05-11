@@ -31,7 +31,7 @@ export function HeroFallback() {
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link
             href="/rovers"
-            className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--color-paper)] bg-[color:var(--color-paper)] px-6 py-3 text-sm font-medium text-[color:var(--color-void)] transition-colors hover:bg-[color:var(--color-mars)] hover:border-[color:var(--color-mars)] hover:text-[color:var(--color-paper)]"
+            className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--color-paper)] bg-[color:var(--color-paper)] px-6 py-3 text-sm font-medium text-[color:var(--color-void)] transition-colors hover:bg-[color:var(--color-signal)] hover:border-[color:var(--color-signal)] hover:text-[color:var(--color-void)]"
           >
             See our rovers
             <span aria-hidden>→</span>

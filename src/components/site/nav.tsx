@@ -78,8 +78,8 @@ export function Nav() {
                       className={cn(
                         "transition-all duration-300",
                         active
-                          ? "opacity-100 translate-x-0 text-[color:var(--color-mars)]"
-                          : "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0",
+                          ? "opacity-100 translate-x-0 text-[color:var(--color-signal)]"
+                          : "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[color:var(--color-signal)]",
                       )}
                     >
                       →
@@ -94,7 +94,7 @@ export function Nav() {
           <div className="flex items-center gap-3">
             <Link
               href="/join"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-mars)] hover:bg-[color:var(--color-mars)] px-5 py-2 text-sm font-medium text-[color:var(--color-paper)] transition-all"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-signal)] hover:text-[color:var(--color-signal)] px-5 py-2 text-sm font-medium text-[color:var(--color-paper)] transition-all"
             >
               Join MaRS
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>

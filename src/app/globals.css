@@ -3,18 +3,16 @@
 /* ─── Design tokens ───────────────────────────────────────────────────────── */
 
 :root {
-  /* Brand */
+  /* Brand — stable across scenes */
   --color-mars: #c1440e;          /* primary accent — rover rust */
   --color-mars-glow: #ff5a1f;     /* hover/highlight only */
-  --color-signal: #5cf2ff;        /* secondary accent — interactive states */
+  --color-signal: #5cf2ff;        /* interaction channel — hover/focus */
 
-  /* Surfaces */
-  --color-void: #08080c;          /* deep space — page background */
+  /* Default scene = void (deep space) */
+  --color-void: #08080c;          /* page background */
   --color-surface: #0e0e14;       /* cards, elevated panels */
   --color-surface-2: #161620;     /* hover state on surfaces */
   --color-line: #232330;          /* borders, dividers */
-
-  /* Text */
   --color-paper: #f5f2ee;         /* primary text */
   --color-muted: #a4a3ad;         /* secondary text */
   --color-faint: #5d5d6a;         /* tertiary, captions */
@@ -32,6 +30,37 @@
   /* Layout */
   --container: 1280px;
   --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ─── Scene: DUSK ─ Martian-twilight, warmer dark
+       Used on: /gallery, /credits — intimate, editorial */
+[data-scene="dusk"] {
+  --color-void: #110a08;
+  --color-surface: #1a0f0b;
+  --color-surface-2: #261812;
+  --color-line: #2e1f17;
+  --color-paper: #f7eee5;
+  --color-muted: #b4a597;
+  --color-faint: #6a584a;
+}
+
+/* ─── Scene: BRIGHT ─ near-paper, calm energy
+       Used on: /join — warm, "we want to meet you" */
+[data-scene="bright"] {
+  --color-void: #f5f2ee;
+  --color-surface: #ecebe5;
+  --color-surface-2: #e0ddd4;
+  --color-line: #c9c5b9;
+  --color-paper: #1a1a1f;
+  --color-muted: #4d4d56;
+  --color-faint: #8a8a92;
+  --color-mars-glow: #e85a1f;
+}
+
+/* Smooth fades between scenes */
+body {
+  transition: background-color 600ms var(--ease-out-quart),
+              color 600ms var(--ease-out-quart);
 }
 
 @theme inline {

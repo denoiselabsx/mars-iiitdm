@@ -78,7 +78,7 @@ export default function CreditsPage() {
               href="https://sketchfab.com/3d-models/curiosity-mars-rover-6cab1b08f20a4408960413ff44694b36"
               target="_blank"
               rel="noreferrer noopener"
-              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-signal)] underline-offset-4 hover:text-[color:var(--color-signal)] transition-colors"
             >
               &ldquo;Curiosity Mars Rover&rdquo;
             </a>{" "}
@@ -87,7 +87,7 @@ export default function CreditsPage() {
               href="https://sketchfab.com/robo-reboot"
               target="_blank"
               rel="noreferrer noopener"
-              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-signal)] underline-offset-4 hover:text-[color:var(--color-signal)] transition-colors"
             >
               Cybertron B-127
             </a>
@@ -96,7 +96,7 @@ export default function CreditsPage() {
               href="http://creativecommons.org/licenses/by/4.0/"
               target="_blank"
               rel="noreferrer noopener"
-              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-signal)] underline-offset-4 hover:text-[color:var(--color-signal)] transition-colors"
             >
               CC-BY 4.0
             </a>
@@ -130,10 +130,10 @@ export default function CreditsPage() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="group inline-flex items-baseline gap-2 text-base font-medium text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
+                  className="group inline-flex items-baseline gap-2 text-base font-medium text-[color:var(--color-paper)] hover:text-[color:var(--color-signal)] transition-colors"
                 >
                   {s.name}
-                  <span aria-hidden className="text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors text-xs">↗</span>
+                  <span aria-hidden className="text-[color:var(--color-faint)] group-hover:text-[color:var(--color-signal)] transition-colors text-xs">↗</span>
                 </a>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--color-faint)]">
                   {s.role}
@@ -192,7 +192,7 @@ export default function CreditsPage() {
               <Magnetic>
                 <a
                   href={`mailto:${site.email.replace("mars@", "hello@denoiselabs.").replace("iiitdm.ac.in", "in")}`}
-                  className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-mars)] text-[color:var(--color-void)] hover:text-[color:var(--color-paper)] px-6 py-3 text-sm font-medium transition-colors"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-6 py-3 text-sm font-medium transition-colors"
                 >
                   Start a conversation
                   <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>

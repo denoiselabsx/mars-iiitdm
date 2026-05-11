@@ -38,7 +38,7 @@ export default function NotFound() {
           <Magnetic>
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-mars)] text-[color:var(--color-void)] hover:text-[color:var(--color-paper)] px-6 py-3 text-sm font-medium transition-colors"
+              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-6 py-3 text-sm font-medium transition-colors"
             >
               Return to base
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>

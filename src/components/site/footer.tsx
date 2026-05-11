@@ -116,7 +116,7 @@ export function Footer() {
                   href={l.href}
                   className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
                 >
-                  <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[color:var(--color-mars)]">
+                  <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[color:var(--color-signal)]">
                     →
                   </span>
                   {l.label}
@@ -185,7 +185,7 @@ export function Footer() {
               <span className="font-mono uppercase tracking-[0.2em] pl-3 border-l border-[color:var(--color-line)] ml-3">
                 Studio out of IIITDM
               </span>
-              <span aria-hidden className="ml-2 text-[color:var(--color-mars)] transition-transform group-hover:translate-x-0.5">
+              <span aria-hidden className="ml-2 text-[color:var(--color-signal)] transition-transform group-hover:translate-x-0.5">
                 →
               </span>
             </span>
