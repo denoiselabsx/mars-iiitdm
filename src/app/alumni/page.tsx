@@ -193,7 +193,7 @@ export default function AlumniPage() {
                     {/* Body */}
                     <div className="p-5 md:p-6">
                       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-                        {a.subteam}
+                        {a.marsRole}
                       </p>
                       <h3 className="mt-3 font-sans text-xl md:text-2xl font-medium tracking-tight text-[color:var(--color-paper)] leading-tight">
                         {a.name}
