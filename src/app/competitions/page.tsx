@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { competitions } from "@/lib/data";
@@ -30,6 +31,13 @@ const headline = competitions.filter((c) => c.year === 2026);
 export default function CompetitionsPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Competitions", href: "/competitions" },
+        ]}
+      />
       <PageHero
         index={2}
         eyebrow="Competitions"

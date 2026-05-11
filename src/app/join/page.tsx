@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Magnetic } from "@/components/motion/magnetic";
 import { leads, org } from "@/lib/data";
 import { routeMeta } from "@/lib/seo";
@@ -14,6 +15,13 @@ export const metadata = routeMeta("/join", {
 export default function JoinPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Join", href: "/join" },
+        ]}
+      />
       <PageHero
         index={6}
         eyebrow="Join"

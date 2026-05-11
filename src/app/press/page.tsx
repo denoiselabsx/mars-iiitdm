@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { leads, org, competitions } from "@/lib/data";
@@ -30,6 +31,13 @@ const recentResults = competitions
 export default function PressPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Press", href: "/press" },
+        ]}
+      />
       <PageHero
         index={7}
         eyebrow="Press & Media"

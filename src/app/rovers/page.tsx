@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { rovers, process } from "@/lib/data";
@@ -25,6 +26,13 @@ const statusLabel = {
 export default function RoversPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Rovers", href: "/rovers" },
+        ]}
+      />
       <PageHero
         index={1}
         eyebrow="Rovers"

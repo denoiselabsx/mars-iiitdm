@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import {
@@ -21,6 +22,13 @@ export const metadata = routeMeta("/sponsors", {
 export default function SponsorsPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Sponsors", href: "/sponsors" },
+        ]}
+      />
       <PageHero
         index={4}
         eyebrow="Sponsors"

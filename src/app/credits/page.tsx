@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { DenoiseMark } from "@/components/site/denoise-mark";
@@ -28,6 +29,13 @@ const stack = [
 export default function CreditsPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Credits", href: "/credits" },
+        ]}
+      />
       <PageHero
         index="00"
         eyebrow="Colophon"

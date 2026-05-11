@@ -1,4 +1,5 @@
 import { PageHero } from "@/components/site/page-hero";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal } from "@/components/motion/reveal";
 import { MonoLabel } from "@/components/motion/mono-label";
 import { routeMeta } from "@/lib/seo";
@@ -18,6 +19,13 @@ const subteams = [
 export default function TeamPage() {
   return (
     <>
+      <Breadcrumbs
+        visual={false}
+        trail={[
+          { label: "Home", href: "/" },
+          { label: "Team", href: "/team" },
+        ]}
+      />
       <PageHero
         index={3}
         eyebrow="Team Shunya"
