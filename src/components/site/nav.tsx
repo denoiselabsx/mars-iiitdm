@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { nav as primaryNav, site } from "@/lib/site";
 import { MobileMenu } from "./mobile-menu";
+import { ThemeToggle } from "./theme-toggle";
 
 const visibleNav = primaryNav.filter((n) => n.href !== "/join" && n.href !== "/");
 
@@ -90,8 +91,10 @@ export function Nav() {
             })}
           </nav>
 
-          {/* Right: persistent CTA + mobile toggle */}
-          <div className="flex items-center gap-3">
+          {/* Right: theme toggle + persistent CTA + mobile toggle */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle className="hidden sm:inline-flex" />
+
             <Link
               href="/join"
               className="hidden sm:inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-signal)] hover:text-[color:var(--color-signal)] px-5 py-2 text-sm font-medium text-[color:var(--color-paper)] transition-all"

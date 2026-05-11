@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 
 import { site } from "@/lib/site";
+import { ThemeToggle } from "./theme-toggle";
 
 type Item = { href: string; label: string };
 
@@ -88,13 +89,16 @@ export function MobileMenu({ open, onClose }: Props) {
                   MaRS
                 </span>
               </Link>
-              <button
-                onClick={onClose}
-                aria-label="Close menu"
-                className="p-2 -m-2 text-[color:var(--color-paper)]"
-              >
-                <X size={22} />
-              </button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <button
+                  onClick={onClose}
+                  aria-label="Close menu"
+                  className="p-2 -m-2 text-[color:var(--color-paper)]"
+                >
+                  <X size={22} />
+                </button>
+              </div>
             </div>
 
             {/* Eyebrow */}

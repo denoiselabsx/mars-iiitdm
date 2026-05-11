@@ -57,11 +57,35 @@
   --color-mars-glow: #c92418;
 }
 
-/* Smooth fades between scenes */
+/* ─── User-controlled LIGHT mode override ────────────────────────────────
+       When the user explicitly picks light, force the bright palette site-
+       wide regardless of route-level scene. Set on <html data-theme="light">
+       so it wins over [data-scene="..."] on <body>. */
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] [data-scene] {
+  --color-void: #f5f2ee;
+  --color-surface: #ecebe5;
+  --color-surface-2: #e0ddd4;
+  --color-line: #c9c5b9;
+  --color-paper: #1a1a1f;
+  --color-muted: #4d4d56;
+  --color-faint: #8a8a92;
+  --color-mars-glow: #c92418;
+}
+
+/* Smooth fades between scenes & theme switches */
 body {
   transition: background-color 600ms var(--ease-out-quart),
               color 600ms var(--ease-out-quart);
 }
+
+/* ─── Theme-conditional visibility helpers ───────────────────────────────
+       Used by the Denoise Labs lockup to swap between its light-on-dark
+       and dark-on-light PNG variants. */
+html[data-theme="dark"] .theme-light-only,
+html:not([data-theme="light"]) .theme-light-only { display: none !important; }
+html[data-theme="light"] .theme-dark-only { display: none !important; }
 
 
 @theme inline {

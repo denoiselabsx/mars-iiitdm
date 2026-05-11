@@ -79,8 +79,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // theme-color is updated at runtime by ThemeToggle / SceneController.
   themeColor: "#08080c",
-  colorScheme: "dark",
+  // Allow both — actual scheme is set via [data-theme] on <html>.
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -95,6 +97,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-svh flex flex-col font-sans">
+        {/* FOUC-free theme: read localStorage and stamp <html data-theme="…">
+            BEFORE the first paint. Defaults to dark. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('mars:theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

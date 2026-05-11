@@ -19,16 +19,37 @@ type Props = {
 export function DenoiseMark({ height = 18, className, variant = "minimal" }: Props) {
   if (variant === "plate") {
     const width = Math.round(height * 6.13);
+    // Render both PNGs and let the theme decide which is visible. The
+    // `light` variant has dark ink for use on cream/light backgrounds;
+    // the `dark` variant is the inverted plate for dark backgrounds.
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src="/brand/logo_light_x.png"
-        alt="Denoise Labs"
-        width={width * 2}
-        height={height * 2}
-        className={className}
+      <span
+        className={cn("inline-flex items-center align-middle", className)}
         style={{ height, width: "auto" }}
-      />
+        aria-label="Denoise Labs"
+        role="img"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/logo_light_x.png"
+          alt=""
+          aria-hidden
+          width={width * 2}
+          height={height * 2}
+          className="block theme-dark-only"
+          style={{ height, width: "auto" }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/logo_dark_x.png"
+          alt=""
+          aria-hidden
+          width={width * 2}
+          height={height * 2}
+          className="block theme-light-only"
+          style={{ height, width: "auto" }}
+        />
+      </span>
     );
   }
 
