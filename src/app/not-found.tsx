@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Magnetic } from "@/components/motion/magnetic";
 import { DenoiseMark } from "@/components/site/denoise-mark";
+
+export const metadata: Metadata = {
+  title: "Lost signal — 404",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (
