@@ -49,20 +49,26 @@ export function ScrollHero() {
   useEffect(() => {
     if (reduced || !containerRef.current) return;
 
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: containerRef.current!,
         start: "top top",
         end: "bottom top",
-        scrub: 0.4,
+        // Tighter scrub on touch — native scroll spikes need instant tracking, no easing lag
+        scrub: touch ? 0.08 : 0.4,
         onUpdate: (self) => {
           progressRef.current = self.progress;
         },
       });
     }, containerRef);
 
-    const touch = window.matchMedia("(pointer: coarse)").matches;
-    const damping = touch ? 0.2 : 1.0;
+    // Desktop only: track scroll velocity for inertial spin overlay.
+    // Mobile: skip — drag handles the rotation interaction; scroll is ambient only.
+    if (touch) {
+      return () => ctx.revert();
+    }
 
     lastScrollY.current = window.scrollY;
     lastScrollT.current = performance.now();
@@ -71,7 +77,7 @@ export function ScrollHero() {
       const now = performance.now();
       const dy = window.scrollY - lastScrollY.current;
       const dt = Math.max(1, now - lastScrollT.current);
-      const v = Math.max(-4, Math.min(4, (dy / dt) * damping));
+      const v = Math.max(-4, Math.min(4, dy / dt));
       velocityRef.current = velocityRef.current * 0.85 + v;
       lastScrollY.current = window.scrollY;
       lastScrollT.current = now;
@@ -84,7 +90,11 @@ export function ScrollHero() {
     };
   }, [reduced]);
 
-  // Touch-drag rotation on mobile
+  // Touch-drag rotation on mobile.
+  // - Starts "armed" on pointerdown
+  // - Engages rotation only once horizontal motion dominates (>8px AND |dx|>|dy|)
+  // - Once engaged, captures the pointer and writes drag offset
+  // - Inertia: on release, last velocity decays into dragOffsetRef
   useEffect(() => {
     if (reduced) return;
     if (!isTouch) return;
@@ -94,30 +104,90 @@ export function ScrollHero() {
     const dragLayer = root.querySelector<HTMLDivElement>("[data-drag-layer]");
     if (!dragLayer) return;
 
-    let active = false;
+    let armed = false;
+    let engaged = false;
     let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let velocity = 0;
     let baseOffset = 0;
+    let rafId = 0;
+
+    const decay = () => {
+      if (Math.abs(velocity) < 0.0005) {
+        velocity = 0;
+        rafId = 0;
+        return;
+      }
+      dragOffsetRef.current += velocity;
+      velocity *= 0.92;
+      rafId = requestAnimationFrame(decay);
+    };
 
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === "mouse") return;
-      active = true;
+      armed = true;
+      engaged = false;
       startX = e.clientX;
+      startY = e.clientY;
+      lastX = e.clientX;
+      lastT = e.timeStamp;
+      velocity = 0;
       baseOffset = dragOffsetRef.current;
-      dragInteracted.current = true;
-      setShowDragHint(false);
-      dragLayer.setPointerCapture(e.pointerId);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
     };
+
     const onMove = (e: PointerEvent) => {
-      if (!active) return;
-      // 1 px ≈ 0.012 rad — gives ~0.7 rad (40°) per 60px drag
-      dragOffsetRef.current = baseOffset + (e.clientX - startX) * 0.012;
+      if (!armed) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      if (!engaged) {
+        // Engage only after a clear horizontal-intent threshold.
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+          engaged = true;
+          dragInteracted.current = true;
+          setShowDragHint(false);
+          try {
+            dragLayer.setPointerCapture(e.pointerId);
+          } catch {}
+        } else if (Math.abs(dy) > 8) {
+          // User is scrolling vertically — disarm
+          armed = false;
+          return;
+        } else {
+          return;
+        }
+      }
+
+      // 1 px ≈ 0.012 rad
+      dragOffsetRef.current = baseOffset + dx * 0.012;
+
+      // Track velocity for release inertia
+      const now = e.timeStamp;
+      const dt = Math.max(1, now - lastT);
+      velocity = ((e.clientX - lastX) * 0.012) / dt * 16; // ≈ per-frame delta
+      lastX = e.clientX;
+      lastT = now;
     };
+
     const onUp = (e: PointerEvent) => {
-      if (!active) return;
-      active = false;
-      try {
-        dragLayer.releasePointerCapture(e.pointerId);
-      } catch {}
+      if (!armed) return;
+      armed = false;
+      if (engaged) {
+        try {
+          dragLayer.releasePointerCapture(e.pointerId);
+        } catch {}
+        engaged = false;
+        // Kick off inertia
+        if (Math.abs(velocity) > 0.002 && !rafId) {
+          rafId = requestAnimationFrame(decay);
+        }
+      }
     };
 
     dragLayer.addEventListener("pointerdown", onDown);
@@ -126,6 +196,7 @@ export function ScrollHero() {
     dragLayer.addEventListener("pointercancel", onUp);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       dragLayer.removeEventListener("pointerdown", onDown);
       dragLayer.removeEventListener("pointermove", onMove);
       dragLayer.removeEventListener("pointerup", onUp);
@@ -162,11 +233,12 @@ export function ScrollHero() {
           />
         </div>
 
-        {/* Mobile scene — full viewport, drag-aware. Text scrim sits over it */}
+        {/* Mobile scene — full viewport. touch-action pan-y lets vertical scroll
+            pass through; only horizontal drag is captured for rotation. */}
         <div
           data-drag-layer
           className="md:hidden absolute inset-0 -z-0"
-          style={{ touchAction: "none" }}
+          style={{ touchAction: "pan-y" }}
         >
           <RoverScene
             progressRef={progressRef}

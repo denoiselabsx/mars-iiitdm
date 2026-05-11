@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   useGLTF,
@@ -122,13 +122,29 @@ type Props = Refs & {
 };
 
 export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className }: Props) {
+  // Detect mobile/touch at mount; choose perf-tuned canvas params accordingly.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse), (max-width: 767px)");
+    setIsMobile(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   return (
     <div className={className}>
       <Canvas
-        dpr={[1, 1.75]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        // Tight DPR on mobile (halves pixel work on phones with 3x screens)
+        dpr={isMobile ? [1, 1.25] : [1, 1.75]}
+        gl={{
+          antialias: !isMobile,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
         camera={{ position: [0, 0.45, 4.8], fov: 35, near: 0.1, far: 50 }}
-        shadows
+        // Per-light shadow maps off on mobile; ContactShadows still provides ground shadow.
+        shadows={!isMobile}
       >
         <PerspectiveCamera makeDefault fov={35} position={[0, 0.45, 4.8]} />
 
@@ -137,7 +153,7 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
           position={[5, 7, 5]}
           intensity={1.6}
           color="#ffffff"
-          castShadow
+          castShadow={!isMobile}
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
@@ -154,9 +170,10 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
           <ContactShadows
             position={[0, -0.62, 0]}
             opacity={0.55}
-            blur={2.8}
+            blur={isMobile ? 2.2 : 2.8}
             far={4}
             color="#000000"
+            resolution={isMobile ? 256 : 512}
           />
           <Preload all />
         </Suspense>
