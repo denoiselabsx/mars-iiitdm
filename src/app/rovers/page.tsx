@@ -296,7 +296,8 @@ export default function RoversPage() {
         </div>
       </section>
 
-      {/* ── Upcoming ─────────────────────────────────────────────────── */}
+      {/* ── On the bench (non-competition experimental builds) ────────── */}
+      {bench.length > 0 && (
       <section className="container-page py-24 md:py-32">
         <div className="flex items-end justify-between gap-8 flex-wrap mb-12 md:mb-16">
           <div>
@@ -305,23 +306,23 @@ export default function RoversPage() {
               On the bench
             </p>
             <h2 className="mt-6 text-balance font-sans text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
-              What we&rsquo;re{" "}
+              Long-horizon{" "}
               <span className="font-serif italic text-[color:var(--color-mars)]">
-                building next
+                experiments
               </span>
               .
             </h2>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-faint)]">
-            {upcoming.length} in development
+            {bench.length} on the bench
           </p>
         </div>
 
-        <RevealStagger className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
-          {upcoming.map((r) => (
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          {bench.map((r) => (
             <Reveal
               key={r.slug}
-              className="bg-[color:var(--color-void)] p-8 md:p-10 hover:bg-[color:var(--color-surface)] transition-colors min-h-[280px] flex flex-col"
+              className="bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-8 md:p-10 min-h-[240px] flex flex-col"
             >
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
                 {statusLabel[r.status]}
@@ -336,6 +337,7 @@ export default function RoversPage() {
           ))}
         </RevealStagger>
       </section>
+      )}
 
       {/* ── CTA ─────────────────────────────────────────────────────── */}
       <section className="relative py-32 md:py-40 overflow-hidden">
