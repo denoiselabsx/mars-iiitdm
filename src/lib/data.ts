@@ -761,7 +761,7 @@ export const team: TeamMember[] = [
   { name: "Manas Singh",          subteam: "Mechanical", blurb: "Lives inside Fusion 360 and emerges only for chai.",                       linkedin: "https://www.linkedin.com/in/manas-singh-405235319/" },
   { name: "R Lakshay Vardhan",    subteam: "Mechanical", blurb: "Thinks in bolt patterns. Optimises everything.",                            linkedin: "https://www.linkedin.com/in/lakshay-vardhan-532baa329/" },
   { name: "V S Geetha Ranjani",   subteam: "Mechanical", blurb: "End-effector specialist. Loves a good gripper.",                            linkedin: "https://www.linkedin.com/in/geetha-ranjani-b36848395/" },
-  { name: "Raghul U",             subteam: "Mechanical", blurb: "Designed the underbelly mechanism for Rover Vetri — the part that won SHAASTRA's Design Innovation Award.", linkedin: "https://www.linkedin.com/in/raghul-u-4a3171268/" },
+  { name: "Raghul U",             subteam: "Mechanical", blurb: "Mechanism design specialist. The one who turns sketches into parts that actually move.", linkedin: "https://www.linkedin.com/in/raghul-u-4a3171268/" },
   { name: "Dhriti J N Kashyap",   subteam: "Mechanical", blurb: "CAD by day, machining drawings by night. Tolerances always tight.",         linkedin: "https://www.linkedin.com/in/dhriti-jn-kashyap-18027b371/" },
   { name: "Praneeth Bollu",       subteam: "Mechanical", blurb: "Lathe operator turned design contributor. Makes parts that just fit.",      linkedin: "https://www.linkedin.com/in/praneeth-bollu-446a93343/" },
 

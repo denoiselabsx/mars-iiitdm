@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Magnetic } from "@/components/motion/magnetic";
-import { leads, org } from "@/lib/data";
+import { org } from "@/lib/data";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/join", {
@@ -72,10 +72,10 @@ export default function JoinPage() {
           <div className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             <Magnetic>
               <a
-                href={`mailto:${leads[0].email}?subject=MaRS · Recruitment query`}
-                className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-6 py-3 text-sm font-medium transition-colors"
+                href={`mailto:${org.emailGeneral}?subject=MaRS%20%C2%B7%20Recruitment%20query`}
+                className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] text-white px-6 py-3 text-sm font-medium transition-colors"
               >
-                Email the Team Lead
+                Email the team
                 <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
               </a>
             </Magnetic>
