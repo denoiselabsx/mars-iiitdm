@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
+import { motion, type Variants, useReducedMotion as motionUseReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -21,6 +21,7 @@ export function Reveal({
   once = true,
 }: Props) {
   const MotionTag = motion[as];
+  const reduced = motionUseReducedMotion();
 
   const variants: Variants = {
     hidden: { opacity: 0, y, filter: "blur(6px)" },
@@ -35,6 +36,12 @@ export function Reveal({
       },
     },
   };
+
+  // Reduced-motion users: skip the reveal entirely. Content is visible from initial render —
+  // avoids any chance of keyboard-focus landing on a hidden element below the fold.
+  if (reduced) {
+    return <MotionTag className={cn(className)}>{children}</MotionTag>;
+  }
 
   return (
     <MotionTag
@@ -61,6 +68,11 @@ export function RevealStagger({
   as?: "div" | "ul" | "ol" | "section";
 }) {
   const MotionTag = motion[as];
+  const reduced = motionUseReducedMotion();
+
+  if (reduced) {
+    return <MotionTag className={cn(className)}>{children}</MotionTag>;
+  }
 
   return (
     <MotionTag
