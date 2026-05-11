@@ -40,4 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-data_local/.image_analysis/
+# local-only raw assets / analysis scratch
+mars_image_drive/
+.image_analysis/
+data_local/

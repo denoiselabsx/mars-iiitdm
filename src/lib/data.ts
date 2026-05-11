@@ -168,7 +168,7 @@ export const competitions: Competition[] = [
     result: "Design Innovation Award",
     year: 2026,
     group: "national",
-    note: "Won for KUTTI's underbelly scooping mechanism.",
+    note: "Won for Vetri's underbelly scooping mechanism.",
   },
   {
     code: "ERC 2025 Remote",
