@@ -224,6 +224,14 @@ export const competitions: Competition[] = [
     note: "Won for Vetri's underbelly scooping mechanism.",
   },
   {
+    code: "IRC 2025",
+    full: "International Rover Challenge",
+    org: "Space Robotics Society",
+    result: "16th Globally",
+    year: 2025,
+    group: "global",
+  },
+  {
     code: "ERC 2025 Remote",
     full: "European Rover Challenge — Remote Edition",
     org: "European Space Foundation",
