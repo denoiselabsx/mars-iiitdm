@@ -61,6 +61,17 @@ export const rovers: Rover[] = [
     highlight: "IRC 2026 — ROS2 autonomy, ZED stereo, science cache.",
   },
   {
+    slug: "khoj-drone",
+    name: "Khoj",
+    kind: "drone",
+    status: "active",
+    year: 2026,
+    forEvent: "IRC 2026 — aerial recon",
+    blurb:
+      "Aerial reconnaissance and scouting system developed for IRC 2026 to support rover operations. GPS-guided navigation, real-time FPV transmission, autonomous failsafe systems, and a servo-based battery-dropping mechanism for payload delivery and mission support in challenging terrain.",
+    highlight: "IRC 2026 — GPS nav, FPV, autonomous failsafe, payload drop.",
+  },
+  {
     slug: "vetri",
     name: "Vetri",
     kind: "rover",

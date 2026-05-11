@@ -18,7 +18,7 @@ const factSheet = [
   { k: "Team brand", v: "Team SHUNYA" },
   { k: "Members", v: "40+ undergraduates" },
   { k: "Sub-teams", v: "Mechanical · Electronics · Software · Autonomy" },
-  { k: "Active rovers", v: "Shaurya · Lakshya · Destiny · Vetri" },
+  { k: "Active fleet", v: "Shaurya · Khoj Drone · Vetri · Lakshya · Destiny" },
   { k: "In development", v: "Rudra (ERC 2026) · Scout Drone · Legged Dog" },
   { k: "Competitions", v: "IRC · ISDC · ERC · IRoC-U · ARCh · SHAASTRA" },
   { k: "Best global rank", v: "6th globally · ERC 2022 Remote World Finals" },
