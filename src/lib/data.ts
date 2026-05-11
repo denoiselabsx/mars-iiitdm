@@ -666,7 +666,7 @@ export type TeamMember = {
 export const team: TeamMember[] = [
   // ── Top-tier leadership (featured above all subteams) ───────────────
   { name: "Sandheep Rahul V",         rolePrefix: "Team Lead",          subteam: "Management", leadershipRank: 1, blurb: "Holds the schedule and the rover when both are about to fall over.", linkedin: "https://www.linkedin.com/in/sandheep-rahul-171159348/" },
-  { name: "Avinash Acharya",          rolePrefix: "Technical Co-Lead",  subteam: "Management", leadershipRank: 2, blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",       linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/" },
+  { name: "Avinash Acharya",          rolePrefix: "Technical Lead",     subteam: "Management", leadershipRank: 2, blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",       linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/" },
   { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/" },
 
   // ── Management ──────────────────────────────────────────────────────

@@ -65,22 +65,18 @@ export default function TeamPage() {
             <div className="md:col-span-7">
               <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
-                The core
+                Leadership
               </p>
               <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
-                Three people the rover{" "}
+                Team Shunya{" "}
                 <span className="font-serif italic text-[color:var(--color-mars)]">
-                  runs through
+                  2026
                 </span>
                 .
               </h2>
             </div>
             <div className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm md:text-base">
-              <p>
-                Every decision, every late-night call, every sponsor email
-                routes here first. Team Lead, Technical Co-Lead, Manager — the
-                spine of Team Shunya.
-              </p>
+              <p>Team Lead, Technical Lead, and Manager for the current season.</p>
             </div>
           </div>
 
