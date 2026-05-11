@@ -1,12 +1,13 @@
 export const site = {
   name: "MaRS",
-  fullName: "Mars Rover Students Club",
+  fullName: "MaRS Rover Students Club",
   parent: "IIITDM Kancheepuram",
   tagline: "Exploration begins here.",
   description:
-    "Multidisciplinary student club building autonomous rovers for Mars-analog terrains. Competing internationally at IRC, ISDC, and IRoC-U.",
+    "Interdisciplinary student project at IIITDM Kancheepuram — 40+ engineers building next-generation autonomous rovers and robotic arms for extreme terrains and planetary exploration.",
   url: "https://marsiiitdm.vercel.app",
-  email: "mars@iiitdm.ac.in",
+  email: "ec23i1015@iiitdm.ac.in", // Team Lead — Avichal Anurag
+  address: "IIITDM Kancheepuram, Vandalur-Kelambakkam Road, Chennai – 600127, India",
   social: {
     instagram: "https://instagram.com/mars_iiitdm",
     linkedin: "https://linkedin.com/company/mars-research-station",

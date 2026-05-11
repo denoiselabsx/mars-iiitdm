@@ -63,6 +63,14 @@ body {
               color 600ms var(--ease-out-quart);
 }
 
+/* ─── Denoise mark — scene-aware variant switching ──────────────────── */
+/* default (no scene attr) and scene-void / scene-dusk: dark page → show LIGHT lockup */
+.denoise-mark-on-dark  { opacity: 1; }
+.denoise-mark-on-light { opacity: 0; }
+
+[data-scene="bright"] .denoise-mark-on-dark  { opacity: 0; }
+[data-scene="bright"] .denoise-mark-on-light { opacity: 1; }
+
 @theme inline {
   --color-mars: var(--color-mars);
   --color-mars-glow: var(--color-mars-glow);

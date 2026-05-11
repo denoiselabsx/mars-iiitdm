@@ -1,16 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { site } from "@/lib/site";
+import { sponsors as realSponsors } from "@/lib/data";
+import { DenoiseMark } from "./denoise-mark";
 
-// Placeholder sponsor slots — swap in real partners (logo path + name) when confirmed
-const sponsors: { name: string; logo?: string; href?: string }[] = [
-  { name: "IIITDM Kancheepuram" },
-  { name: "Space Robotics Society" },
-  { name: "Open slot" },
-  { name: "Open slot" },
-  { name: "Open slot" },
-  { name: "Open slot" },
-];
+const sponsors: { name: string; logo?: string; href?: string }[] = realSponsors.map(
+  (s) => ({ name: s.name, href: s.href }),
+);
 
 export function Footer() {
   return (
@@ -174,13 +170,9 @@ export function Footer() {
             className="group inline-flex items-center gap-3 text-[10px] text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
           >
             <span className="font-mono uppercase tracking-[0.2em]">Crafted by</span>
-            <Image
-              src="/brand/denoise-horizontal.png"
-              alt={site.agency.name}
-              width={92}
-              height={16}
-              className="h-3.5 w-auto opacity-50 group-hover:opacity-100 transition-opacity"
-            />
+            <span className="opacity-60 group-hover:opacity-100 transition-opacity">
+              <DenoiseMark height={18} />
+            </span>
             <span className="overflow-hidden inline-flex items-center max-w-0 group-hover:max-w-[260px] transition-[max-width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] whitespace-nowrap">
               <span className="font-mono uppercase tracking-[0.2em] pl-3 border-l border-[color:var(--color-line)] ml-3">
                 Studio out of IIITDM
