@@ -269,7 +269,7 @@ export type Alumnus = {
 // landed after MaRS.
 export const alumni: Alumnus[] = [
   // ── Batch 2023 ──────────────────────────────────────────────────────
-  { name: "Vishal Kumar",      gradYear: 2023, subteam: "Leadership",  marsRole: "Founder · Ex Team Lead", role: "Robotics Engineer (ADDVERB → Rapyuta)", org: "Rapyuta Robotics", sector: "industry", linkedin: "https://www.linkedin.com/in/vi-ku/?skipRedirect=true" },
+  { name: "Vishal Kumar",      gradYear: 2023, subteam: "Leadership",  marsRole: "Founder · Ex Team Lead", role: "Robotics Engineer (ADDVERB → Rapyuta)", org: "Rapyuta Robotics", sector: "industry", linkedin: "https://www.linkedin.com/in/vi-ku/?skipRedirect=true", image: "vishal-kumar" },
   { name: "Ram Guguloth",      gradYear: 2023, subteam: "Electronics", marsRole: "Ex Electronics Member", role: "Engineer (after Essence Labs)", org: "T-Works", sector: "industry", linkedin: "https://www.linkedin.com/in/iamramguguloth/", image: "ram-guguloth" },
 
   // ── Batch 2024 ──────────────────────────────────────────────────────
