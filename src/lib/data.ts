@@ -456,7 +456,7 @@ export const alumni: Alumnus[] = [
 
   // ── Year unconfirmed (gradYear: 0 — bucketed last) ─────────────────
   { name: "Anirudh Govindarajan", gradYear: 2023, subteam: "Leadership", marsRole: "Ex MaRS Member", role: "Founder & CEO", org: "Venture Vault", sector: "startup", linkedin: "https://www.linkedin.com/in/anirudhgovindarajan/", image: "anirudh-govindarajan" },
-  { name: "Ayush Shukla",         gradYear: 0, subteam: "Software",   marsRole: "Ex Software Member", role: "UI Developer", org: "ADDVERB", sector: "industry" },
+  { name: "Ayush Shukla",         gradYear: 2023, subteam: "Software",   marsRole: "Ex Software Member", role: "UI Developer", org: "ADDVERB", sector: "industry", linkedin: "https://www.linkedin.com/in/ayushxeon/", image: "ayush-shukla" },
 ];
 
 export const alumniStats = {
