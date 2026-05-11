@@ -26,7 +26,7 @@ const board = [
   {
     rank: 0,
     suffix: "",
-    label: "Innovation",
+    label: "Innovation Award",
     code: "SHAASTRA",
     full: "Caterpillar Autonomy Challenge 2026",
     org: "IIT Madras",
@@ -80,13 +80,17 @@ export function TheBoard() {
               className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-6 md:py-10 transition-colors hover:bg-[color:var(--color-surface)]/30"
             >
               <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 items-baseline">
-                {/* Numeral — sized to fit its column, big but contained */}
-                <div className="col-span-12 md:col-span-5 overflow-hidden">
+                {/* Numeral / word — sized to fit its column */}
+                <div className="col-span-12 md:col-span-5">
                   {b.isText ? (
-                    <span className="block font-serif italic text-[14vw] md:text-[8vw] lg:text-[7.2vw] leading-[0.88] tracking-[-0.025em] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
-                      {b.label}
+                    // Two-line word so it fits col-span-5 at large weight
+                    <span className="block font-serif italic text-[10vw] md:text-[5.2vw] lg:text-[4.6vw] leading-[0.92] tracking-[-0.02em] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
+                      Innovation
+                      <br />
+                      Award
                     </span>
                   ) : (
+                    // Digits are narrow — they can go bigger
                     <span className="block font-sans text-[20vw] md:text-[12vw] lg:text-[10vw] leading-[0.84] font-medium tracking-[-0.045em] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
                       <CountUp to={b.rank!} duration={1.6} />
                       <span className="font-serif italic text-[0.35em] text-[color:var(--color-muted)] -ml-2 align-baseline">
