@@ -66,14 +66,83 @@ export default function RoversPage() {
         lead={`Every drivetrain, arm, and PCB is designed and machined by students. ${active.length} platforms in active rotation, ${inDevelopment.length} in development for the next competition season, and the lineage that started it all.`}
       />
 
-      {/* ── Active rovers ─────────────────────────────────────────────── */}
-      <section className="container-page pb-24 md:pb-32">
+      {/* ── In development (competition-bound builds) ─────────────────── */}
+      {inDevelopment.length > 0 && (
+        <section className="container-page pb-20 md:pb-28">
+          <div className="grid md:grid-cols-12 gap-6 md:gap-12 items-end mb-10 md:mb-14">
+            <div className="md:col-span-7">
+              <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                In development
+              </p>
+              <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+                Building for the{" "}
+                <span className="font-serif italic text-[color:var(--color-mars)]">
+                  next season
+                </span>
+                .
+              </h2>
+            </div>
+            <p className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm md:text-base">
+              The platforms currently under active engineering — designed,
+              fabricated, and tuned for a specific competition on the calendar.
+            </p>
+          </div>
+
+          <RevealStagger
+            as="ol"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4"
+          >
+            {inDevelopment.map((r) => (
+              <Reveal
+                key={r.slug}
+                as="li"
+                className="group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/50 transition-colors p-6 md:p-8 lg:p-10 flex flex-col min-h-[clamp(260px,28vw,360px)]"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 90% 70% at 25% 100%, color-mix(in oklab, var(--color-mars) 16%, transparent) 0%, transparent 70%)",
+                  }}
+                />
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+                  {r.forEvent ?? "In development"} · {r.kind}
+                </p>
+                <h3 className="mt-4 md:mt-5 font-sans text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.025em] leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
+                  {r.name}
+                </h3>
+                <p className="mt-5 md:mt-6 text-sm md:text-base text-[color:var(--color-muted)] leading-relaxed text-pretty">
+                  {r.blurb}
+                </p>
+                {r.highlight && (
+                  <p className="mt-auto pt-6 inline-flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+                    <span className="h-px w-8 bg-[color:var(--color-mars)]" />
+                    {r.highlight}
+                  </p>
+                )}
+              </Reveal>
+            ))}
+          </RevealStagger>
+        </section>
+      )}
+
+      {/* ── Active fleet ─────────────────────────────────────────────── */}
+      <section className="container-page pb-24 md:pb-32 border-t border-[color:var(--color-line)]/40 pt-16 md:pt-20">
         <div className="flex items-end justify-between gap-8 flex-wrap mb-12 md:mb-16">
           <div>
             <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
               In rotation
             </p>
+            <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+              The current{" "}
+              <span className="font-serif italic text-[color:var(--color-mars)]">
+                fleet
+              </span>
+              .
+            </h2>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-faint)]">
             {active.length} platforms · active
@@ -89,17 +158,15 @@ export default function RoversPage() {
               className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-10 md:py-14 transition-colors hover:bg-[color:var(--color-surface)]/30"
             >
               <div className="grid grid-cols-12 gap-x-6 md:gap-x-10 gap-y-4 items-baseline">
-                {/* Name + kind */}
                 <div className="col-span-12 md:col-span-5">
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-                    {String(i + 1).padStart(2, "0")} · {r.kind}
+                    {String(i + 1).padStart(2, "0")} · {r.forEvent ?? r.kind}
                   </p>
                   <h2 className="mt-3 font-sans text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.025em] leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
                     {r.name}
                   </h2>
                 </div>
 
-                {/* Description */}
                 <div className="col-span-12 md:col-span-7 md:pl-8 md:border-l md:border-[color:var(--color-line)]/40">
                   <p className="text-base md:text-lg leading-relaxed text-[color:var(--color-muted)] max-w-xl">
                     {r.blurb}
@@ -116,6 +183,61 @@ export default function RoversPage() {
           ))}
         </ul>
       </section>
+
+      {/* ── Legacy ─────────────────────────────────────────────────────── */}
+      {legacy.length > 0 && (
+        <section className="container-page pb-24 md:pb-32">
+          <div className="grid md:grid-cols-12 gap-6 md:gap-12 items-end mb-10 md:mb-14">
+            <div className="md:col-span-7">
+              <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                Lineage
+              </p>
+              <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+                Where it{" "}
+                <span className="font-serif italic text-[color:var(--color-mars)]">
+                  began
+                </span>
+                .
+              </h2>
+            </div>
+            <p className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm md:text-base">
+              The rover that put MaRS on the international podium. Retired from
+              competition but kept on the floor — every new build inherits its
+              design language.
+            </p>
+          </div>
+
+          <RevealStagger
+            as="ul"
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
+          >
+            {legacy.map((r) => (
+              <Reveal
+                key={r.slug}
+                as="li"
+                className="group bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-8 min-h-[220px] flex flex-col"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+                  Retired · {r.forEvent ?? r.kind}
+                </p>
+                <h3 className="mt-3 font-sans text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-500">
+                  {r.name}
+                </h3>
+                <p className="mt-5 text-sm md:text-base leading-relaxed text-[color:var(--color-muted)] flex-1 text-pretty">
+                  {r.blurb}
+                </p>
+                {r.highlight && (
+                  <p className="mt-5 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+                    <span className="h-px w-8 bg-[color:var(--color-mars)]" />
+                    {r.highlight}
+                  </p>
+                )}
+              </Reveal>
+            ))}
+          </RevealStagger>
+        </section>
+      )}
 
       {/* ── How we work ─────────────────────────────────────────────── */}
       <section className="relative py-24 md:py-32 border-t border-[color:var(--color-line)]/40 overflow-hidden">
