@@ -54,6 +54,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: site.fullName }],
   creator: site.fullName,
+  publisher: `${site.agency.name} — ${site.agency.url}`,
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -90,6 +91,53 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-svh flex flex-col font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: site.fullName,
+              alternateName: site.name,
+              url: site.url,
+              description: site.description,
+              inLanguage: "en-IN",
+              author: {
+                "@type": "Organization",
+                name: site.fullName,
+                url: site.url,
+                parentOrganization: {
+                  "@type": "EducationalOrganization",
+                  name: site.parent,
+                },
+              },
+              publisher: {
+                "@type": "Organization",
+                name: site.agency.name,
+                url: site.agency.url,
+              },
+            }),
+          }}
+        />
+        <script
+          type="text/x-credits"
+          dangerouslySetInnerHTML={{
+            __html: `
+  ────────────────────────────────────────────────
+   MaRS — Mars Rover Students Club
+   IIITDM Kancheepuram
+
+   Crafted by Denoise Labs
+   denoiselabs.in
+
+   Four students who wanted to ship the best
+   engineering-club site on the internet.
+
+   Full colophon → /credits
+  ────────────────────────────────────────────────
+`,
+          }}
+        />
         <MotionProvider>
           <LenisProvider>
             <Nav />

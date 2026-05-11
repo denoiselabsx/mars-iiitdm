@@ -1,0 +1,37 @@
+/* TEAM */
+
+  Site:    Mars Rover Students Club (MaRS)
+  At:      IIITDM Kancheepuram, India
+  Web:     https://marsiiitdm.vercel.app
+
+
+/* CRAFTED BY */
+
+  Studio:  Denoise Labs
+  Url:     https://denoiselabs.in
+  From:    IIITDM Kancheepuram, India
+
+  Four students who wanted to ship the best engineering-club
+  site on the internet.
+
+
+/* THANKS */
+
+  3D rover model:  Cybertron B-127 (Sketchfab) — CC-BY 4.0
+  Open source:     Next.js, React, three.js, react-three-fiber,
+                   drei, motion, gsap, lenis, tailwindcss, shadcn/ui
+
+  Read the full colophon at /credits
+
+
+/* TECHNOLOGY */
+
+  Framework:   Next.js 16 (App Router)
+  Language:    TypeScript
+  Styling:     Tailwind CSS v4 + shadcn/ui
+  3D:          react-three-fiber + drei + three.js
+  Motion:      motion + gsap + lenis
+  Hosting:     Vercel
+
+
+# Last updated: 2026-05

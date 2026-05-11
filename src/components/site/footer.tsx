@@ -169,10 +169,8 @@ export function Footer() {
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-faint)]">
             © {new Date().getFullYear()} {site.fullName}
           </p>
-          <a
-            href={site.agency.url}
-            target="_blank"
-            rel="noreferrer noopener"
+          <Link
+            href="/credits"
             className="group inline-flex items-center gap-3 text-[10px] text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
           >
             <span className="font-mono uppercase tracking-[0.2em]">Crafted by</span>
@@ -183,7 +181,15 @@ export function Footer() {
               height={16}
               className="h-3.5 w-auto opacity-50 group-hover:opacity-100 transition-opacity"
             />
-          </a>
+            <span className="overflow-hidden inline-flex items-center max-w-0 group-hover:max-w-[260px] transition-[max-width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] whitespace-nowrap">
+              <span className="font-mono uppercase tracking-[0.2em] pl-3 border-l border-[color:var(--color-line)] ml-3">
+                Studio out of IIITDM
+              </span>
+              <span aria-hidden className="ml-2 text-[color:var(--color-mars)] transition-transform group-hover:translate-x-0.5">
+                →
+              </span>
+            </span>
+          </Link>
         </div>
       </div>
     </footer>

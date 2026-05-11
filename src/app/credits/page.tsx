@@ -1,0 +1,232 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+
+import { PageHero } from "@/components/site/page-hero";
+import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/motion/magnetic";
+import { site } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Credits",
+  description:
+    "The people, partners, and open-source work that made the MaRS website possible.",
+  robots: { index: true, follow: true },
+};
+
+const stack = [
+  { name: "Next.js", href: "https://nextjs.org", role: "App Router · React framework" },
+  { name: "React Three Fiber", href: "https://r3f.docs.pmnd.rs", role: "Declarative WebGL · the rover scene" },
+  { name: "Drei", href: "https://drei.docs.pmnd.rs", role: "r3f helpers · GLTF loading, environments" },
+  { name: "Motion (Framer Motion)", href: "https://motion.dev", role: "Component-level interactions" },
+  { name: "GSAP ScrollTrigger", href: "https://gsap.com/scrolltrigger", role: "Scroll-driven scenes" },
+  { name: "Lenis", href: "https://lenis.darkroom.engineering", role: "Smooth-scroll" },
+  { name: "Tailwind CSS", href: "https://tailwindcss.com", role: "Styling system" },
+  { name: "shadcn/ui", href: "https://ui.shadcn.com", role: "Accessible primitives" },
+];
+
+export default function CreditsPage() {
+  return (
+    <>
+      <PageHero
+        index="00"
+        eyebrow="Colophon"
+        title={
+          <>
+            How this site was{" "}
+            <span className="font-serif italic text-[color:var(--color-mars)]">made</span>.
+          </>
+        }
+        lead="A note on the people, partners, and open-source work behind marsiiitdm.in. Mostly because attribution is the polite thing to do, partly because we're proud of the build."
+      />
+
+      {/* Acknowledgments — MaRS first */}
+      <section className="container-page pb-20 md:pb-28 grid gap-10 md:gap-16 md:grid-cols-12">
+        <Reveal className="md:col-span-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+            01 — Partner
+          </p>
+          <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">MaRS</h2>
+        </Reveal>
+        <Reveal className="md:col-span-8" delay={0.1}>
+          <p className="text-base leading-relaxed text-[color:var(--color-muted)]">
+            None of this matters without the team that builds the rovers. Thanks to the MaRS leads
+            and every member of Team Shunya for trusting us with the brief, sharing material from
+            two seasons of competition, and giving honest feedback on three rounds of design.
+          </p>
+        </Reveal>
+      </section>
+
+      <div className="container-page">
+        <div className="h-px bg-[color:var(--color-line)]/60" />
+      </div>
+
+      {/* 3D model attribution — required by CC-BY */}
+      <section className="container-page py-20 md:py-28 grid gap-10 md:gap-16 md:grid-cols-12">
+        <Reveal className="md:col-span-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+            02 — 3D Model
+          </p>
+          <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">
+            Curiosity Mars Rover
+          </h2>
+        </Reveal>
+        <Reveal className="md:col-span-8" delay={0.1}>
+          <p className="text-base leading-relaxed text-[color:var(--color-muted)]">
+            The 3D rover model in the hero is{" "}
+            <a
+              href="https://sketchfab.com/3d-models/curiosity-mars-rover-6cab1b08f20a4408960413ff44694b36"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+            >
+              &ldquo;Curiosity Mars Rover&rdquo;
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://sketchfab.com/robo-reboot"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+            >
+              Cybertron B-127
+            </a>
+            , licensed under{" "}
+            <a
+              href="http://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-[color:var(--color-paper)] underline decoration-[color:var(--color-mars)] underline-offset-4"
+            >
+              CC-BY 4.0
+            </a>
+            . It stands in until MaRS exports a CAD model of their own rover, at which point it
+            will be replaced.
+          </p>
+        </Reveal>
+      </section>
+
+      <div className="container-page">
+        <div className="h-px bg-[color:var(--color-line)]/60" />
+      </div>
+
+      {/* Stack */}
+      <section className="container-page py-20 md:py-28 grid gap-10 md:gap-16 md:grid-cols-12">
+        <Reveal className="md:col-span-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+            03 — Built with
+          </p>
+          <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">Open source</h2>
+        </Reveal>
+        <Reveal className="md:col-span-8" delay={0.1}>
+          <p className="text-base leading-relaxed text-[color:var(--color-muted)]">
+            Every interaction on this site stands on the work of independent maintainers. Thanks
+            to all of them for shipping software we get to use for free.
+          </p>
+          <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+            {stack.map((s) => (
+              <li key={s.name} className="border-t border-[color:var(--color-line)]/40 pt-4">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="group inline-flex items-baseline gap-2 text-base font-medium text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
+                >
+                  {s.name}
+                  <span aria-hidden className="text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors text-xs">↗</span>
+                </a>
+                <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--color-faint)]">
+                  {s.role}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </section>
+
+      <div className="container-page">
+        <div className="h-px bg-[color:var(--color-line)]/60" />
+      </div>
+
+      {/* Denoise — the studio behind the build */}
+      <section className="relative py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-[60vh]"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 50% 50%, color-mix(in oklab, var(--color-mars) 18%, transparent) 0%, transparent 70%)",
+          }}
+        />
+
+        <div className="container-page grid gap-12 md:gap-16 md:grid-cols-12 relative">
+          <Reveal className="md:col-span-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+              04 — Studio
+            </p>
+            <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">
+              Denoise Labs
+            </h2>
+          </Reveal>
+
+          <Reveal className="md:col-span-8" delay={0.1}>
+            <Image
+              src="/brand/denoise-horizontal.png"
+              alt={site.agency.name}
+              width={400}
+              height={68}
+              className="h-12 w-auto"
+            />
+            <p className="mt-10 max-w-xl text-balance font-sans text-2xl md:text-3xl leading-[1.2] tracking-tight text-[color:var(--color-paper)]">
+              We&rsquo;re four students at IIITDM Kancheepuram, building software and design for
+              teams who care about <span className="font-serif italic text-[color:var(--color-mars)]">how</span> things feel,
+              not just whether they work.
+            </p>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-[color:var(--color-muted)]">
+              MaRS is our first agency partner. If you&rsquo;re building something that deserves
+              the same care — a club site, a launch page, a small product — we&rsquo;d love to
+              talk.
+            </p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-6">
+              <Magnetic>
+                <a
+                  href={`mailto:${site.email.replace("mars@", "hello@denoiselabs.").replace("iiitdm.ac.in", "in")}`}
+                  className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-mars)] text-[color:var(--color-void)] hover:text-[color:var(--color-paper)] px-6 py-3 text-sm font-medium transition-colors"
+                >
+                  Start a conversation
+                  <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+                </a>
+              </Magnetic>
+              <a
+                href={site.agency.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
+              >
+                Visit denoiselabs.in
+                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">↗</span>
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Closing line */}
+      <section className="container-page pb-32 md:pb-48 text-center">
+        <Reveal>
+          <p className="font-serif italic text-2xl md:text-3xl text-[color:var(--color-muted)]">
+            Made with care, in Chennai.
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
+            <Link href="/" className="hover:text-[color:var(--color-paper)] transition-colors">
+              ← Back to MaRS
+            </Link>
+          </p>
+        </Reveal>
+      </section>
+    </>
+  );
+}
