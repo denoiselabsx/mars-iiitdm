@@ -149,16 +149,15 @@ function EventChapter({ event }: { event: EventGallery }) {
         />
       </Reveal>
 
-      {/* Mosaic — pairs of photos per row. Each pair = (landscape + landscape)
-          OR (portrait + landscape) OR (landscape + portrait). Portraits get a
-          narrower column so a single row stays the same height across pairs,
-          and no spans overlap. On mobile, single column at native aspect. */}
+      {/* Mosaic — pairs of photos per row on md+. On mobile each photo gets
+          its own row; pairs are visually grouped by tighter spacing within a
+          pair and wider spacing between pairs. */}
       {rest.length > 0 && (
-        <RevealStagger as="div" className="mt-3 md:mt-4 space-y-3 md:space-y-4">
+        <RevealStagger as="div" className="mt-4 md:mt-4 space-y-6 md:space-y-4">
           {pairUp(rest).map((row, rowIdx) => (
             <div
               key={rowIdx}
-              className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4"
+              className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4"
             >
               {row.map((p, i) => (
                 <Reveal

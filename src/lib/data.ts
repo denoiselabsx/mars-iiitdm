@@ -335,18 +335,22 @@ export const leads: Lead[] = [
 export type Sponsor = {
   name: string;
   href?: string;
+  /** Logo slug — resolves to /sponsors/{logo}.{png|jpg}. Omit for text-only. */
+  logo?: string;
+  /** Logo file extension on disk */
+  ext?: "png" | "jpg";
 };
 
-// From SHUNYA brochure pg 9
+// Sponsors with logos in public/sponsors/. Order = visual priority on the strip.
 export const sponsors: Sponsor[] = [
-  { name: "TLC" },
-  { name: "Drona Aviation", href: "https://dronaaviation.com" },
-  { name: "Robokits India", href: "https://robokits.co.in" },
-  { name: "DIC IIITDM", href: "https://iiitdm.ac.in" },
-  { name: "Spark Future Technology" },
-  { name: "Sphere Tech Innovations" },
-  { name: "Altair", href: "https://altair.com" },
-  { name: "Autodesk", href: "https://autodesk.com" },
+  { name: "Autodesk",                href: "https://autodesk.com",     logo: "autodesk", ext: "png" },
+  { name: "Altair",                  href: "https://altair.com",       logo: "altair",   ext: "png" },
+  { name: "Drona Aviation",          href: "https://dronaaviation.com", logo: "drona-aviation", ext: "png" },
+  { name: "Robokits India",          href: "https://robokits.co.in",    logo: "robokits-india", ext: "png" },
+  { name: "ATUMX",                                                     logo: "atumx",    ext: "png" },
+  { name: "My Equation",                                               logo: "my-equation", ext: "jpg" },
+  { name: "Teacher Learning Center",                                   logo: "teacher-learning-center", ext: "png" },
+  { name: "DIC, IIITDM Kancheepuram", href: "https://iiitdm.ac.in",    logo: "iiitdm",   ext: "png" },
 ];
 
 // ─── SPONSORSHIP TIERS ──────────────────────────────────────────────────

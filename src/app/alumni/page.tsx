@@ -159,7 +159,7 @@ export default function AlumniPage() {
                     as="li"
                     className="group relative bg-[color:var(--color-void)] hover:bg-[color:var(--color-surface)] transition-colors"
                   >
-                    {/* Image — square aspect, hover zoom */}
+                    {/* Image — square aspect, top-biased so faces aren't cropped */}
                     <div className="relative aspect-square overflow-hidden bg-[color:var(--color-surface)]">
                       {a.image ? (
                         <Image
@@ -167,7 +167,7 @@ export default function AlumniPage() {
                           alt={`${a.name} headshot`}
                           fill
                           sizes="(min-width: 1024px) 24vw, (min-width: 640px) 45vw, 92vw"
-                          className="object-cover grayscale-[35%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-500 ease-out"
+                          className="object-cover object-[center_25%] grayscale-[35%] group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-700 ease-out"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-[color:var(--color-faint)]">
@@ -176,10 +176,10 @@ export default function AlumniPage() {
                           </span>
                         </div>
                       )}
-                      {/* gradient bottom for text legibility on hover-overlay (optional) */}
+                      {/* Subtle bottom gradient — always visible on touch for caption read-through */}
                       <div
                         aria-hidden
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[color:var(--color-void)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[color:var(--color-void)]/60 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                       />
                     </div>
 

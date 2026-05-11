@@ -4,9 +4,11 @@ import { site } from "@/lib/site";
 import { sponsors as realSponsors } from "@/lib/data";
 import { DenoiseMark } from "./denoise-mark";
 
-const sponsors: { name: string; logo?: string; href?: string }[] = realSponsors.map(
-  (s) => ({ name: s.name, href: s.href }),
-);
+const sponsors = realSponsors.map((s) => ({
+  name: s.name,
+  href: s.href,
+  logo: s.logo ? `/sponsors/${s.logo}.${s.ext ?? "png"}` : undefined,
+}));
 
 export function Footer() {
   return (
@@ -46,24 +48,21 @@ export function Footer() {
           </Link>
         </div>
 
-        <ul className="mt-14 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
+        <ul className="mt-14 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4">
           {sponsors.map((s, i) => (
-            <li
-              key={`${s.name}-${i}`}
-              className="group bg-[color:var(--color-void)] aspect-[3/2] flex items-center justify-center px-4 hover:bg-[color:var(--color-surface)] transition-colors"
-            >
-              {s.logo ? (
-                <Image
-                  src={s.logo}
-                  alt={s.name}
-                  width={120}
-                  height={48}
-                  className="max-h-10 w-auto opacity-50 group-hover:opacity-90 transition-opacity"
-                />
+            <li key={`${s.name}-${i}`} className="group">
+              {s.href ? (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={s.name}
+                  className="block"
+                >
+                  <SponsorTile name={s.name} logo={s.logo} />
+                </a>
               ) : (
-                <span className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-muted)] transition-colors">
-                  {s.name}
-                </span>
+                <SponsorTile name={s.name} logo={s.logo} />
               )}
             </li>
           ))}
@@ -188,5 +187,35 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function SponsorTile({ name, logo }: { name: string; logo?: string }) {
+  return (
+    <div className="relative aspect-[5/3] overflow-hidden rounded-md bg-[color:var(--color-paper)] ring-1 ring-[color:var(--color-line)]/60 transition-all duration-500 ease-out group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-0.5">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(ellipse 90% 80% at 50% 40%, #ffffff 0%, transparent 70%)",
+        }}
+      />
+      {logo ? (
+        <Image
+          src={logo}
+          alt={name}
+          fill
+          sizes="(min-width: 1024px) 12vw, 22vw"
+          className="object-contain p-4 md:p-5 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="font-sans text-sm md:text-base font-medium tracking-tight text-[color:var(--color-void)] text-center px-3 leading-tight">
+            {name}
+          </span>
+        </div>
+      )}
+    </div>
   );
 }

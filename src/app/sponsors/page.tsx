@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
@@ -66,28 +67,72 @@ export default function SponsorsPage() {
           </p>
         </div>
 
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
-          {sponsors.map((s) => (
-            <li
-              key={s.name}
-              className="group bg-[color:var(--color-void)] aspect-[5/3] flex items-center justify-center px-4 hover:bg-[color:var(--color-surface)] transition-colors"
-            >
-              {s.href ? (
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-center font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] group-hover:text-[color:var(--color-paper)] transition-colors"
-                >
-                  {s.name}
-                </a>
-              ) : (
-                <span className="text-center font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
-                  {s.name}
-                </span>
-              )}
-            </li>
-          ))}
+        {/* Sponsor strip — each logo gets a unified paper tile so wildly
+            different brand marks read as one disciplined collection. Tile
+            lifts on hover, brand label fades in below. */}
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+          {sponsors.map((s) => {
+            const content = (
+              <>
+                <div className="relative aspect-[5/3] overflow-hidden rounded-md bg-[color:var(--color-paper)] ring-1 ring-[color:var(--color-line)]/60 transition-all duration-500 ease-out group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-1 group-hover:shadow-[0_18px_40px_-20px_rgba(220,38,38,0.45)]">
+                  {/* subtle paper grain via gradient */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-60"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse 90% 80% at 50% 40%, #ffffff 0%, transparent 70%)",
+                    }}
+                  />
+                  {s.logo ? (
+                    <Image
+                      src={`/sponsors/${s.logo}.${s.ext ?? "png"}`}
+                      alt={`${s.name} logo`}
+                      fill
+                      sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 45vw"
+                      className="object-contain p-6 md:p-8 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="font-sans text-lg md:text-xl font-medium tracking-tight text-[color:var(--color-void)] text-center px-4">
+                        {s.name}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {/* brand label */}
+                <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] group-hover:text-[color:var(--color-paper)] transition-colors flex items-center gap-1.5">
+                  <span>{s.name}</span>
+                  {s.href && (
+                    <span
+                      aria-hidden
+                      className="transition-transform duration-300 group-hover:translate-x-0.5 text-[color:var(--color-mars)]"
+                    >
+                      ↗
+                    </span>
+                  )}
+                </p>
+              </>
+            );
+
+            return (
+              <li key={s.name} className="group">
+                {s.href ? (
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={s.name}
+                    className="block"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
 
