@@ -460,8 +460,10 @@ export const org = {
 export type EventPhoto = {
   image: string;
   caption: string;
-  /** layout hint for the editorial grid */
-  span?: "wide" | "tall" | "default";
+  /** Natural orientation of the source file — drives the grid slot, no forced crops */
+  aspect: "landscape" | "portrait";
+  /** Mark the visual anchor of the event (rendered larger / first). One per event. */
+  feature?: boolean;
 };
 
 export type EventGallery = {
@@ -485,11 +487,11 @@ export const eventGalleries: EventGallery[] = [
     blurb:
       "Manipal hosted the Mars-analog arena. We arrived with a redesigned chassis and walked away with a podium finish.",
     photos: [
-      { image: "01-rover-heritage", caption: "Vajra at the heritage courtyard, Manipal", span: "wide" },
-      { image: "02-mound-climb",   caption: "Traversal task — full climb under load",   span: "tall" },
-      { image: "03-team-selfie",   caption: "Pit-celebration after the autonomy run" },
-      { image: "04-maintenance",   caption: "Pre-run service against the Mars mural" },
-      { image: "05-award-stage",   caption: "Award handover on the IRC 2026 stage" },
+      { image: "01-rover-heritage", caption: "Vajra at the heritage courtyard, Manipal", aspect: "landscape", feature: true },
+      { image: "02-mound-climb",   caption: "Traversal task — full climb under load",   aspect: "portrait" },
+      { image: "03-team-selfie",   caption: "Pit-celebration after the autonomy run",    aspect: "landscape" },
+      { image: "04-maintenance",   caption: "Pre-run service against the Mars mural",    aspect: "landscape" },
+      { image: "05-award-stage",   caption: "Award handover on the IRC 2026 stage",      aspect: "landscape" },
     ],
   },
   {
@@ -500,11 +502,11 @@ export const eventGalleries: EventGallery[] = [
     blurb:
       "First outing with the new manipulator. The team in matching varsity, the rover at altitude.",
     photos: [
-      { image: "01-team-sunset",   caption: "Squad with Vajra at golden hour",            span: "wide" },
-      { image: "02-rover-arch",    caption: "Vajra against the BITS Pilani arches",       span: "tall" },
-      { image: "03-varsity-steps", caption: "Varsity jackets on the venue steps" },
-      { image: "04-rover-profile", caption: "Manipulator extended for the equipment task" },
-      { image: "05-rover-driving", caption: "Drive-away mid-traversal" },
+      { image: "01-team-sunset",   caption: "Squad with Vajra at golden hour",             aspect: "landscape", feature: true },
+      { image: "02-rover-arch",    caption: "Vajra against the BITS Pilani arches",        aspect: "portrait" },
+      { image: "03-varsity-steps", caption: "Varsity jackets on the venue steps",          aspect: "landscape" },
+      { image: "04-rover-profile", caption: "Manipulator extended for the equipment task", aspect: "landscape" },
+      { image: "05-rover-driving", caption: "Drive-away mid-traversal",                    aspect: "landscape" },
     ],
   },
   {
@@ -516,11 +518,11 @@ export const eventGalleries: EventGallery[] = [
       "Ranked 21st globally. The build sequence and the run that earned that finish — pit, terrain, podium.",
     result: "21st globally",
     photos: [
-      { image: "01-team-podium",  caption: "Team on the podium with Vajra",       span: "wide" },
-      { image: "02-pit-overhead", caption: "Pit floor — collective debug",         span: "tall" },
-      { image: "03-rover-judges", caption: "Vajra under judge inspection" },
-      { image: "04-rover-motion", caption: "Field test — rover on red soil" },
-      { image: "05-under-rover",  caption: "Last-minute wiring fix, under the chassis" },
+      { image: "01-team-podium",  caption: "Team on the podium with Vajra",            aspect: "landscape", feature: true },
+      { image: "02-pit-overhead", caption: "Pit floor — collective debug",             aspect: "landscape" },
+      { image: "03-rover-judges", caption: "Vajra under judge inspection",             aspect: "landscape" },
+      { image: "04-rover-motion", caption: "Field test — rover on red soil",           aspect: "landscape" },
+      { image: "05-under-rover",  caption: "Last-minute wiring fix, under the chassis", aspect: "landscape" },
     ],
   },
   {
@@ -531,11 +533,11 @@ export const eventGalleries: EventGallery[] = [
     blurb:
       "The flagship national event. Vajra in front of Chandrayaan models, on a sand-arena built to lunar spec.",
     photos: [
-      { image: "01-team-backdrop",  caption: "Full team on the IRoC-U 2024 stage", span: "wide" },
-      { image: "02-rover-lineup",   caption: "Every competing rover, lined up",     span: "tall" },
-      { image: "03-rover-isro",     caption: "Vajra beside the Chandrayaan lander model" },
-      { image: "04-arena-action",   caption: "Arena task — rover, judges, cameras" },
-      { image: "05-lunar-diorama",  caption: "Lunar diorama with competing rovers" },
+      { image: "01-team-backdrop",  caption: "Full team on the IRoC-U 2024 stage",        aspect: "landscape", feature: true },
+      { image: "02-rover-lineup",   caption: "Every competing rover, lined up",           aspect: "landscape" },
+      { image: "03-rover-isro",     caption: "Vajra beside the Chandrayaan lander model", aspect: "portrait" },
+      { image: "04-arena-action",   caption: "Arena task — rover, judges, cameras",       aspect: "landscape" },
+      { image: "05-lunar-diorama",  caption: "Lunar diorama with competing rovers",       aspect: "portrait" },
     ],
   },
   {
@@ -546,9 +548,9 @@ export const eventGalleries: EventGallery[] = [
     blurb:
       "Industry-day demo for Caterpillar's centenary visit. The newest builds, on display.",
     photos: [
-      { image: "01-arch",   caption: "Demo at the Caterpillar 100-Years arch", span: "wide" },
-      { image: "02-group",  caption: "Team with the rover under the arch" },
-      { image: "03-candid", caption: "Crowd around the build, mid-demo" },
+      { image: "01-arch",   caption: "Demo at the Caterpillar 100-Years arch", aspect: "landscape", feature: true },
+      { image: "02-group",  caption: "Team with the rover under the arch",     aspect: "landscape" },
+      { image: "03-candid", caption: "Crowd around the build, mid-demo",       aspect: "landscape" },
     ],
   },
 ];
@@ -570,16 +572,24 @@ export type TeamMember = {
   /** Role shown on the card: "Lead", "Co-Lead", "Manager", or "" for member */
   rolePrefix?: string;
   subteam: TeamSubteam;
+  /**
+   * Top-tier club leadership: Team Lead (rank 1), Co-Lead (2), Manager (3).
+   * Rendered as a featured section above all subteams and EXCLUDED from
+   * their nominal subteam grid.
+   */
+  leadershipRank?: 1 | 2 | 3;
   /** One-line voicy bio — to be edited by the member */
   blurb: string;
   linkedin?: string;
 };
 
 export const team: TeamMember[] = [
-  // ── Management & Leadership (Team Lead → Co-Lead → Manager → Mgmt) ──
-  { name: "Sandheep Rahul V",     rolePrefix: "Team Lead",       subteam: "Management",  blurb: "Holds the schedule and the rover when both are about to fall over.",                       linkedin: "https://www.linkedin.com/in/sandheep-rahul-171159348/" },
-  { name: "Avinash Acharya",      rolePrefix: "Technical · Co-Lead", subteam: "Management", blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",                          linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/" },
-  { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager", subteam: "Management",  blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",                                  linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/" },
+  // ── Top-tier leadership (featured above all subteams) ───────────────
+  { name: "Sandheep Rahul V",         rolePrefix: "Team Lead",          subteam: "Management", leadershipRank: 1, blurb: "Holds the schedule and the rover when both are about to fall over.", linkedin: "https://www.linkedin.com/in/sandheep-rahul-171159348/" },
+  { name: "Avinash Acharya",          rolePrefix: "Technical Co-Lead",  subteam: "Management", leadershipRank: 2, blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",       linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/" },
+  { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/" },
+
+  // ── Management ──────────────────────────────────────────────────────
   { name: "Depa Varshith Reddy",  subteam: "Management", blurb: "Logistics, ops, the entire travel spreadsheet — keeps the squad moving.", linkedin: "https://www.linkedin.com/in/varshith-reddy-depa/" },
   { name: "Shreya Jha",           subteam: "Management", blurb: "Outreach + design crossover. Makes the club look as good as it builds.",  linkedin: "https://www.linkedin.com/in/shreya-jha-07a32b36b/" },
 
@@ -614,10 +624,12 @@ export const team: TeamMember[] = [
   { name: "Venkata Shruthi Pullela", subteam: "Science", blurb: "Geology + spectroscopy. Reads soil like a novel." },
 ];
 
+// Display order: Software → Electronics → Mechanical → Science → Management.
+// Leadership is rendered above this list and not part of any subteam grid.
 export const teamSubteams: { key: TeamSubteam; label: string; focus: string }[] = [
-  { key: "Management",  label: "Management",  focus: "Strategy, ops, sponsorship, outreach" },
-  { key: "Mechanical",  label: "Mechanical",  focus: "Chassis, suspension, end-effectors, fabrication" },
-  { key: "Electronics", label: "Electronics", focus: "Custom PCBs, power, motor control, comms, telemetry" },
   { key: "Software",    label: "Software",    focus: "Autonomy, perception, path-planning, ground-station" },
+  { key: "Electronics", label: "Electronics", focus: "Custom PCBs, power, motor control, comms, telemetry" },
+  { key: "Mechanical",  label: "Mechanical",  focus: "Chassis, suspension, end-effectors, fabrication" },
   { key: "Science",     label: "Science",     focus: "Geology, sample analysis, mission experiments" },
+  { key: "Management",  label: "Management",  focus: "Strategy, ops, sponsorship, outreach" },
 ];

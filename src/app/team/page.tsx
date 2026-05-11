@@ -10,20 +10,20 @@ export const metadata = routeMeta("/team", {
     "The 2026 MaRS roster — Management, Mechanical, Electronics, Software, Science. The team behind Team Shunya.",
 });
 
-// Group members by sub-team. Within each, leads first, then alphabetical.
+// Top-tier leadership — Team Lead → Co-Lead → Manager (excluded from subteams)
+const leadership = team
+  .filter((m): m is typeof m & { leadershipRank: 1 | 2 | 3 } => !!m.leadershipRank)
+  .sort((a, b) => a.leadershipRank - b.leadershipRank);
+
+// Group remaining members by sub-team. Sub-team leads first, then alphabetical.
 const grouped = teamSubteams.map((s) => {
   const members = team
-    .filter((m) => m.subteam === s.key)
+    .filter((m) => m.subteam === s.key && !m.leadershipRank)
     .sort((a, b) => {
       const aLead = a.rolePrefix?.toLowerCase().includes("lead") ?? false;
       const bLead = b.rolePrefix?.toLowerCase().includes("lead") ?? false;
       if (aLead && !bLead) return -1;
       if (!aLead && bLead) return 1;
-      // Manager next
-      const aMgr = a.rolePrefix?.toLowerCase().includes("manager") ?? false;
-      const bMgr = b.rolePrefix?.toLowerCase().includes("manager") ?? false;
-      if (aMgr && !bMgr) return -1;
-      if (!aMgr && bMgr) return 1;
       return a.name.localeCompare(b.name);
     });
   return { ...s, members };
@@ -57,6 +57,43 @@ export default function TeamPage() {
         }
         lead="MaRS pulls undergrads from mechanical, electronics, computer science, and the basic sciences. Year-round, we design, fabricate, debug, and field rovers as one team — Team Shunya."
       />
+
+      {/* ── Top-tier leadership ─────────────────────────────────────── */}
+      {leadership.length > 0 && (
+        <section className="container-page pb-20 md:pb-28">
+          <div className="grid md:grid-cols-12 gap-6 md:gap-12 items-end mb-10 md:mb-14">
+            <div className="md:col-span-7">
+              <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                The core
+              </p>
+              <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+                Three people the rover{" "}
+                <span className="font-serif italic text-[color:var(--color-mars)]">
+                  runs through
+                </span>
+                .
+              </h2>
+            </div>
+            <div className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm md:text-base">
+              <p>
+                Every decision, every late-night call, every sponsor email
+                routes here first. Team Lead, Technical Co-Lead, Manager — the
+                spine of Team Shunya.
+              </p>
+            </div>
+          </div>
+
+          <RevealStagger
+            as="ol"
+            className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4"
+          >
+            {leadership.map((m) => (
+              <LeadershipCard key={m.name} member={m} />
+            ))}
+          </RevealStagger>
+        </section>
+      )}
 
       {/* ── Sub-team overview strip ─────────────────────────────────── */}
       <section className="container-page pb-16 md:pb-24">
@@ -160,6 +197,88 @@ export default function TeamPage() {
         ))}
       </div>
     </>
+  );
+}
+
+function LeadershipCard({
+  member,
+}: {
+  member: TeamMember & { leadershipRank: 1 | 2 | 3 };
+}) {
+  const tierLabel =
+    member.leadershipRank === 1
+      ? "01 · Lead"
+      : member.leadershipRank === 2
+        ? "02 · Co-Lead"
+        : "03 · Manager";
+
+  return (
+    <Reveal
+      as="li"
+      className="group relative isolate overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/60 transition-colors"
+    >
+      {/* corner accent — animates on hover */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-px left-0 h-px w-12 bg-[color:var(--color-mars)] origin-left scale-x-100 group-hover:scale-x-[5] transition-transform duration-500 ease-out"
+      />
+      {/* radial glow on hover */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 30% 100%, color-mix(in oklab, var(--color-mars) 18%, transparent) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="p-6 md:p-8 lg:p-10 min-h-[clamp(220px,30vw,320px)] flex flex-col">
+        {/* rank chip */}
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-mars)]">
+          {tierLabel}
+        </p>
+
+        {/* big rank numeral, watermark style */}
+        <p
+          aria-hidden
+          className="absolute top-6 right-6 md:top-8 md:right-8 font-sans text-5xl md:text-6xl lg:text-7xl font-medium tracking-[-0.04em] text-[color:var(--color-paper)]/[0.05] group-hover:text-[color:var(--color-mars)]/15 transition-colors duration-500"
+        >
+          0{member.leadershipRank}
+        </p>
+
+        <h3 className="mt-5 md:mt-7 font-sans text-2xl md:text-3xl lg:text-4xl font-medium tracking-[-0.01em] text-[color:var(--color-paper)] leading-[1.1] text-balance">
+          {member.name}
+        </h3>
+
+        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+          {member.rolePrefix}
+        </p>
+
+        <p className="mt-5 md:mt-6 text-sm md:text-[15px] text-[color:var(--color-muted)] leading-relaxed text-pretty">
+          {member.blurb}
+        </p>
+
+        <div className="mt-auto pt-6 md:pt-8">
+          {member.linkedin && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+              aria-label={`${member.name} on LinkedIn`}
+            >
+              <span aria-hidden>LinkedIn</span>
+              <span
+                aria-hidden
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                ↗
+              </span>
+            </a>
+          )}
+        </div>
+      </div>
+    </Reveal>
   );
 }
 
