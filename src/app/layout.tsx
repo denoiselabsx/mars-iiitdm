@@ -100,26 +100,57 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: site.fullName,
-              alternateName: site.name,
-              url: site.url,
-              description: site.description,
-              inLanguage: "en-IN",
-              author: {
-                "@type": "Organization",
-                name: site.fullName,
-                url: site.url,
-                parentOrganization: {
-                  "@type": "EducationalOrganization",
-                  name: site.parent,
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": `${site.url}#org`,
+                  name: site.fullName,
+                  alternateName: site.name,
+                  url: site.url,
+                  logo: `${site.url}/brand/mars-logo.png`,
+                  description: site.description,
+                  email: site.email,
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Vandalur-Kelambakkam Road",
+                    addressLocality: "Chennai",
+                    addressRegion: "Tamil Nadu",
+                    postalCode: "600127",
+                    addressCountry: "IN",
+                  },
+                  parentOrganization: {
+                    "@type": "EducationalOrganization",
+                    name: site.parent,
+                    url: "https://www.iiitdm.ac.in",
+                  },
+                  sameAs: [site.social.instagram, site.social.linkedin],
+                  knowsAbout: [
+                    "Mars rover",
+                    "Space robotics",
+                    "Autonomous navigation",
+                    "Robotic manipulator",
+                    "Rocker-bogie suspension",
+                    "ROS 2",
+                  ],
                 },
-              },
-              publisher: {
-                "@type": "Organization",
-                name: site.agency.name,
-                url: site.agency.url,
-              },
+                {
+                  "@type": "WebSite",
+                  "@id": `${site.url}#site`,
+                  url: site.url,
+                  name: site.fullName,
+                  description: site.description,
+                  inLanguage: "en-IN",
+                  publisher: { "@id": `${site.url}#org` },
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate: `${site.url}/search?q={search_term_string}`,
+                    },
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+              ],
             }),
           }}
         />
