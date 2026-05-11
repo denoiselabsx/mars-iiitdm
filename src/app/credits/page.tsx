@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
+import { DenoiseMark } from "@/components/site/denoise-mark";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -170,13 +170,7 @@ export default function CreditsPage() {
           </Reveal>
 
           <Reveal className="md:col-span-8" delay={0.1}>
-            <Image
-              src="/brand/denoise-horizontal.png"
-              alt={site.agency.name}
-              width={400}
-              height={68}
-              className="h-12 w-auto"
-            />
+            <DenoiseMark height={56} />
             <p className="mt-10 max-w-xl text-balance font-sans text-2xl md:text-3xl leading-[1.2] tracking-tight text-[color:var(--color-paper)]">
               We&rsquo;re four students at IIITDM Kancheepuram, building software and design for
               teams who care about <span className="font-serif italic text-[color:var(--color-mars)]">how</span> things feel,
