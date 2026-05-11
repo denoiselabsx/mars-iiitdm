@@ -12,6 +12,7 @@ const sceneByPath: Record<string, Scene> = {
   "/team": "void",
   "/gallery": "dusk",
   "/credits": "dusk",
+  "/sponsors": "dusk",
   "/join": "bright",
 };
 
