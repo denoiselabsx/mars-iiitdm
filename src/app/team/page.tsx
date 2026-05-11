@@ -20,7 +20,7 @@ export default function TeamPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Team", href: "/team" },

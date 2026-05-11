@@ -16,7 +16,7 @@ export default function JoinPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Join", href: "/join" },

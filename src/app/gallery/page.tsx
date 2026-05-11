@@ -13,7 +13,7 @@ export default function GalleryPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Gallery", href: "/gallery" },

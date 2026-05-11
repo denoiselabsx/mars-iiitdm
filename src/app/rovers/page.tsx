@@ -27,7 +27,7 @@ export default function RoversPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Rovers", href: "/rovers" },

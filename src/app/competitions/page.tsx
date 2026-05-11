@@ -32,7 +32,7 @@ export default function CompetitionsPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Competitions", href: "/competitions" },

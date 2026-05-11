@@ -30,7 +30,7 @@ export default function CreditsPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Credits", href: "/credits" },

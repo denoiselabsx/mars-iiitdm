@@ -23,7 +23,7 @@ export default function SponsorsPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Sponsors", href: "/sponsors" },

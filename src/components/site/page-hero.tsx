@@ -8,11 +8,19 @@ type Props = {
   title: React.ReactNode;
   lead?: string;
   className?: string;
+  /** When a breadcrumb already consumes the nav-clear top zone, drop the heavy top padding. */
+  tight?: boolean;
 };
 
-export function PageHero({ index, eyebrow, title, lead, className }: Props) {
+export function PageHero({ index, eyebrow, title, lead, className, tight = false }: Props) {
   return (
-    <section className={cn("relative pt-40 pb-20 md:pt-48 md:pb-28", className)}>
+    <section
+      className={cn(
+        "relative pb-20 md:pb-28",
+        tight ? "pt-8 md:pt-12" : "pt-40 md:pt-48",
+        className,
+      )}
+    >
       <div className="container-page">
         <Reveal>
           <MonoLabel index={index}>{eyebrow}</MonoLabel>

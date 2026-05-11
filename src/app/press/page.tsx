@@ -32,7 +32,7 @@ export default function PressPage() {
   return (
     <>
       <Breadcrumbs
-        visual={false}
+        visual={true}
         trail={[
           { label: "Home", href: "/" },
           { label: "Press", href: "/press" },
