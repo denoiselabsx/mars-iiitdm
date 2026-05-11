@@ -32,7 +32,9 @@ const sectors = Object.entries(bySector).sort((a, b) => b[1] - a[1]);
 
 const isPopulated = alumni.length > 0;
 
-// Group by graduation year (newest first), bucket year=0 as "Year unconfirmed"
+// Group by graduation year (OLDEST first — founders lead the list), bucket
+// year=0 as "Year unconfirmed" at the end. Within each year, the founder
+// (Vishal Kumar) is pinned first; everyone else stays in their data order.
 const yearBuckets = (() => {
   const map = new Map<number, Alumnus[]>();
   for (const a of alumni) {
@@ -44,12 +46,17 @@ const yearBuckets = (() => {
     .sort(([a], [b]) => {
       if (a === 0) return 1;
       if (b === 0) return -1;
-      return b - a;
+      return a - b; // oldest first
     })
     .map(([year, list]) => ({
       year,
       label: year === 0 ? "Year unconfirmed" : `Class of ${year}`,
-      list,
+      list: [...list].sort((a, b) => {
+        // Founder pinned to top of his cohort
+        if (a.name === "Vishal Kumar") return -1;
+        if (b.name === "Vishal Kumar") return 1;
+        return 0;
+      }),
     }));
 })();
 
