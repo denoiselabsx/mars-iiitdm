@@ -194,7 +194,7 @@ export function ScrollHero() {
         {/* Desktop: vertically centered, left-anchored */}
         <div className="hidden md:flex relative z-10 h-full">
           <div className="container-page h-full flex items-center">
-            <div className="max-w-2xl">
+            <div className="max-w-3xl">
               <DesktopHeroText />
             </div>
           </div>
@@ -251,23 +251,6 @@ export function ScrollHero() {
           )}
         </AnimatePresence>
 
-        {/* Desktop scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          aria-hidden
-          className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-6 z-10 flex-col items-center gap-3"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-faint)]">
-            Scroll · rotate
-          </span>
-          <motion.span
-            animate={{ y: [0, 8, 0], opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="h-10 w-px bg-gradient-to-b from-[color:var(--color-paper)] via-[color:var(--color-faint)] to-transparent"
-          />
-        </motion.div>
       </div>
     </section>
   );
@@ -286,11 +269,10 @@ function DesktopHeroText() {
         Mars Rover Students Club
       </motion.p>
 
-      <h1 className="mt-8 font-sans text-[7.2vw] lg:text-[6.4vw] xl:text-[6vw] font-medium leading-[0.95] tracking-[-0.025em] text-balance text-[color:var(--color-paper)]">
-        <HeroLine delay={0.2}>India&rsquo;s student</HeroLine>
-        <HeroLine delay={0.35}>rover team,</HeroLine>
-        <HeroLine delay={0.5}>
-          out of{" "}
+      <h1 className="mt-8 font-sans text-[5.4vw] lg:text-[4.8vw] xl:text-[4.4vw] font-medium leading-[0.96] tracking-[-0.025em] text-balance text-[color:var(--color-paper)]">
+        <HeroLine delay={0.2}>India&rsquo;s student rover team,</HeroLine>
+        <HeroLine delay={0.4}>
+          out of IIITDM{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">
             Kancheepuram
           </span>
