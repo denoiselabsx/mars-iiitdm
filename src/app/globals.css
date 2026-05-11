@@ -74,6 +74,26 @@ html[data-theme="light"] [data-scene] {
   --color-mars-glow: #c92418;
 }
 
+/* ─── User-controlled DARK mode override ─────────────────────────────────
+       When the user picks dark, force the void palette EVERYWHERE — even
+       on routes that have data-scene="bright" (currently /join). Without
+       this, /join stays cream because [data-scene="bright"] on <body> sets
+       its own tokens that win over :root. */
+html[data-theme="dark"] body[data-scene="bright"],
+html[data-theme="dark"] [data-scene="bright"] {
+  --color-void: #08080c;
+  --color-surface: #0e0e14;
+  --color-surface-2: #161620;
+  --color-line: #232330;
+  --color-paper: #f5f2ee;
+  --color-muted: #a4a3ad;
+  --color-faint: #5d5d6a;
+  --color-mars-glow: #e84738;
+}
+/* Also neutralise the dusk scene under explicit dark mode? No — dusk is a
+   tasteful darker variant of dark, leave as-is. Only `bright` is the
+   problematic mismatch. */
+
 /* Scene transitions between routes feel smoother with a short cross-fade
    on body bg + text, but ONLY when the route changes — not when the user
    toggles light/dark, which should feel instant. We gate the transition

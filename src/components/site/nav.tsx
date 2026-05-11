@@ -43,15 +43,15 @@ export function Nav() {
             scrolled ? "h-16" : "h-20",
           )}
         >
-          {/* Left: logo + wordmark + status dot */}
+          {/* Left: icon-only logo (wordmark removed) */}
           <Link
             href="/"
             aria-label={`${site.name} home`}
-            className="group flex items-center gap-3"
+            className="group inline-flex items-center"
           >
             <Image
               src="/brand/mars-logo.png"
-              alt=""
+              alt={site.name}
               width={56}
               height={56}
               priority
@@ -64,17 +64,6 @@ export function Nav() {
                   "drop-shadow(0 0 12px color-mix(in oklab, var(--color-mars) 30%, transparent))",
               }}
             />
-            <span className="hidden sm:flex items-baseline gap-2">
-              <span className="font-serif italic text-lg leading-none text-[color:var(--color-paper)]">
-                MaRS
-              </span>
-              <span
-                aria-hidden
-                className="font-mono text-[9px] uppercase tracking-[0.28em] text-[color:var(--color-faint)] leading-none translate-y-[-1px]"
-              >
-                IIITDM
-              </span>
-            </span>
           </Link>
 
           {/* Center: editorial masthead links */}
@@ -125,7 +114,7 @@ export function Nav() {
           <div className="flex items-center gap-3 sm:gap-5">
             <ThemeToggle className="hidden sm:inline-flex" />
 
-            {/* Typographic Join — no pill, hairline under the arrow */}
+            {/* Typographic Join — no pill, dual-arrow slot animates on hover */}
             <Link
               href="/join"
               className="group hidden sm:inline-flex items-baseline gap-2 py-1 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
@@ -163,9 +152,7 @@ export function Nav() {
           </div>
         </div>
 
-        {/* The horizon — single 1px mars-red hairline the whole nav sits on.
-            Fades up subtly when not scrolled (transparent header) and asserts
-            itself once the backdrop blurs in. */}
+        {/* The horizon — single 1px mars-red hairline the whole nav sits on. */}
         <div
           aria-hidden
           className={cn(

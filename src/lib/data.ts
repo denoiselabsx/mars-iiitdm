@@ -477,15 +477,18 @@ export type Lead = {
 export const leads: Lead[] = [
   {
     role: "Team Lead",
-    name: "Avichal Anurag",
-    email: "ec23i1015@iiitdm.ac.in",
-    phone: "+91 8789071486",
+    name: "Sandheep Rahul V",
+    email: "mars@iiitdm.ac.in",
   },
   {
     role: "Technical Lead",
-    name: "R Sarang",
-    email: "ec23i2015@iiitdm.ac.in",
-    phone: "+91 9498088240",
+    name: "Avinash Acharya",
+    email: "mars@iiitdm.ac.in",
+  },
+  {
+    role: "Team Manager",
+    name: "Pruthviraj Sudheer Yadav",
+    email: "mars@iiitdm.ac.in",
   },
 ];
 

@@ -75,18 +75,26 @@ export function MobileMenu({ open, onClose }: Props) {
               <Link
                 href="/"
                 onClick={onClose}
-                aria-label="Home"
-                className="flex items-center gap-3"
+                aria-label="MaRS home"
+                className="group relative inline-flex items-center"
               >
-                <Image
-                  src="/brand/mars-logo.png"
-                  alt=""
-                  width={44}
-                  height={44}
-                  className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(220, 38, 38,0.3)]"
-                />
-                <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-paper)]">
-                  MaRS
+                <span className="relative inline-block">
+                  <Image
+                    src="/brand/mars-logo.png"
+                    alt="MaRS"
+                    width={44}
+                    height={44}
+                    className="h-10 w-10 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 14px color-mix(in oklab, var(--color-mars) 35%, transparent))",
+                    }}
+                  />
+                  {/* Same orbiting status dot as desktop nav */}
+                  <span aria-hidden className="absolute -top-0.5 -right-0.5 inline-flex h-1.5 w-1.5">
+                    <span className="absolute inset-0 rounded-full bg-[color:var(--color-mars)] opacity-70 animate-ping" />
+                    <span className="relative h-1.5 w-1.5 rounded-full bg-[color:var(--color-mars)]" />
+                  </span>
                 </span>
               </Link>
               <div className="flex items-center gap-2">
