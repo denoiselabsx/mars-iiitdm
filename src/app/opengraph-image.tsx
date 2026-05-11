@@ -17,7 +17,7 @@ export default async function OG() {
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(ellipse 80% 70% at 50% 110%, #c1440e44 0%, transparent 60%), #08080c",
+            "radial-gradient(ellipse 80% 70% at 50% 110%, #d6382844 0%, transparent 60%), #08080c",
           color: "#f5f2ee",
           fontFamily:
             "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -39,7 +39,7 @@ export default async function OG() {
             style={{
               width: "40px",
               height: "1px",
-              background: "#c1440e",
+              background: "#d63828",
             }}
           />
           MaRS · IIITDM Kancheepuram
@@ -80,7 +80,7 @@ export default async function OG() {
             <span
               style={{
                 fontStyle: "italic",
-                color: "#c1440e",
+                color: "#d63828",
                 fontWeight: 400,
                 fontFamily: "Georgia, serif",
                 fontSize: "100px",

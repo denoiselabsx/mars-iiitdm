@@ -4,8 +4,8 @@
 
 :root {
   /* Brand — stable across scenes */
-  --color-mars: #c1440e;          /* primary accent — rover rust */
-  --color-mars-glow: #ff5a1f;     /* hover/highlight only */
+  --color-mars: #d63828;          /* primary accent — matches MaRS logo red */
+  --color-mars-glow: #e84738;     /* hover/highlight only */
   --color-signal: #5cf2ff;        /* interaction channel — hover/focus */
 
   /* Default scene = void (deep space) */
@@ -54,7 +54,7 @@
   --color-paper: #1a1a1f;
   --color-muted: #4d4d56;
   --color-faint: #8a8a92;
-  --color-mars-glow: #e85a1f;
+  --color-mars-glow: #c92418;
 }
 
 /* Smooth fades between scenes */

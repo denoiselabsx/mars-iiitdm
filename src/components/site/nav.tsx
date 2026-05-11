@@ -49,7 +49,7 @@ export function Nav() {
               width={56}
               height={56}
               priority
-              className="h-11 w-11 object-contain drop-shadow-[0_0_12px_rgba(193,68,14,0.3)] transition-transform duration-700 group-hover:rotate-[12deg]"
+              className="h-11 w-11 object-contain drop-shadow-[0_0_12px_rgba(214, 56, 40,0.3)] transition-transform duration-700 group-hover:rotate-[12deg]"
             />
             <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-paper)]">
               MaRS

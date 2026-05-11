@@ -27,7 +27,7 @@ export function renderOG({
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(ellipse 80% 70% at 50% 110%, #c1440e44 0%, transparent 60%), #08080c",
+            "radial-gradient(ellipse 80% 70% at 50% 110%, #d6382844 0%, transparent 60%), #08080c",
           color: "#f5f2ee",
           fontFamily:
             "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -45,7 +45,7 @@ export function renderOG({
             color: "#a4a3ad",
           }}
         >
-          <div style={{ width: "40px", height: "1px", background: "#c1440e" }} />
+          <div style={{ width: "40px", height: "1px", background: "#d63828" }} />
           MaRS · {channel}
         </div>
 
@@ -77,7 +77,7 @@ export function renderOG({
                 fontWeight: 400,
                 lineHeight: 0.95,
                 letterSpacing: "-0.025em",
-                color: "#c1440e",
+                color: "#d63828",
               }}
             >
               {italic}

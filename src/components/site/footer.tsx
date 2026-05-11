@@ -79,7 +79,7 @@ export function Footer() {
               alt=""
               width={64}
               height={64}
-              className="h-14 w-14 object-contain drop-shadow-[0_0_12px_rgba(193,68,14,0.3)]"
+              className="h-14 w-14 object-contain drop-shadow-[0_0_12px_rgba(214, 56, 40,0.3)]"
             />
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]">

@@ -81,7 +81,7 @@ export function MobileMenu({ open, onClose }: Props) {
                   alt=""
                   width={44}
                   height={44}
-                  className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(193,68,14,0.3)]"
+                  className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(214, 56, 40,0.3)]"
                 />
                 <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-paper)]">
                   MaRS

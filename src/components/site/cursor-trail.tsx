@@ -52,7 +52,7 @@ export function CursorTrail() {
         const p = points[i - 1];
         const q = points[i];
         const t = i / points.length;
-        ctx.strokeStyle = `rgba(193, 68, 14, ${0.04 + t * 0.08})`;
+        ctx.strokeStyle = `rgba(214, 56, 40, ${0.04 + t * 0.08})`;
         ctx.lineWidth = 1 + t * 2;
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
