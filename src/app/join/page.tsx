@@ -164,7 +164,7 @@ export default function JoinPage() {
           <div className="md:col-span-5 md:pl-8">
             <Link
               href="/sponsors"
-              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-7 py-3.5 text-sm font-medium transition-colors"
+              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] text-white px-7 py-3.5 text-sm font-medium transition-colors"
             >
               See sponsorship details
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
