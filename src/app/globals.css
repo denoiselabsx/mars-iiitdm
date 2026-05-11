@@ -6,7 +6,7 @@
   /* Brand — stable across scenes */
   --color-mars: #dc2626;          /* primary accent — matches MaRS logo red */
   --color-mars-glow: #e84738;     /* hover/highlight only */
-  --color-signal: #5cf2ff;        /* interaction channel — hover/focus */
+  --color-signal: var(--color-mars-glow); /* interaction channel — same family as mars accent */
 
   /* Default scene = void (deep space) */
   --color-void: #08080c;          /* page background */
@@ -74,8 +74,14 @@ html[data-theme="light"] [data-scene] {
   --color-mars-glow: #c92418;
 }
 
-/* Smooth fades between scenes & theme switches */
+/* Scene transitions between routes feel smoother with a short cross-fade
+   on body bg + text, but ONLY when the route changes — not when the user
+   toggles light/dark, which should feel instant. We gate the transition
+   with [data-theme-transition="route"] (set by SceneController). */
 body {
+  transition: none;
+}
+body[data-theme-transition="route"] {
   transition: background-color 600ms var(--ease-out-quart),
               color 600ms var(--ease-out-quart);
 }
