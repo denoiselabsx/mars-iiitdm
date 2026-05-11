@@ -20,6 +20,15 @@ export type Rover = {
 
 export const rovers: Rover[] = [
   {
+    slug: "shaurya",
+    name: "Shaurya",
+    kind: "rover",
+    status: "active",
+    blurb:
+      "Team Shunya's IRC 2026 build — an autonomous Mars rover for terrain navigation, scientific exploration, and precision manipulation. 4WD differential drive, ROS2 autonomy stack, 5-DOF manipulator with Cartesian control, and a science cache for soil and atmospheric analysis. ZED 2i stereo vision, EKF localisation, LoRa backup comms, and intelligent power management — built to perform in harsh Martian-like environments.",
+    highlight: "IRC 2026 build — ROS2 autonomy, ZED stereo, science cache.",
+  },
+  {
     slug: "lakshya",
     name: "Lakshya",
     kind: "rover",
@@ -62,8 +71,8 @@ export const rovers: Rover[] = [
       "High-precision arm designed in tandem with the Destiny rover platform. Built for industrial-grade payload manipulation in unstructured environments.",
   },
   {
-    slug: "kutti",
-    name: "Kutti",
+    slug: "vetri",
+    name: "Vetri",
     kind: "rover",
     status: "active",
     blurb:

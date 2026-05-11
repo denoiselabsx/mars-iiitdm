@@ -150,7 +150,7 @@ export default function AlumniPage() {
                   <Reveal
                     key={`${a.name}-${a.gradYear}`}
                     as="li"
-                    className="group relative bg-[color:var(--color-void)] hover:bg-[color:var(--color-surface)] transition-colors"
+                    className="group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 hover:bg-[color:var(--color-surface)] transition-colors"
                   >
                     {/* Image — square aspect, top-biased so faces aren't cropped */}
                     <div className="relative aspect-square overflow-hidden bg-[color:var(--color-surface)]">
@@ -261,11 +261,16 @@ export default function AlumniPage() {
               .
             </h2>
 
-            <ul className="grid grid-cols-2 md:grid-cols-5 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
+            <ul
+              className="grid gap-3 md:gap-4"
+              style={{
+                gridTemplateColumns: `repeat(auto-fit, minmax(min(220px, 100%), 1fr))`,
+              }}
+            >
               {sectors.map(([k, count]) => (
                 <li
                   key={k}
-                  className="bg-[color:var(--color-void)] p-6 md:p-7"
+                  className="bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-7"
                 >
                   <p className="font-sans text-5xl md:text-6xl font-medium tracking-[-0.03em] text-[color:var(--color-paper)]">
                     {count}
