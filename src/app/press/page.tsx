@@ -39,6 +39,7 @@ export default function PressPage() {
         ]}
       />
       <PageHero
+        tight
         index={7}
         eyebrow="Press & Media"
         title={

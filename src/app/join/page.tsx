@@ -23,6 +23,7 @@ export default function JoinPage() {
         ]}
       />
       <PageHero
+        tight
         index={6}
         eyebrow="Join"
         title={

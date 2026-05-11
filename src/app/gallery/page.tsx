@@ -20,6 +20,7 @@ export default function GalleryPage() {
         ]}
       />
       <PageHero
+        tight
         index={5}
         eyebrow="Gallery"
         title={

@@ -30,6 +30,7 @@ export default function SponsorsPage() {
         ]}
       />
       <PageHero
+        tight
         index={4}
         eyebrow="Sponsors"
         title={

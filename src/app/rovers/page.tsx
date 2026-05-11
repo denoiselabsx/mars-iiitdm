@@ -34,6 +34,7 @@ export default function RoversPage() {
         ]}
       />
       <PageHero
+        tight
         index={1}
         eyebrow="Rovers"
         title={

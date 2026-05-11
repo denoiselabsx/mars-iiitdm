@@ -27,6 +27,7 @@ export default function TeamPage() {
         ]}
       />
       <PageHero
+        tight
         index={3}
         eyebrow="Team Shunya"
         title={

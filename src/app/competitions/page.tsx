@@ -39,6 +39,7 @@ export default function CompetitionsPage() {
         ]}
       />
       <PageHero
+        tight
         index={2}
         eyebrow="Competitions"
         title={

@@ -37,6 +37,7 @@ export default function CreditsPage() {
         ]}
       />
       <PageHero
+        tight
         index="00"
         eyebrow="Colophon"
         title={

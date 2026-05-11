@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const TRAIL_LEN = 14;
+const IDLE_TIMEOUT_MS = 220; // pause RAF after this long without movement
 
 export function CursorTrail() {
   const reduced = useReducedMotion();
@@ -12,7 +13,6 @@ export function CursorTrail() {
   useEffect(() => {
     if (reduced) return;
 
-    // Don't run on touch-primary devices
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch) return;
 
@@ -36,14 +36,10 @@ export function CursorTrail() {
     const points: { x: number; y: number }[] = [];
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX;
-      my = e.clientY;
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-
+    let lastMoveAt = 0;
     let raf = 0;
+    let running = false;
+
     const tick = () => {
       points.push({ x: mx, y: my });
       while (points.length > TRAIL_LEN) points.shift();
@@ -64,12 +60,35 @@ export function CursorTrail() {
         ctx.stroke();
       }
 
+      // Idle: tail collapsed AND no recent move → pause until next move
+      const idle = performance.now() - lastMoveAt > IDLE_TIMEOUT_MS;
+      if (idle && points.length > 1 && points.every((p) => p.x === mx && p.y === my)) {
+        // Final clear so no stale trail lingers
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        running = false;
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      lastMoveAt = performance.now();
+      start();
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
     };
