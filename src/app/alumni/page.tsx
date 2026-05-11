@@ -32,7 +32,7 @@ const sectors = Object.entries(bySector).sort((a, b) => b[1] - a[1]);
 
 const isPopulated = alumni.length > 0;
 
-// Group by graduation year (OLDEST first — founders lead the list), bucket
+d// Group by graduation year (OLDEST first — founders lead the list), bucket
 // year=0 as "Year unconfirmed" at the end. Within each year, the founder
 // (Vishal Kumar) is pinned first; everyone else stays in their data order.
 const yearBuckets = (() => {
@@ -87,39 +87,25 @@ export default function AlumniPage() {
         lead="MaRS is a pipeline. Every senior who walks across the convocation stage carries hardware experience most of their peers don't. Here's where they land."
       />
 
-      {/* ── Headline number ──────────────────────────────────────────── */}
-      <section className="container-page pb-24 md:pb-32">
-        <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-end">
-          <div className="md:col-span-7">
-            <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
-              The pipeline
+      {/* ── Section heading ──────────────────────────────────────────── */}
+      <section className="container-page pb-16 md:pb-24">
+        <div className="md:max-w-3xl">
+          <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+            The pipeline
+          </p>
+          <h2 className="mt-6 text-balance font-sans text-4xl md:text-6xl font-medium tracking-tight leading-[1.02]">
+            Building engineers since{" "}
+            <span className="font-serif italic text-[color:var(--color-mars)]">
+              {alumniStats.totalSince}
+            </span>
+            .
+          </h2>
+          {!isPopulated && (
+            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-faint)]">
+              Roster being curated · update Aug 2026
             </p>
-            <h2 className="mt-6 text-balance font-sans text-4xl md:text-6xl font-medium tracking-tight leading-[1.02]">
-              Building engineers since{" "}
-              <span className="font-serif italic text-[color:var(--color-mars)]">
-                {alumniStats.totalSince}
-              </span>
-              .
-            </h2>
-          </div>
-
-          <div className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed">
-            {isPopulated ? (
-              <p>
-                <span className="font-sans text-5xl md:text-6xl font-medium tracking-tight text-[color:var(--color-paper)]">
-                  {alumni.length}
-                </span>
-                <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-faint)]">
-                  Alumni placed
-                </span>
-              </p>
-            ) : (
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-faint)]">
-                Roster being curated · update Aug 2026
-              </p>
-            )}
-          </div>
+          )}
         </div>
       </section>
 
