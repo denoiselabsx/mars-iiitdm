@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
-import { alumni, alumniStats, org } from "@/lib/data";
+import { alumni, alumniStats, org, type Alumnus } from "@/lib/data";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/alumni", {
@@ -30,6 +31,27 @@ const bySector = alumni.reduce<Record<string, number>>((acc, a) => {
 const sectors = Object.entries(bySector).sort((a, b) => b[1] - a[1]);
 
 const isPopulated = alumni.length > 0;
+
+// Group by graduation year (newest first), bucket year=0 as "Year unconfirmed"
+const yearBuckets = (() => {
+  const map = new Map<number, Alumnus[]>();
+  for (const a of alumni) {
+    const arr = map.get(a.gradYear) ?? [];
+    arr.push(a);
+    map.set(a.gradYear, arr);
+  }
+  return [...map.entries()]
+    .sort(([a], [b]) => {
+      if (a === 0) return 1;
+      if (b === 0) return -1;
+      return b - a;
+    })
+    .map(([year, list]) => ({
+      year,
+      label: year === 0 ? "Year unconfirmed" : `Class of ${year}`,
+      list,
+    }));
+})();
 
 export default function AlumniPage() {
   return (
@@ -96,54 +118,102 @@ export default function AlumniPage() {
 
       {/* ── Alumni grid OR placeholder note ──────────────────────────── */}
       {isPopulated ? (
-        <section className="container-page pb-24 md:pb-32">
-          <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
-            Where they went
-          </p>
-          <h2 className="mt-6 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05] mb-16">
-            Featured{" "}
-            <span className="font-serif italic text-[color:var(--color-mars)]">
-              placements
-            </span>
-            .
-          </h2>
+        <section className="container-page pb-24 md:pb-32 space-y-20 md:space-y-28">
+          {yearBuckets.map((bucket) => (
+            <div key={bucket.year || "unconfirmed"}>
+              {/* Year header — sticky-ish anchor row */}
+              <div className="grid md:grid-cols-12 gap-6 md:gap-8 items-baseline mb-10 md:mb-14">
+                <div className="md:col-span-3">
+                  <div className="h-px w-12 bg-[color:var(--color-mars)] mb-4" />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                    {bucket.year === 0 ? "TBD" : "Cohort"}
+                  </p>
+                  <h2 className="mt-2 font-sans text-5xl md:text-6xl font-medium tracking-[-0.02em] text-[color:var(--color-paper)] leading-none">
+                    {bucket.year === 0 ? (
+                      <span className="font-serif italic text-[color:var(--color-mars)]">
+                        TBD
+                      </span>
+                    ) : (
+                      bucket.year
+                    )}
+                  </h2>
+                </div>
+                <div className="md:col-span-6 text-[color:var(--color-muted)] leading-relaxed">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                    {bucket.label}
+                  </p>
+                  <p className="mt-2 text-sm">
+                    {bucket.list.length} {bucket.list.length === 1 ? "alum" : "alumni"}
+                    {bucket.year >= 2024 && bucket.year <= 2026 && " · industry, grad school, startups"}
+                  </p>
+                </div>
+              </div>
 
-          <RevealStagger
-            as="ul"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40"
-          >
-            {alumni.map((a) => (
-              <Reveal
-                key={`${a.name}-${a.gradYear}`}
-                as="li"
-                className="group bg-[color:var(--color-void)] p-6 md:p-7 hover:bg-[color:var(--color-surface)] transition-colors"
+              <RevealStagger
+                as="ul"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-                  {a.gradYear} · {a.subteam}
-                </p>
-                <h3 className="mt-3 font-sans text-2xl md:text-3xl font-medium tracking-tight text-[color:var(--color-paper)]">
-                  {a.name}
-                </h3>
-                <p className="mt-3 text-sm text-[color:var(--color-muted)] leading-snug">
-                  {a.role}
-                </p>
-                <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--color-paper)]">
-                  {a.org}
-                </p>
-                {a.linkedin && (
-                  <a
-                    href={a.linkedin}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="mt-4 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+                {bucket.list.map((a) => (
+                  <Reveal
+                    key={`${a.name}-${a.gradYear}`}
+                    as="li"
+                    className="group relative bg-[color:var(--color-void)] hover:bg-[color:var(--color-surface)] transition-colors"
                   >
-                    LinkedIn ↗
-                  </a>
-                )}
-              </Reveal>
-            ))}
-          </RevealStagger>
+                    {/* Image — square aspect, hover zoom */}
+                    <div className="relative aspect-square overflow-hidden bg-[color:var(--color-surface)]">
+                      {a.image ? (
+                        <Image
+                          src={`/alumni/${a.image}-grid.webp`}
+                          alt={`${a.name} headshot`}
+                          fill
+                          sizes="(min-width: 1024px) 24vw, (min-width: 640px) 45vw, 92vw"
+                          className="object-cover grayscale-[35%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-500 ease-out"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-[color:var(--color-faint)]">
+                          <span className="font-serif italic text-5xl text-[color:var(--color-mars)]/50">
+                            {a.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                          </span>
+                        </div>
+                      )}
+                      {/* gradient bottom for text legibility on hover-overlay (optional) */}
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[color:var(--color-void)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                      />
+                    </div>
+
+                    {/* Body */}
+                    <div className="p-5 md:p-6">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+                        {a.subteam}
+                      </p>
+                      <h3 className="mt-3 font-sans text-xl md:text-2xl font-medium tracking-tight text-[color:var(--color-paper)] leading-tight">
+                        {a.name}
+                      </h3>
+                      <p className="mt-3 text-sm text-[color:var(--color-muted)] leading-snug">
+                        {a.role}
+                      </p>
+                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--color-paper)]">
+                        {a.org}
+                      </p>
+                      {a.linkedin && (
+                        <a
+                          href={a.linkedin}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="mt-4 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+                          aria-label={`${a.name} on LinkedIn`}
+                        >
+                          LinkedIn ↗
+                        </a>
+                      )}
+                    </div>
+                  </Reveal>
+                ))}
+              </RevealStagger>
+            </div>
+          ))}
         </section>
       ) : (
         <section className="container-page pb-24 md:pb-32">
