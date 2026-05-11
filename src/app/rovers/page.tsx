@@ -10,7 +10,7 @@ import { routeMeta } from "@/lib/seo";
 export const metadata = routeMeta("/rovers", {
   title: "Rovers",
   description:
-    "Every rover MaRS has built — Vajra, Destiny, Kutti — and what's next. Specs, subsystems, and the process behind them.",
+    "Every rover MaRS has built — Shaurya (IRC 2026), Lakshya (ERC 2025), Vajra, Destiny, Vetri — and Rudra, the next-gen build for ERC 2026.",
 });
 
 const active = rovers.filter((r) => r.status === "active");
