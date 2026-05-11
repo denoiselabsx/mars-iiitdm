@@ -20,6 +20,15 @@ export type Rover = {
 
 export const rovers: Rover[] = [
   {
+    slug: "lakshya",
+    name: "Lakshya",
+    kind: "rover",
+    status: "active",
+    blurb:
+      "Team Shunya's Project Lakshya — a Mars-exploration rover built for the European Rover Challenge 2025. Designed for harsh Martian-analog environments with ROS-based autonomy, a 5-DOF robotic arm, advanced communications, and a science-cache mechanism. Built to take on autonomous navigation, terrain traversal, manipulation, and sample-collection mission tasks.",
+    highlight: "ERC 2025 flagship — autonomy, manipulation, science cache.",
+  },
+  {
     slug: "vajra-rover",
     name: "Vajra",
     kind: "rover",

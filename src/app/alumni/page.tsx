@@ -144,7 +144,7 @@ export default function AlumniPage() {
 
               <RevealStagger
                 as="ul"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"
               >
                 {bucket.list.map((a) => (
                   <Reveal
