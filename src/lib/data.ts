@@ -455,7 +455,7 @@ export const alumni: Alumnus[] = [
   { name: "Sai Harshith Raghupatruni",gradYear: 2026, subteam: "Electronics", marsRole: "Ex Electronics Member", role: "Intern", org: "NRSC-ISRO, Hyderabad", sector: "research", linkedin: "https://www.linkedin.com/in/sai-harshith-raghupatruni-05a631283/", image: "sai-harshith-raghupatruni" },
 
   // ── Year unconfirmed (gradYear: 0 — bucketed last) ─────────────────
-  { name: "Anirudh Govindarajan", gradYear: 0, subteam: "Leadership", marsRole: "Ex MaRS Member", role: "Founder & CEO", org: "Venture Vault", sector: "startup", linkedin: "https://www.linkedin.com/in/anirudhgovindarajan/", image: "anirudh-govindarajan" },
+  { name: "Anirudh Govindarajan", gradYear: 2023, subteam: "Leadership", marsRole: "Ex MaRS Member", role: "Founder & CEO", org: "Venture Vault", sector: "startup", linkedin: "https://www.linkedin.com/in/anirudhgovindarajan/", image: "anirudh-govindarajan" },
   { name: "Ayush Shukla",         gradYear: 0, subteam: "Software",   marsRole: "Ex Software Member", role: "UI Developer", org: "ADDVERB", sector: "industry" },
 ];
 

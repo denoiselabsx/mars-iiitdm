@@ -13,13 +13,25 @@ import { ThemeToggle } from "./theme-toggle";
 
 const visibleNav = primaryNav.filter((n) => n.href !== "/join" && n.href !== "/");
 
+// ─────────────────────────────────────────────────────────────────────────
+// FLOATING NAV — no-reflow technique
+// ----------------------------------------------------------------------
+// The bar's GEOMETRY (position, size, layout) is identical in both states.
+// Only the CHROME (bg, blur, shadow, ring, rounded corners) fades in on
+// scroll. This eliminates the jitter that comes from transitioning
+// max-width / padding / border-radius simultaneously.
+//
+// Top edge (page-top): chrome opacity 0, hairline visible below.
+// On scroll > 24px:    chrome opacity 1 (glass, ring, shadow, pill).
+// ─────────────────────────────────────────────────────────────────────────
+
 export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -29,141 +41,152 @@ export function Nav() {
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background,backdrop-filter,height] duration-500",
-          scrolled
-            ? "backdrop-blur-xl bg-[color:var(--color-void)]/75"
-            : "bg-transparent",
-        )}
-      >
-        <div
-          className={cn(
-            "container-page flex items-center justify-between transition-[height] duration-500",
-            scrolled ? "h-16" : "h-20",
-          )}
-        >
-          {/* Left: icon-only logo (wordmark removed) */}
-          <Link
-            href="/"
-            aria-label={`${site.name} home`}
-            className="group inline-flex items-center"
-          >
-            <Image
-              src="/brand/mars-logo.png"
-              alt={site.name}
-              width={56}
-              height={56}
-              priority
-              className={cn(
-                "object-contain transition-all duration-700 group-hover:rotate-[12deg]",
-                scrolled ? "h-9 w-9" : "h-11 w-11",
-              )}
-              style={{
-                filter:
-                  "drop-shadow(0 0 12px color-mix(in oklab, var(--color-mars) 30%, transparent))",
-              }}
-            />
-          </Link>
+      {/* Outer fixed wrapper — constant geometry. The inner pill is always
+          centered with the same max-width. We only animate visual chrome. */}
+      <header className="fixed inset-x-0 top-3 md:top-4 z-50 pointer-events-none px-3 md:px-6">
+        <div className="relative mx-auto max-w-5xl">
+          {/* Glass chrome layer — fades in on scroll. Absolutely positioned
+              so it doesn't affect layout of the bar's children. */}
+          <div
+            aria-hidden
+            className={cn(
+              "absolute inset-0 rounded-full",
+              "transition-opacity duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+              scrolled ? "opacity-100" : "opacity-0",
+            )}
+            style={{
+              backgroundColor: "color-mix(in oklab, var(--color-void) 75%, transparent)",
+              backdropFilter: "blur(20px) saturate(140%)",
+              WebkitBackdropFilter: "blur(20px) saturate(140%)",
+              boxShadow:
+                "0 10px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px color-mix(in oklab, var(--color-line) 65%, transparent), 0 0 0 1px color-mix(in oklab, var(--color-mars) 6%, transparent)",
+            }}
+          />
 
-          {/* Center: editorial masthead links */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9 absolute left-1/2 -translate-x-1/2">
-            {visibleNav.map((item, i) => {
-              const active = pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "group relative flex items-baseline gap-1.5 py-1 transition-colors",
-                    active
-                      ? "text-[color:var(--color-paper)]"
-                      : "text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)]",
-                  )}
-                >
-                  <span
-                    aria-hidden
+          {/* The actual bar — constant size & layout in both states */}
+          <div className="relative pointer-events-auto h-16 flex items-center justify-between px-4 md:px-6">
+            {/* Left: icon-only logo */}
+            <Link
+              href="/"
+              aria-label={`${site.name} home`}
+              className="group inline-flex items-center shrink-0"
+            >
+              <Image
+                src="/brand/mars-logo.png"
+                alt={site.name}
+                width={56}
+                height={56}
+                priority
+                className="h-10 w-10 object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-[12deg]"
+                style={{
+                  filter:
+                    "drop-shadow(0 0 12px color-mix(in oklab, var(--color-mars) 30%, transparent))",
+                }}
+              />
+            </Link>
+
+            {/* Center: editorial masthead links */}
+            <nav
+              className="hidden md:flex items-center gap-7 lg:gap-9"
+              aria-label="Primary"
+            >
+              {visibleNav.map((item, i) => {
+                const active = pathname.startsWith(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
                     className={cn(
-                      "font-mono text-[9px] tracking-[0.18em] leading-none transition-colors",
+                      "group relative flex items-baseline gap-1.5 py-1 transition-colors",
                       active
-                        ? "text-[color:var(--color-mars)]"
-                        : "text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)]",
+                        ? "text-[color:var(--color-paper)]"
+                        : "text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)]",
                     )}
                   >
-                    0{i + 1}
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] leading-none">
-                    {item.label}
-                  </span>
-                  {/* Sweep hairline — anchored to the type, not a pill */}
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "pointer-events-none absolute left-0 right-0 -bottom-1.5 h-px origin-left bg-[color:var(--color-mars)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                      active
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100",
-                    )}
-                  />
-                </Link>
-              );
-            })}
-          </nav>
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "font-mono text-[9px] tracking-[0.18em] leading-none transition-colors",
+                        active
+                          ? "text-[color:var(--color-mars)]"
+                          : "text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)]",
+                      )}
+                    >
+                      0{i + 1}
+                    </span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] leading-none">
+                      {item.label}
+                    </span>
+                    {/* Sweep hairline */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "pointer-events-none absolute left-0 right-0 -bottom-1.5 h-px origin-left bg-[color:var(--color-mars)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                        active
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100",
+                      )}
+                    />
+                  </Link>
+                );
+              })}
+            </nav>
 
-          {/* Right: theme toggle + typographic Join CTA + mobile toggle */}
-          <div className="flex items-center gap-3 sm:gap-5">
-            <ThemeToggle className="hidden sm:inline-flex" />
+            {/* Right: theme toggle + Join CTA + mobile toggle */}
+            <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+              <ThemeToggle className="hidden sm:inline-flex" />
 
-            {/* Typographic Join — no pill, dual-arrow slot animates on hover */}
-            <Link
-              href="/join"
-              className="group hidden sm:inline-flex items-baseline gap-2 py-1 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
-            >
-              <span className="font-serif italic text-[15px] leading-none">
-                Join
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] leading-none">
-                MaRS
-              </span>
-              <span
-                aria-hidden
-                className="relative inline-block w-5 overflow-hidden font-mono text-[13px] leading-none translate-y-[1px]"
+              <Link
+                href="/join"
+                className="group hidden sm:inline-flex items-baseline gap-2 py-1 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
               >
-                <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
-                  →
+                <span className="font-serif italic text-[15px] leading-none">
+                  Join
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] leading-none">
+                  MaRS
                 </span>
                 <span
                   aria-hidden
-                  className="absolute left-0 top-0 inline-block -translate-x-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 text-[color:var(--color-mars)]"
+                  className="relative inline-block w-5 overflow-hidden font-mono text-[13px] leading-none translate-y-[1px]"
                 >
-                  →
+                  <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
+                    →
+                  </span>
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 inline-block -translate-x-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 text-[color:var(--color-mars)]"
+                  >
+                    →
+                  </span>
                 </span>
-              </span>
-            </Link>
+              </Link>
 
-            <button
-              aria-label="Open menu"
-              aria-expanded={open}
-              onClick={() => setOpen(true)}
-              className="md:hidden p-2 -m-2 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
-            >
-              <Menu size={22} />
-            </button>
+              <button
+                aria-label="Open menu"
+                aria-expanded={open}
+                onClick={() => setOpen(true)}
+                className="md:hidden p-2 -m-2 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
+              >
+                <Menu size={22} />
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* The horizon — single 1px mars-red hairline the whole nav sits on. */}
-        <div
-          aria-hidden
-          className={cn(
-            "h-px w-full transition-opacity duration-500",
-            scrolled ? "opacity-100" : "opacity-40",
-          )}
-          style={{
-            background:
-              "linear-gradient(to right, transparent 0%, color-mix(in oklab, var(--color-mars) 60%, transparent) 18%, color-mix(in oklab, var(--color-mars) 60%, transparent) 82%, transparent 100%)",
-          }}
-        />
+          {/* Page-top hairline — only visible when not scrolled. Sits BELOW
+              the bar, decorative only. Fades out as the glass fades in. */}
+          <div
+            aria-hidden
+            className={cn(
+              "absolute left-4 right-4 -bottom-px h-px transition-opacity duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+              scrolled ? "opacity-0" : "opacity-60",
+            )}
+            style={{
+              background:
+                "linear-gradient(to right, transparent 0%, color-mix(in oklab, var(--color-mars) 60%, transparent) 18%, color-mix(in oklab, var(--color-mars) 60%, transparent) 82%, transparent 100%)",
+            }}
+          />
+        </div>
       </header>
 
       <MobileMenu open={open} onClose={() => setOpen(false)} />
