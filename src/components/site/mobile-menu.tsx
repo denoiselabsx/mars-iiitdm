@@ -14,6 +14,7 @@ const items: Item[] = [
   { href: "/rovers", label: "Rovers" },
   { href: "/competitions", label: "Competitions" },
   { href: "/team", label: "Team" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/gallery", label: "Gallery" },
 ];
 

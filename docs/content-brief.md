@@ -91,11 +91,23 @@ Any newspaper articles, online coverage, magazine features. Even Tamil regional 
 
 **What we'll do:** a `/press` route with a media kit + press archive.
 
+### 9. Alumni roster
+For every senior who came through MaRS since 2020 (any year, partial OK):
+- `name`
+- `gradYear` (e.g. 2024)
+- `subteam` during MaRS years
+- `role` they're in now
+- `org` where they are now (Google, ISRO, IIT-X grad school, etc.)
+- `sector` — industry / grad school / startup / research / government
+- `linkedin` (optional)
+- `quote` (optional — one sentence on what MaRS taught them)
+
+**What we'll do:** the `/alumni` route is already live as a scaffolded page. The moment a roster CSV arrives, we plug it in and the page lights up with featured placements + sector breakdown + voices. This is one of the highest-impact recruitment + sponsor-credibility signals on the site.
+
 ---
 
 ## Tier 3 · Future polish (when you get time)
 
-- **Past members / alumni** — names + current placements / orgs. Builds credibility for new recruits.
 - **Quotes** — one sentence from each lead about why MaRS matters to them. Used as editorial pull-quotes.
 - **Notion / Github links** — any public project boards, build documentation, GitHub orgs.
 - **Brand guide** — we've tuned the site's red to `#dc2626` to match the MaRS logo. If you have an official brand color hex (or guidelines), send it and we'll align exactly.
@@ -124,7 +136,8 @@ mars-content/
 │   └── info.txt
 ├── 06-sponsors/
 │   └── *.svg / *.png
-└── 07-specs.md
+├── 07-specs.md
+└── 08-alumni-roster.csv
 ```
 
 Share the folder link with **mars@iiitdm.ac.in** in CC so it's archived. We'll pull from there as we build.
@@ -158,6 +171,7 @@ For your reference, we've already extracted from the SHUNYA brochure and 2025-26
 | Tier 2 faculty | Within 24h of receipt |
 | Tier 2 sponsor logos | Within 24h of receipt |
 | Tier 2 specs | Within 24h of receipt |
+| Tier 2 alumni roster | Within 24h of receipt — page is scaffolded, ready to populate |
 | Tier 3 | Rolling, when time allows |
 
 ---

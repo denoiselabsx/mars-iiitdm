@@ -233,6 +233,43 @@ export const competitions: Competition[] = [
   },
 ];
 
+// ─── ALUMNI ─────────────────────────────────────────────────────────────
+// Placeholder until the real roster arrives from MaRS. Each entry is shaped
+// so the /alumni page can render meaningfully even before real data lands.
+
+export type AlumniSector =
+  | "industry"
+  | "grad-school"
+  | "startup"
+  | "research"
+  | "government";
+
+export type Alumnus = {
+  name: string;
+  /** Graduation year (final year at IIITDM) */
+  gradYear: number;
+  /** MaRS sub-team during their time on the club */
+  subteam: "Mechanical" | "Electronics" | "Software" | "Autonomy" | "Leadership";
+  /** Where they are now */
+  role: string;
+  org: string;
+  sector: AlumniSector;
+  /** Optional: short reflection on MaRS */
+  quote?: string;
+  linkedin?: string;
+};
+
+// TODO: replace with real roster once MaRS sends it.
+// For now this is "structure visible, content marked TBD" — clearly intentional.
+export const alumni: Alumnus[] = [];
+
+export const alumniStats = {
+  // TODO: bump when real data arrives
+  totalSince: 2020,
+  pipelineNote:
+    "MaRS has been training engineers since 2020. Our alumni page is being curated with the team — confirmed roster, placements, and reflections coming soon.",
+};
+
 // ─── TEAM LEADERSHIP ────────────────────────────────────────────────────
 
 export type Lead = {

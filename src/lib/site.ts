@@ -23,6 +23,7 @@ export const nav = [
   { href: "/rovers", label: "Rovers" },
   { href: "/competitions", label: "Competitions" },
   { href: "/team", label: "Team" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/gallery", label: "Gallery" },
   { href: "/join", label: "Join" },
 ] as const;

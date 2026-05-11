@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/rovers", priority: 0.9, freq: "monthly" },
     { path: "/competitions", priority: 0.9, freq: "monthly" },
     { path: "/team", priority: 0.8, freq: "monthly" },
+    { path: "/alumni", priority: 0.7, freq: "monthly" },
     { path: "/sponsors", priority: 0.8, freq: "monthly" },
     { path: "/join", priority: 0.8, freq: "monthly" },
     { path: "/gallery", priority: 0.6, freq: "weekly" },

@@ -104,6 +104,7 @@ export function Footer() {
               { href: "/rovers", label: "Rovers" },
               { href: "/competitions", label: "Competitions" },
               { href: "/team", label: "Team" },
+              { href: "/alumni", label: "Alumni" },
               { href: "/gallery", label: "Gallery" },
               { href: "/sponsors", label: "Sponsors" },
               { href: "/press", label: "Press" },
