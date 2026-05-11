@@ -26,3 +26,9 @@ export const nav = [
   { href: "/gallery", label: "Gallery" },
   { href: "/join", label: "Join" },
 ] as const;
+
+/** Secondary routes — reachable via footer, mobile menu, direct URL. Not in primary nav. */
+export const secondaryNav = [
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/credits", label: "Credits" },
+] as const;

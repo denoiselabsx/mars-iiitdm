@@ -38,7 +38,7 @@ export function Footer() {
             </h2>
           </div>
           <Link
-            href="/join#sponsors"
+            href="/sponsors"
             className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
           >
             Become a sponsor
