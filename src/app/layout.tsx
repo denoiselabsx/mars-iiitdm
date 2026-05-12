@@ -118,7 +118,7 @@ export default function RootLayout({
                   email: site.email,
                   address: {
                     "@type": "PostalAddress",
-                    streetAddress: "Vandalur-Kelambakkam Road",
+                    streetAddress: "B5, PEMS Block, IIITDM Kancheepuram, Vandalur-Kelambakkam Road",
                     addressLocality: "Chennai",
                     addressRegion: "Tamil Nadu",
                     postalCode: "600127",
@@ -139,7 +139,7 @@ export default function RootLayout({
                     "Space robotics",
                     "Autonomous navigation",
                     "Robotic manipulator",
-                    "Rocker-bogie suspension",
+                    "Differential-drive suspension",
                     "ROS 2",
                   ],
                 },

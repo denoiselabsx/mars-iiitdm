@@ -18,11 +18,11 @@ const factSheet = [
   { k: "Founded at", v: "IIITDM Kancheepuram" },
   { k: "Team brand", v: "Team SHUNYA" },
   { k: "Members", v: "40+ undergraduates" },
-  { k: "Sub-teams", v: "Mechanical · Electronics · Software · Autonomy" },
-  { k: "Active fleet", v: "Shaurya · Khoj Drone · Vetri · Lakshya · Destiny" },
+  { k: "Sub-teams", v: "Mechanical · Electronics · Software · Science · Management" },
+  { k: "Active fleet", v: "Shaurya · Khoj Drone · Vetri" },
   { k: "In development", v: "Rudra (ERC 2026) · Scout Drone · Legged Dog" },
   { k: "Competitions", v: "IRC · ISDC · ERC · IRoC-U · ARCh · SHAASTRA" },
-  { k: "Best global rank", v: "6th globally · ERC 2022 Remote World Finals" },
+  { k: "Best global rank", v: "4th globally · ERC 2025 Remote Edition" },
   { k: "Best national rank", v: "6th of 273 · IRoC-U 2024" },
 ];
 
@@ -114,7 +114,7 @@ export default function PressPage() {
           </div>
 
           {/* Logo download tiles */}
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40 mb-12">
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40 mb-12">
             <li className="bg-[color:var(--color-surface)] aspect-[16/9] flex flex-col">
               <div className="flex-1 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -138,7 +138,7 @@ export default function PressPage() {
               </div>
             </li>
 
-            <li className="bg-[color:var(--color-void)] aspect-[16/9] flex flex-col border border-[color:var(--color-line)]/40 border-l-0">
+            <li className="bg-[color:var(--color-void)] aspect-[16/9] flex flex-col">
               <div className="flex-1 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -153,6 +153,31 @@ export default function PressPage() {
                 </span>
                 <a
                   href="/brand/mars-logo.png"
+                  download
+                  className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)] hover:text-[color:var(--color-signal)] transition-colors"
+                >
+                  Download ↓
+                </a>
+              </div>
+            </li>
+
+            {/* IIITDM parent-institute mark — third tile, white plate so the
+                multicolour logo reads cleanly */}
+            <li className="aspect-[16/9] flex flex-col" style={{ backgroundColor: "#ffffff" }}>
+              <div className="flex-1 flex items-center justify-center p-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/brand/iiitdm.webp"
+                  alt="IIITDM Kancheepuram logo"
+                  className="h-28 md:h-36 w-auto object-contain"
+                />
+              </div>
+              <div className="border-t border-[color:var(--color-line)]/40 px-6 py-4 flex items-center justify-between bg-[color:var(--color-surface)]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+                  Parent institute · WebP
+                </span>
+                <a
+                  href="/brand/iiitdm.webp"
                   download
                   className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)] hover:text-[color:var(--color-signal)] transition-colors"
                 >

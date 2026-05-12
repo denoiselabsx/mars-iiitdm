@@ -65,25 +65,94 @@ export function Nav() {
 
           {/* The actual bar — constant size & layout in both states */}
           <div className="relative pointer-events-auto h-16 flex items-center justify-between px-4 md:px-6">
-            {/* Left: icon-only logo */}
-            <Link
-              href="/"
-              aria-label={`${site.name} home`}
-              className="group inline-flex items-center shrink-0"
-            >
-              <Image
-                src="/brand/mars-logo.png"
-                alt={site.name}
-                width={56}
-                height={56}
-                priority
-                className="h-10 w-10 object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-[12deg]"
-                style={{
-                  filter:
-                    "drop-shadow(0 0 12px color-mix(in oklab, var(--color-mars) 30%, transparent))",
-                }}
+            {/* Left: MaRS primary mark + IIITDM parent-org satellite.
+                Hierarchy: 40px primary · hairline · 26–28px satellite (white
+                disc, permanent). Desktop spacing relaxes on scroll-top, snugs
+                on scrolled. Mobile is its own tight variant — smaller disc,
+                tighter gap, no divider — so the pill never crowds. */}
+            <div className="inline-flex items-center shrink-0">
+              <Link
+                href="/"
+                aria-label={`${site.name} home`}
+                className="group inline-flex items-center shrink-0"
+              >
+                <Image
+                  src="/brand/mars-logo.png"
+                  alt={site.name}
+                  width={56}
+                  height={56}
+                  priority
+                  className="h-10 w-10 object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-[12deg]"
+                  style={{
+                    filter:
+                      "drop-shadow(0 0 12px color-mix(in oklab, var(--color-mars) 30%, transparent))",
+                  }}
+                />
+              </Link>
+
+              {/* Hairline divider — desktop only. Constant geometry. */}
+              <span
+                aria-hidden
+                className="hidden md:inline-block h-6 w-px bg-[color:var(--color-line)]/60 mx-3"
               />
-            </Link>
+
+              {/* IIITDM parent-institute satellite mark — permanent white disc,
+                  always legible against the dark bar. Tight gap on mobile, more
+                  breathing room on desktop. */}
+              <a
+                href="https://www.iiitdm.ac.in"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="IIITDM Kancheepuram"
+                className="group inline-flex items-center ml-2 md:ml-0"
+              >
+                <span
+                  className={cn(
+                    "relative inline-block rounded-full overflow-hidden",
+                    "ring-1 ring-[color:var(--color-line)]/40",
+                    "transition-[transform,box-shadow,ring-color] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    "group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-px group-hover:scale-[1.06]",
+                    // Constant size — no scroll-tied animation. Mobile 28px,
+                    // desktop 36px, regardless of scroll state. Matches the
+                    // 40px MaRS hex closely enough to read as a peer mark.
+                    "h-7 w-7 md:h-9 md:w-9",
+                  )}
+                  style={{
+                    backgroundColor: "#ffffff",
+                    boxShadow:
+                      "inset 0 0 0 1px rgba(255,255,255,0.6), 0 4px 14px -4px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)",
+                  }}
+                >
+                  {/* Soft inner halo — gives the white disc subtle depth so it
+                      doesn't read as a flat sticker against the dark bar */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-full"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse 80% 70% at 50% 30%, #ffffff 0%, #fafafa 65%, #ececec 100%)",
+                    }}
+                  />
+                  <Image
+                    src="/brand/iiitdm.webp"
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 36px, 28px"
+                    className="object-contain p-[2px] md:p-[3px] relative"
+                  />
+                  {/* Mars-tinted halo on hover — replaces the caption as the
+                      "this is interactive" affordance */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--color-mars) 35%, transparent) 0%, transparent 70%)",
+                    }}
+                  />
+                </span>
+              </a>
+            </div>
 
             {/* Center: editorial masthead links */}
             <nav

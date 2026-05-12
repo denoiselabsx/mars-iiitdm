@@ -2,7 +2,7 @@ import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
-import { team, teamSubteams, type TeamMember } from "@/lib/data";
+import { team, teamSubteams, faculty, type TeamMember, type FacultyMember } from "@/lib/data";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/team", {
@@ -68,6 +68,49 @@ export default function TeamPage() {
         }
         lead="MaRS pulls undergrads from mechanical, electronics, computer science, and the basic sciences. Year-round, we design, fabricate, debug, and field rovers as Team Shunya."
       />
+
+      {/* ── Faculty (top of the org tree) ───────────────────────────── */}
+      {faculty.length > 0 && (
+        <section className="container-page pb-20 md:pb-28">
+          <div className="grid md:grid-cols-12 gap-6 md:gap-12 items-end mb-10 md:mb-14">
+            <div className="md:col-span-7">
+              <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
+                Guided by
+              </p>
+              <h2 className="mt-4 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
+                Faculty{" "}
+                <span className="font-serif italic text-[color:var(--color-mars)]">
+                  advisors
+                </span>
+                .
+              </h2>
+            </div>
+            <div className="md:col-span-5 md:pl-8 text-[color:var(--color-muted)] leading-relaxed text-sm md:text-base">
+              <p>
+                The IIITDM Kancheepuram professors-in-charge who anchor the
+                club&rsquo;s research direction, review designs, and mentor
+                every cohort of Team Shunya.
+              </p>
+            </div>
+          </div>
+
+          <RevealStagger
+            as="ol"
+            className={`grid gap-3 md:gap-4 ${
+              faculty.length === 1
+                ? "grid-cols-1"
+                : faculty.length === 2
+                  ? "grid-cols-1 md:grid-cols-2"
+                  : "grid-cols-1 md:grid-cols-3"
+            }`}
+          >
+            {faculty.map((f) => (
+              <FacultyCard key={f.name} member={f} />
+            ))}
+          </RevealStagger>
+        </section>
+      )}
 
       {/* ── Top-tier leadership ─────────────────────────────────────── */}
       {leadership.length > 0 && (
@@ -204,6 +247,80 @@ export default function TeamPage() {
         ))}
       </div>
     </>
+  );
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   Faculty Card — most editorial weight on the page. Larger portrait,
+   serif name treatment, formal mono designation strip. No hover-grayscale
+   trick — faculty stay in colour because their photos are formal.
+   ─────────────────────────────────────────────────────────────────── */
+function FacultyCard({ member }: { member: FacultyMember }) {
+  const cls =
+    "group relative isolate overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/60 hover:border-[color:var(--color-mars)]/60 transition-colors flex flex-col";
+
+  return (
+    <Reveal as="li" className={cls}>
+      <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-surface)]">
+        <Image
+          src={`/team/${member.image}-hero.webp`}
+          alt={`${member.name} portrait`}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover object-[center_20%] group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
+          priority
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)] via-[color:var(--color-void)]/10 to-transparent"
+        />
+        <p className="absolute top-5 left-5 md:top-6 md:left-6 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-paper)] mix-blend-difference">
+          {member.role}
+        </p>
+        <span
+          aria-hidden
+          className="absolute top-5 right-5 md:top-6 md:right-6 font-mono text-[9px] uppercase tracking-[0.32em] text-[color:var(--color-paper)]/70"
+        >
+          IIITDM-K
+        </span>
+      </div>
+
+      <div className="p-6 md:p-7 lg:p-8 flex-1 flex flex-col">
+        <h3 className="font-sans text-2xl md:text-3xl font-medium tracking-[-0.01em] text-[color:var(--color-paper)] leading-[1.1] text-balance">
+          <span className="font-serif italic text-[color:var(--color-mars)]">
+            {member.name.split(" ")[0]}
+          </span>{" "}
+          {member.name.split(" ").slice(1).join(" ")}
+        </h3>
+        {member.expertise && (
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+            {member.expertise}
+          </p>
+        )}
+
+        {/* Profile CTA — explicit button below the name. Mars-tinted hairline,
+            mono micro-text, sweep underline on hover, arrow nudges right. */}
+        {member.href && (
+          <a
+            href={member.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label={`${member.name} faculty profile on iiitdm.ac.in`}
+            className="group/btn mt-6 self-start inline-flex items-center gap-2 px-4 py-2.5 border border-[color:var(--color-line)]/60 hover:border-[color:var(--color-mars)]/70 bg-[color:var(--color-surface)]/40 hover:bg-[color:var(--color-mars)]/10 transition-all duration-300 ease-out"
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-paper)] group-hover/btn:text-[color:var(--color-paper)] transition-colors">
+              Faculty profile
+            </span>
+            <span
+              aria-hidden
+              className="font-mono text-[10px] text-[color:var(--color-mars)] transition-transform duration-300 group-hover/btn:translate-x-1"
+            >
+              ↗
+            </span>
+          </a>
+        )}
+      </div>
+    </Reveal>
   );
 }
 

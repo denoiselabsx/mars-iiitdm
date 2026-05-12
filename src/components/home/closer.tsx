@@ -19,8 +19,8 @@ export function Closer() {
       />
 
       <div className="container-page relative">
-        {/* Top row: small label + recruitment status, on the right */}
-        <div className="flex justify-end mb-12 md:mb-20">
+        {/* Top row: small label + recruitment status, on the left */}
+        <div className="flex justify-start mb-12 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}

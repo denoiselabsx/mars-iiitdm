@@ -72,6 +72,7 @@ export function Footer() {
       {/* ──────────── LINKS + IDENTITY ──────────── */}
       <div className="container-page pt-28 md:pt-36 pb-12 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-12">
         <div className="col-span-2 md:col-span-5">
+          {/* MaRS × IIITDM parent-org lockup */}
           <div className="flex items-center gap-4">
             <Image
               src="/brand/mars-logo.png"
@@ -88,6 +89,40 @@ export function Footer() {
                 {site.parent}
               </p>
             </div>
+
+            {/* hairline divider */}
+            <span
+              aria-hidden
+              className="h-10 w-px bg-[color:var(--color-line)]/70 mx-1"
+            />
+
+            {/* IIITDM parent-institute mark — link out, white plate so the
+                multicolour logo reads cleanly on the dark footer */}
+            <a
+              href="https://www.iiitdm.ac.in"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="IIITDM Kancheepuram"
+              className="group inline-flex items-center gap-3 transition-opacity"
+            >
+              <span
+                className="relative h-12 w-12 rounded-full ring-1 ring-[color:var(--color-line)]/50 transition-all duration-500 group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-0.5"
+                style={{ backgroundColor: "#ffffff" }}
+              >
+                <Image
+                  src="/brand/iiitdm.webp"
+                  alt="IIITDM Kancheepuram"
+                  fill
+                  sizes="48px"
+                  className="object-contain p-1"
+                />
+              </span>
+              <span className="hidden md:inline-block">
+                <span className="block mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] group-hover:text-[color:var(--color-signal)] transition-colors">
+                  IIITD&M Kancheepuram ↗
+                </span>
+              </span>
+            </a>
           </div>
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-[color:var(--color-muted)]">
             {site.description}

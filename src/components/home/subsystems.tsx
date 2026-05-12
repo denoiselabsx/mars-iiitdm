@@ -8,9 +8,9 @@ const subsystems = [
   {
     n: "01",
     name: "Chassis",
-    spec: "Six-wheel rocker-bogie · independent drive",
+    spec: "Four-wheel differential drive · independent steering",
     detail:
-      "Equalised contact across uneven terrain. Differential coupling lets the rover crawl over obstacles up to a wheel diameter tall without lifting.",
+      "4WD platform tuned for Mars-analog terrain. Independent steering and a suspended chassis keep ground contact equalised across rock, sand, and slope — engineered for traverse, not just travel.",
   },
   {
     n: "02",

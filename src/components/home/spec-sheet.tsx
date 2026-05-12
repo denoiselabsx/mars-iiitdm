@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const specs = [
-  { value: "6", unit: "wheels", label: "Rocker-bogie · independent drive" },
+  { value: "4", unit: "wheels", label: "Differential drive · independent steering" },
   { value: "5", unit: "DOF", label: "Manipulator arm" },
   { value: "80", unit: "kg", label: "Curb weight, payload-ready" },
   { value: "2", unit: "m/s", label: "Top traverse speed" },

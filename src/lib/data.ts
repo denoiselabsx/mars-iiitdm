@@ -119,7 +119,7 @@ export const rovers: Rover[] = [
     year: 2024,
     forEvent: "ERC 2023 Onsite · IRC 2024",
     blurb:
-      "The original flagship. Six-wheel rocker-bogie chassis, low centre of gravity, custom suspension engineered for Mars-analog terrain. Carried the manipulator that put MaRS on the international podium.",
+      "The original flagship. Four-wheel differential-drive chassis with custom suspension and a low centre of gravity, engineered for Mars-analog terrain. Carried the manipulator that put MaRS on the international podium.",
     highlight: "ERC 2023 Onsite & IRC 2024 — 21st globally.",
   },
   {
@@ -607,7 +607,7 @@ export const org = {
   flagshipTeam: "Team SHUNYA",
   parent: "IIITDM Kancheepuram",
   memberCount: "40+",
-  address: "IIITDM Kancheepuram, Vandalur-Kelambakkam Road, Chennai – 600127, India",
+  address: "B5, PEMS Block, IIITDM Kancheepuram, Vandalur-Kelambakkam Road, Chennai – 600127, India",
   emailGeneral: "mars@iiitdm.ac.in",
 
   // Verbatim from SHUNYA brochure pg 2
@@ -651,9 +651,9 @@ export const eventGalleries: EventGallery[] = [
     year: 2026,
     location: "Manipal Institute of Technology",
     blurb:
-      "Manipal hosted the Mars-analog arena. We arrived with a redesigned chassis and walked away with a podium finish.",
+      "Manipal hosted the Mars-analog arena. We arrived with a redesigned chassis and represented Team Shunya on the global stage.",
     photos: [
-      { image: "01-rover-heritage", caption: "Vajra at the heritage courtyard, Manipal", aspect: "landscape", feature: true },
+      { image: "01-rover-heritage", caption: "Shaurya at the heritage courtyard, Manipal", aspect: "landscape", feature: true },
       { image: "02-mound-climb",   caption: "Traversal task — full climb under load",   aspect: "portrait" },
       { image: "03-team-selfie",   caption: "Pit-celebration after the autonomy run",    aspect: "landscape" },
       { image: "04-maintenance",   caption: "Pre-run service against the Mars mural",    aspect: "landscape" },
@@ -668,8 +668,8 @@ export const eventGalleries: EventGallery[] = [
     blurb:
       "First outing with the new manipulator. The team in matching varsity, the rover at altitude.",
     photos: [
-      { image: "01-team-sunset",   caption: "Squad with Vajra at golden hour",             aspect: "landscape", feature: true },
-      { image: "02-rover-arch",    caption: "Vajra against the BITS Pilani arches",        aspect: "portrait" },
+      { image: "01-team-sunset",   caption: "Squad with Brick at golden hour",             aspect: "landscape", feature: true },
+      { image: "02-rover-arch",    caption: "Brick against the BITS Pilani arches",        aspect: "portrait" },
       { image: "03-varsity-steps", caption: "Varsity jackets on the venue steps",          aspect: "landscape" },
       { image: "04-rover-profile", caption: "Manipulator extended for the equipment task", aspect: "landscape" },
       { image: "05-rover-driving", caption: "Drive-away mid-traversal",                    aspect: "landscape" },
@@ -721,6 +721,45 @@ export const eventGalleries: EventGallery[] = [
   },
 ];
 
+// ─── FACULTY ────────────────────────────────────────────────────────
+// Professors-in-charge / advisors who guide MaRS. Rendered ABOVE the
+// student team — they sit at the top of the org tree.
+// TODO(team): replace placeholder names + designations with verified IIITDM
+// faculty entries once Sandheep confirms.
+
+export type FacultyMember = {
+  name: string;
+  /** Designation shown as the eyebrow on the card */
+  role: string;
+  /** Optional one-line area / expertise tag */
+  expertise?: string;
+  /** Headshot slug — resolves to /team/{image}-{grid|hero}.{webp|jpg} */
+  image: string;
+  /** Faculty profile URL on iiitdm.ac.in (or LinkedIn) */
+  href?: string;
+};
+
+export const faculty: FacultyMember[] = [
+  {
+    name: "Dr. Karthik C",
+    role: "Faculty Advisor",
+    image: "faculty-karthik-c",
+    href: "https://www.iiitdm.ac.in/people/faculty/karthikc@iiitdm.ac.in",
+  },
+  {
+    name: "Dr. Narendran G",
+    role: "Faculty Advisor",
+    image: "faculty-narendran-g",
+    href: "https://www.iiitdm.ac.in/people/faculty/narendrang@iiitdm.ac.in",
+  },
+  {
+    name: "Dr. Anudeep V",
+    role: "Faculty Advisor",
+    image: "faculty-anudeep-v",
+    href: "https://www.iiitdm.ac.in/people/faculty/anudeepv@iiitdm.ac.in",
+  },
+];
+
 // ─── TEAM ROSTER ────────────────────────────────────────────────────────
 // Sourced from public/Team List - Sheet1.csv (May 2026 cohort).
 // One-liners are short character sketches — placeholders to be edited by the
@@ -758,14 +797,13 @@ export const team: TeamMember[] = [
   { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/", image: "pruthviraj-sudheer-yadav" },
 
   // ── Management ──────────────────────────────────────────────────────
-  { name: "Depa Varshith Reddy",  subteam: "Management", blurb: "Logistics, ops, the entire travel spreadsheet — keeps the squad moving.", linkedin: "https://www.linkedin.com/in/varshith-reddy-depa/" },
-  { name: "Shreya Jha",           subteam: "Management", blurb: "Outreach + design crossover. Makes the club look as good as it builds.",  linkedin: "https://www.linkedin.com/in/shreya-jha-07a32b36b/" },
+  { name: "Depa Varshith Reddy",  subteam: "Management", blurb: "Logistics, ops, the entire travel spreadsheet — keeps the squad moving.", linkedin: "https://www.linkedin.com/in/varshith-reddy-depa/", image: "depa-varshith-reddy" },
 
   // ── Mechanical ───────────────────────────────────────────────────────
   { name: "Bibek Kumar Malik",    rolePrefix: "Mechanical Lead", subteam: "Mechanical", blurb: "Chassis whisperer. If it bends, he wants to know why.", linkedin: "https://www.linkedin.com/in/bibek-kumar-malik-3672b4284/", image: "bibek-kumar-malik" },
   { name: "Manas Singh",          subteam: "Mechanical", blurb: "Lives inside Fusion 360 and emerges only for chai.",                       linkedin: "https://www.linkedin.com/in/manas-singh-405235319/", image: "manas-singh" },
   { name: "R Lakshay Vardhan",    subteam: "Mechanical", blurb: "Thinks in bolt patterns. Optimises everything.",                            linkedin: "https://www.linkedin.com/in/lakshay-vardhan-532baa329/", image: "r-lakshay-vardhan" },
-  { name: "V S Geetha Ranjani",   subteam: "Mechanical", blurb: "End-effector specialist. Loves a good gripper.",                            linkedin: "https://www.linkedin.com/in/geetha-ranjani-b36848395/" },
+  { name: "V S Geetha Ranjani",   subteam: "Mechanical", blurb: "End-effector specialist. Loves a good gripper.",                            linkedin: "https://www.linkedin.com/in/geetha-ranjani-b36848395/", image: "v-s-geetha-ranjani" },
   { name: "Raghul U",             subteam: "Mechanical", blurb: "Mechanism design specialist. The one who turns sketches into parts that actually move.", linkedin: "https://www.linkedin.com/in/raghul-u-4a3171268/", image: "raghul-u" },
   { name: "Dhriti J N Kashyap",   subteam: "Mechanical", blurb: "CAD by day, machining drawings by night. Tolerances always tight.",         linkedin: "https://www.linkedin.com/in/dhriti-jn-kashyap-18027b371/", image: "dhriti-j-n-kashyap" },
   { name: "Praneeth Bollu",       subteam: "Mechanical", blurb: "Lathe operator turned design contributor. Makes parts that just fit.",      linkedin: "https://www.linkedin.com/in/praneeth-bollu-446a93343/", image: "praneeth-bollu" },
@@ -791,6 +829,7 @@ export const team: TeamMember[] = [
   // ── Science ─────────────────────────────────────────────────────────
   { name: "Kunal Garag",          rolePrefix: "Science Lead", subteam: "Science", blurb: "Sample analysis + experimental design. Turns red dirt into data.",                         linkedin: "https://www.linkedin.com/in/kunal-garag-bb17612a3/?skipRedirect=true", image: "kunal-garag" },
   { name: "Venkata Shruthi Pullela", subteam: "Science", blurb: "Geology + spectroscopy. Reads soil like a novel.", image: "venkata-shruthi-pullela" },
+  { name: "Nithish M",            subteam: "Science", blurb: "Newest to the science bench. Curious about everything in the sample jar.", image: "nithish-m" },
 ];
 
 // Display order: Software → Electronics → Mechanical → Science → Management.
