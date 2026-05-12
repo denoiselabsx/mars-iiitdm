@@ -560,7 +560,7 @@ export const leads: Lead[] = [
   },
   {
     role: "Team Manager",
-    name: "Pruthviraj Sudheer Yadav",
+    name: "Pruthviraj Yadav",
     email: "mars@iiitdm.ac.in",
   },
 ];
@@ -749,6 +749,21 @@ export const eventGalleries: EventGallery[] = [
     ],
   },
   {
+    slug: "iroc-2024",
+    name: "ISRO Robotics Challenge",
+    year: 2024,
+    location: "URSC, Bengaluru · ISRO",
+    blurb:
+      "The flagship national event. Vajra in front of Chandrayaan models, on a sand-arena built to lunar spec.",
+    photos: [
+      { image: "01-team-backdrop",  caption: "Full team on the IRoC-U 2024 stage",        aspect: "landscape", feature: true },
+      { image: "02-rover-lineup",   caption: "Every competing rover, lined up",           aspect: "landscape" },
+      { image: "03-rover-isro",     caption: "Destiny beside the Chandrayaan lander model", aspect: "portrait" },
+      { image: "04-arena-action",   caption: "Arena task — rover, judges, cameras",       aspect: "landscape" },
+      { image: "05-lunar-diorama",  caption: "Lunar diorama with competing rovers",       aspect: "portrait" },
+    ],
+  },
+  {
     slug: "irc-2024",
     name: "International Rover Challenge",
     year: 2024,
@@ -762,21 +777,6 @@ export const eventGalleries: EventGallery[] = [
       { image: "03-rover-judges", caption: "Vajra under judge inspection",             aspect: "landscape" },
       { image: "04-rover-motion", caption: "Field test — rover on red soil",           aspect: "landscape" },
       { image: "05-under-rover",  caption: "Last-minute wiring fix, under the chassis", aspect: "landscape" },
-    ],
-  },
-  {
-    slug: "iroc-2024",
-    name: "ISRO Robotics Challenge",
-    year: 2024,
-    location: "URSC, Bengaluru · ISRO",
-    blurb:
-      "The flagship national event. Vajra in front of Chandrayaan models, on a sand-arena built to lunar spec.",
-    photos: [
-      { image: "01-team-backdrop",  caption: "Full team on the IRoC-U 2024 stage",        aspect: "landscape", feature: true },
-      { image: "02-rover-lineup",   caption: "Every competing rover, lined up",           aspect: "landscape" },
-      { image: "03-rover-isro",     caption: "Destiny beside the Chandrayaan lander model", aspect: "portrait" },
-      { image: "04-arena-action",   caption: "Arena task — rover, judges, cameras",       aspect: "landscape" },
-      { image: "05-lunar-diorama",  caption: "Lunar diorama with competing rovers",       aspect: "portrait" },
     ],
   },
   {
@@ -867,7 +867,7 @@ export const team: TeamMember[] = [
   // ── Top-tier leadership (featured above all subteams) ───────────────
   { name: "Sandheep Rahul V",         rolePrefix: "Team Lead",          subteam: "Management", leadershipRank: 1, blurb: "Holds the schedule and the rover when both are about to fall over.", linkedin: "https://www.linkedin.com/in/sandheep-rahul-171159348/", image: "sandheep-rahul-v" },
   { name: "Avinash Acharya",          rolePrefix: "Technical Lead",     subteam: "Management", leadershipRank: 2, blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",       linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/", image: "avinash-acharya" },
-  { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/", image: "pruthviraj-sudheer-yadav" },
+  { name: "Pruthviraj Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/", image: "pruthviraj-sudheer-yadav" },
 
   // ── Management ──────────────────────────────────────────────────────
   { name: "Depa Varshith Reddy",  subteam: "Management", blurb: "Logistics, ops, the entire travel spreadsheet — keeps the squad moving.", linkedin: "https://www.linkedin.com/in/varshith-reddy-depa/", image: "depa-varshith-reddy" },
@@ -893,8 +893,8 @@ export const team: TeamMember[] = [
   // ── Software ────────────────────────────────────────────────────────
   { name: "Arpit Srivastava",     rolePrefix: "Software Lead", subteam: "Software", blurb: "Architecture brain. Code reviews land like surgical strikes.",                          linkedin: "https://www.linkedin.com/in/arpit-srivastava-8557aa34b/", image: "arpit-srivastava" },
   { name: "Satyajit S",           subteam: "Software", blurb: "Vision + perception. Sees patterns in pixels nobody else does.",                                                      linkedin: "https://www.linkedin.com/in/satyajit06/", image: "satyajit-s" },
-  { name: "S Hyensteen Samuel",   subteam: "Software", blurb: "Path-planning enthusiast. ROS topics flow like rivers.",                                                              linkedin: "https://www.linkedin.com/in/s-hyensteen-samuel/" },
-  { name: "Sanat",                subteam: "Software", blurb: "Ground-station tooling. Builds the dashboards everyone forgets to thank him for.",                                    linkedin: "https://www.linkedin.com/in/sanat-787214319/", image: "sanat" },
+  { name: "S Hyensteen Samuel",   subteam: "Software", blurb: "Path-planning enthusiast. ROS topics flow like rivers.",                                                              linkedin: "https://www.linkedin.com/in/s-hyensteen-samuel/", image: "s-hyensteen-samuel" },
+  { { name: "Pruthviraj Yadav", rolePrefix: "Team Manager",name: "Sanat",                subteam: "Software", blurb: "Ground-station tooling. Builds the dashboards everyone forgets to thank him for.",                                    linkedin: "https://www.linkedin.com/in/sanat-787214319/", image: "sanat" },
   { name: "Namitha Sai Kolli",    subteam: "Software", blurb: "Autonomy stack contributor. Async/await is her love language.",                                                       linkedin: "https://www.linkedin.com/in/namitha-kolli-963419373/", image: "namitha-sai-kolli" },
   { name: "Vihaan Gupta",         subteam: "Software", blurb: "Newest to the stack, fastest at the unit tests.",                                                                     linkedin: "https://www.linkedin.com/in/vihaan-gupta-ab046836b/", image: "vihaan-gupta" },
   { name: "Fida Saifudheen",      subteam: "Software", blurb: "Tooling + DX. If it should be a script, she's already written it.",                                                   linkedin: "https://www.linkedin.com/in/fida-saifudheen/", image: "fida-saifudheen" },
