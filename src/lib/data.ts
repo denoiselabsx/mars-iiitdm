@@ -105,6 +105,13 @@ export const rovers: Rover[] = [
     blurb:
       "Aerial reconnaissance and scouting system developed for IRC 2026 to support rover operations. GPS-guided navigation, real-time FPV transmission, autonomous failsafe systems, and a servo-based battery-dropping mechanism for payload delivery and mission support in challenging terrain.",
     highlight: "IRC 2026 — GPS nav, FPV, autonomous failsafe, payload drop.",
+    video: {
+      src: "/rovers/khoj_video.mp4",
+      width: 848,
+      height: 478,
+      playbackRate: 2,
+      caption: "Khoj — aerial reconnaissance flight, IRC 2026.",
+    },
   },
   {
     slug: "vetri",
