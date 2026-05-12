@@ -173,14 +173,14 @@ export default function CreditsPage() {
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
               04 — Studio
             </p>
-            <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">
-              Denoise Labs
+            <h2 className="mt-4">
+              <DenoiseMark height={32} />
+              <span className="sr-only">Denoise Labs</span>
             </h2>
           </Reveal>
 
           <Reveal className="md:col-span-8" delay={0.1}>
-            <DenoiseMark height={56} />
-            <p className="mt-10 max-w-xl text-balance font-sans text-2xl md:text-3xl leading-[1.2] tracking-tight text-[color:var(--color-paper)]">
+            <p className="max-w-xl text-balance font-sans text-2xl md:text-3xl leading-[1.2] tracking-tight text-[color:var(--color-paper)]">
               We&rsquo;re four students at IIITDM Kancheepuram, building software and design for
               teams who care about <span className="font-serif italic text-[color:var(--color-mars)]">how</span> things feel,
               not just whether they work.
