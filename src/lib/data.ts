@@ -755,42 +755,42 @@ export const team: TeamMember[] = [
   // ── Top-tier leadership (featured above all subteams) ───────────────
   { name: "Sandheep Rahul V",         rolePrefix: "Team Lead",          subteam: "Management", leadershipRank: 1, blurb: "Holds the schedule and the rover when both are about to fall over.", linkedin: "https://www.linkedin.com/in/sandheep-rahul-171159348/", image: "sandheep-rahul-v" },
   { name: "Avinash Acharya",          rolePrefix: "Technical Lead",     subteam: "Management", leadershipRank: 2, blurb: "The one who finds the bug at 3 AM and writes the fix at 3:08.",       linkedin: "https://www.linkedin.com/in/avinash-acharya-8557ab2ba/", image: "avinash-acharya" },
-  { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/" },
+  { name: "Pruthviraj Sudheer Yadav", rolePrefix: "Team Manager",       subteam: "Management", leadershipRank: 3, blurb: "Calendar is a weapon. Sponsorship deck has Easter eggs.",            linkedin: "https://www.linkedin.com/in/pruthviraj-yadav-0a05ba290/", image: "pruthviraj-sudheer-yadav" },
 
   // ── Management ──────────────────────────────────────────────────────
   { name: "Depa Varshith Reddy",  subteam: "Management", blurb: "Logistics, ops, the entire travel spreadsheet — keeps the squad moving.", linkedin: "https://www.linkedin.com/in/varshith-reddy-depa/" },
   { name: "Shreya Jha",           subteam: "Management", blurb: "Outreach + design crossover. Makes the club look as good as it builds.",  linkedin: "https://www.linkedin.com/in/shreya-jha-07a32b36b/" },
 
   // ── Mechanical ───────────────────────────────────────────────────────
-  { name: "Bibek Kumar Malik",    rolePrefix: "Mechanical Lead", subteam: "Mechanical", blurb: "Chassis whisperer. If it bends, he wants to know why.", linkedin: "https://www.linkedin.com/in/bibek-kumar-malik-3672b4284/" },
+  { name: "Bibek Kumar Malik",    rolePrefix: "Mechanical Lead", subteam: "Mechanical", blurb: "Chassis whisperer. If it bends, he wants to know why.", linkedin: "https://www.linkedin.com/in/bibek-kumar-malik-3672b4284/", image: "bibek-kumar-malik" },
   { name: "Manas Singh",          subteam: "Mechanical", blurb: "Lives inside Fusion 360 and emerges only for chai.",                       linkedin: "https://www.linkedin.com/in/manas-singh-405235319/", image: "manas-singh" },
-  { name: "R Lakshay Vardhan",    subteam: "Mechanical", blurb: "Thinks in bolt patterns. Optimises everything.",                            linkedin: "https://www.linkedin.com/in/lakshay-vardhan-532baa329/" },
+  { name: "R Lakshay Vardhan",    subteam: "Mechanical", blurb: "Thinks in bolt patterns. Optimises everything.",                            linkedin: "https://www.linkedin.com/in/lakshay-vardhan-532baa329/", image: "r-lakshay-vardhan" },
   { name: "V S Geetha Ranjani",   subteam: "Mechanical", blurb: "End-effector specialist. Loves a good gripper.",                            linkedin: "https://www.linkedin.com/in/geetha-ranjani-b36848395/" },
   { name: "Raghul U",             subteam: "Mechanical", blurb: "Mechanism design specialist. The one who turns sketches into parts that actually move.", linkedin: "https://www.linkedin.com/in/raghul-u-4a3171268/", image: "raghul-u" },
-  { name: "Dhriti J N Kashyap",   subteam: "Mechanical", blurb: "CAD by day, machining drawings by night. Tolerances always tight.",         linkedin: "https://www.linkedin.com/in/dhriti-jn-kashyap-18027b371/" },
+  { name: "Dhriti J N Kashyap",   subteam: "Mechanical", blurb: "CAD by day, machining drawings by night. Tolerances always tight.",         linkedin: "https://www.linkedin.com/in/dhriti-jn-kashyap-18027b371/", image: "dhriti-j-n-kashyap" },
   { name: "Praneeth Bollu",       subteam: "Mechanical", blurb: "Lathe operator turned design contributor. Makes parts that just fit.",      linkedin: "https://www.linkedin.com/in/praneeth-bollu-446a93343/", image: "praneeth-bollu" },
 
   // ── Electronics ─────────────────────────────────────────────────────
   { name: "Vaitheeswaran M V",    rolePrefix: "Electronics Lead", subteam: "Electronics", blurb: "Solder fume connoisseur. Every PCB has a story.",                  linkedin: "https://www.linkedin.com/in/vaitheeswaran-veerateswaran-21724a316/", image: "vaitheeswaran-m-v" },
-  { name: "Archith G",            subteam: "Electronics", blurb: "Power delivery + motor drivers. Quiet hands, loud rovers.",                                       linkedin: "https://www.linkedin.com/in/archith-g-6a9b8b307/" },
-  { name: "Rohan Deshmukh",       subteam: "Electronics", blurb: "Sensor stacks. If it has an I2C address, it's already mapped in his head.",                       linkedin: "https://www.linkedin.com/in/rohan-deshmukh-168926307/" },
+  { name: "Archith G",            subteam: "Electronics", blurb: "Power delivery + motor drivers. Quiet hands, loud rovers.",                                       linkedin: "https://www.linkedin.com/in/archith-g-6a9b8b307/", image: "archith-g" },
+  { name: "Rohan Deshmukh",       subteam: "Electronics", blurb: "Sensor stacks. If it has an I2C address, it's already mapped in his head.",                       linkedin: "https://www.linkedin.com/in/rohan-deshmukh-168926307/", image: "rohan-deshmukh" },
   { name: "Parvathi R",           subteam: "Electronics", blurb: "Communications + telemetry — keeps the link alive on the field.",                                  linkedin: "https://www.linkedin.com/in/parvathi-r-5774ba351/", image: "parvathi-r" },
   { name: "Ujjwala Lekhi",        subteam: "Electronics", blurb: "Embedded firmware. Treats microcontrollers gently, then pushes them hard.",                       linkedin: "https://www.linkedin.com/in/ujjwalalekhi/", image: "ujjwala-lekhi" },
-  { name: "Rohith T N",           subteam: "Electronics", blurb: "The one debugging the harness while everyone else celebrates the run.",                            linkedin: "https://www.linkedin.com/in/rohith-tn-b38a87203/" },
+  { name: "Rohith T N",           subteam: "Electronics", blurb: "The one debugging the harness while everyone else celebrates the run.",                            linkedin: "https://www.linkedin.com/in/rohith-tn-b38a87203/", image: "rohith-t-n" },
   { name: "Adarsh Giri",          subteam: "Electronics", blurb: "Picks up the iron at midnight and doesn't put it down till the rail reads clean.", image: "adarsh-giri" },
 
   // ── Software ────────────────────────────────────────────────────────
-  { name: "Arpit Srivastava",     rolePrefix: "Software Lead", subteam: "Software", blurb: "Architecture brain. Code reviews land like surgical strikes.",                          linkedin: "https://www.linkedin.com/in/arpit-srivastava-8557aa34b/" },
-  { name: "Satyajit S",           subteam: "Software", blurb: "Vision + perception. Sees patterns in pixels nobody else does.",                                                      linkedin: "https://www.linkedin.com/in/satyajit06/" },
+  { name: "Arpit Srivastava",     rolePrefix: "Software Lead", subteam: "Software", blurb: "Architecture brain. Code reviews land like surgical strikes.",                          linkedin: "https://www.linkedin.com/in/arpit-srivastava-8557aa34b/", image: "arpit-srivastava" },
+  { name: "Satyajit S",           subteam: "Software", blurb: "Vision + perception. Sees patterns in pixels nobody else does.",                                                      linkedin: "https://www.linkedin.com/in/satyajit06/", image: "satyajit-s" },
   { name: "S Hyensteen Samuel",   subteam: "Software", blurb: "Path-planning enthusiast. ROS topics flow like rivers.",                                                              linkedin: "https://www.linkedin.com/in/s-hyensteen-samuel/" },
   { name: "Sanat",                subteam: "Software", blurb: "Ground-station tooling. Builds the dashboards everyone forgets to thank him for.",                                    linkedin: "https://www.linkedin.com/in/sanat-787214319/", image: "sanat" },
-  { name: "Namitha Sai Kolli",    subteam: "Software", blurb: "Autonomy stack contributor. Async/await is her love language.",                                                       linkedin: "https://www.linkedin.com/in/namitha-kolli-963419373/" },
-  { name: "Vihaan Gupta",         subteam: "Software", blurb: "Newest to the stack, fastest at the unit tests.",                                                                     linkedin: "https://www.linkedin.com/in/vihaan-gupta-ab046836b/" },
-  { name: "Fida Saifudheen",      subteam: "Software", blurb: "Tooling + DX. If it should be a script, she's already written it.",                                                   linkedin: "https://www.linkedin.com/in/fida-saifudheen/" },
+  { name: "Namitha Sai Kolli",    subteam: "Software", blurb: "Autonomy stack contributor. Async/await is her love language.",                                                       linkedin: "https://www.linkedin.com/in/namitha-kolli-963419373/", image: "namitha-sai-kolli" },
+  { name: "Vihaan Gupta",         subteam: "Software", blurb: "Newest to the stack, fastest at the unit tests.",                                                                     linkedin: "https://www.linkedin.com/in/vihaan-gupta-ab046836b/", image: "vihaan-gupta" },
+  { name: "Fida Saifudheen",      subteam: "Software", blurb: "Tooling + DX. If it should be a script, she's already written it.",                                                   linkedin: "https://www.linkedin.com/in/fida-saifudheen/", image: "fida-saifudheen" },
 
   // ── Science ─────────────────────────────────────────────────────────
   { name: "Kunal Garag",          rolePrefix: "Science Lead", subteam: "Science", blurb: "Sample analysis + experimental design. Turns red dirt into data.",                         linkedin: "https://www.linkedin.com/in/kunal-garag-bb17612a3/?skipRedirect=true", image: "kunal-garag" },
-  { name: "Venkata Shruthi Pullela", subteam: "Science", blurb: "Geology + spectroscopy. Reads soil like a novel." },
+  { name: "Venkata Shruthi Pullela", subteam: "Science", blurb: "Geology + spectroscopy. Reads soil like a novel.", image: "venkata-shruthi-pullela" },
 ];
 
 // Display order: Software → Electronics → Mechanical → Science → Management.
