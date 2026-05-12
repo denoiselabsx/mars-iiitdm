@@ -217,24 +217,69 @@ export function MobileMenu({ open, onClose }: Props) {
               variants={topBarVariants}
               className="container-page flex items-center justify-between h-20 shrink-0"
             >
-              <Link
-                href="/"
-                onClick={onClose}
-                aria-label="MaRS home"
-                className="group inline-flex items-center"
-              >
-                <Image
-                  src="/brand/mars-logo.png"
-                  alt="MaRS"
-                  width={48}
-                  height={48}
-                  className="h-11 w-11 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
-                  style={{
-                    filter:
-                      "drop-shadow(0 0 16px color-mix(in oklab, var(--color-mars) 38%, transparent))",
-                  }}
+              {/* MaRS × IIITDM lockup — same peer-mark hierarchy as the
+                  desktop nav. Two separate links (different destinations). */}
+              <div className="inline-flex items-center">
+                <Link
+                  href="/"
+                  onClick={onClose}
+                  aria-label="MaRS home"
+                  className="group inline-flex items-center"
+                >
+                  <Image
+                    src="/brand/mars-logo.png"
+                    alt="MaRS"
+                    width={48}
+                    height={48}
+                    className="h-11 w-11 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 16px color-mix(in oklab, var(--color-mars) 38%, transparent))",
+                    }}
+                  />
+                </Link>
+
+                {/* Hairline divider */}
+                <span
+                  aria-hidden
+                  className="ml-3 mr-3 h-7 w-px bg-[color:var(--color-line)]/60"
                 />
-              </Link>
+
+                {/* IIITDM parent-org peer mark — always-white disc */}
+                <a
+                  href="https://www.iiitdm.ac.in"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="IIITDM Kancheepuram"
+                  className="group inline-flex items-center"
+                >
+                  <span
+                    className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-1 ring-[color:var(--color-line)]/40 transition-[transform,ring-color] duration-300 ease-out group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-px group-hover:scale-[1.06]"
+                    style={{
+                      backgroundColor: "#ffffff",
+                      boxShadow:
+                        "0 2px 6px -2px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    <Image
+                      src="/brand/iiitdm.webp"
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-contain relative"
+                    />
+                    {/* Mars-red halo on hover */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -inset-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background:
+                          "radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--color-mars) 35%, transparent) 0%, transparent 70%)",
+                      }}
+                    />
+                  </span>
+                </a>
+              </div>
               <div className="flex items-center gap-1">
                 <ThemeToggle />
                 <button
