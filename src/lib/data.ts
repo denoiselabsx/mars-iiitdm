@@ -701,7 +701,7 @@ export const eventGalleries: EventGallery[] = [
     photos: [
       { image: "01-team-backdrop",  caption: "Full team on the IRoC-U 2024 stage",        aspect: "landscape", feature: true },
       { image: "02-rover-lineup",   caption: "Every competing rover, lined up",           aspect: "landscape" },
-      { image: "03-rover-isro",     caption: "Vajra beside the Chandrayaan lander model", aspect: "portrait" },
+      { image: "03-rover-isro",     caption: "Destiny beside the Chandrayaan lander model", aspect: "portrait" },
       { image: "04-arena-action",   caption: "Arena task — rover, judges, cameras",       aspect: "landscape" },
       { image: "05-lunar-diorama",  caption: "Lunar diorama with competing rovers",       aspect: "portrait" },
     ],
