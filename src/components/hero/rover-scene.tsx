@@ -12,10 +12,133 @@ import {
 import * as THREE from "three";
 
 // DRACO decoder hosted by Google (cached across the web; ~30KB gzipped).
-// The rover GLB uses DRACO mesh compression — without this the file fails to load.
+// The rover GLB now also uses EXT_meshopt_compression — drei loads its
+// decoder when the 4th arg (useMeshopt) is true.
 const DRACO_DECODER = "https://www.gstatic.com/draco/v1/decoders/";
 
-useGLTF.preload("/models/rover.glb", DRACO_DECODER);
+useGLTF.preload("/models/rover.glb", DRACO_DECODER, true);
+
+// ─── Material remapper ────────────────────────────────────────────────
+// The exported rover has no textures — only material *names* like
+// "Paint - Enamel Glossy (Black)" or "Opaque(196,53,39)". Three.js loads
+// these with default-white PBR factors so the whole rover renders black
+// against our dark hero. This function walks the scene, reads each
+// material's name, and remaps it to realistic PBR values:
+//   - "Opaque(R,G,B)" → use the exact RGB as baseColor
+//   - Named presets ("Steel - Satin", "Aluminum - Polished", "Paint -
+//     Metallic (X)", "Powder Coat (Black)", "Chrome", "ABS", "Polymide",
+//     "EPX *") → mapped to a curated palette that reads on dark.
+// The result: steel parts catch highlights, painted body is a unified
+// dark mass, decal/indicator colours stay vivid. The rover looks like a
+// proper engineering render.
+type MatSpec = {
+  color: string;
+  metalness: number;
+  roughness: number;
+  emissive?: string;
+  emissiveIntensity?: number;
+};
+
+function remapMaterial(name: string): MatSpec {
+  // 1) Opaque(R,G,B) — exact RGB triplet authored by the CAD source.
+  //    Common for indicators, decals, panels, wires.
+  const rgb = name.match(/Opaque\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/i);
+  if (rgb) {
+    const [r, g, b] = [
+      Number(rgb[1]) / 255,
+      Number(rgb[2]) / 255,
+      Number(rgb[3]) / 255,
+    ];
+    // Detect highly saturated reds/oranges → they're brand-aligned decals;
+    // give them a touch of emissive so they pop against the dark scene.
+    const isVibrant = (r > 0.5 && g < 0.4 && b < 0.4) || (r > 0.9 && g > 0.4 && b < 0.3);
+    return {
+      color: `rgb(${rgb[1]}, ${rgb[2]}, ${rgb[3]})`,
+      metalness: 0.1,
+      roughness: 0.55,
+      emissive: isVibrant ? `rgb(${rgb[1]}, ${rgb[2]}, ${rgb[3]})` : undefined,
+      emissiveIntensity: isVibrant ? 0.12 : 0,
+    };
+  }
+
+  const n = name.toLowerCase();
+
+  // 2) Steel — catches light, becomes the "machinery silhouette".
+  if (n.includes("steel")) {
+    return { color: "#9a9da3", metalness: 0.88, roughness: 0.32 };
+  }
+  // 3) Aluminum — slightly cooler / brighter than steel.
+  if (n.includes("aluminum") && n.includes("polished")) {
+    return { color: "#c8ccd2", metalness: 0.95, roughness: 0.18 };
+  }
+  if (n.includes("aluminum")) {
+    return { color: "#aab0b8", metalness: 0.8, roughness: 0.42 };
+  }
+  // 4) Chrome — high reflectivity.
+  if (n.includes("chrome")) {
+    return { color: "#1a1a1d", metalness: 1.0, roughness: 0.22 };
+  }
+  // 5) Paint — matte body panels. Different tints for variety.
+  if (n.includes("paint") && n.includes("silver")) {
+    return { color: "#9da0a4", metalness: 0.5, roughness: 0.45 };
+  }
+  if (n.includes("paint") && n.includes("yellow")) {
+    return { color: "#d4a838", metalness: 0.3, roughness: 0.5, emissive: "#d4a838", emissiveIntensity: 0.08 };
+  }
+  if (n.includes("paint") && n.includes("dark grey")) {
+    return { color: "#26262a", metalness: 0.15, roughness: 0.62 };
+  }
+  if (n.includes("paint") && n.includes("metallic")) {
+    return { color: "#1f1f23", metalness: 0.4, roughness: 0.4 };
+  }
+  if (n.includes("paint") && n.includes("enamel")) {
+    return { color: "#202024", metalness: 0.1, roughness: 0.55 };
+  }
+  // 6) Powder coat — matte structural.
+  if (n.includes("powder")) {
+    return { color: "#1a1a1d", metalness: 0.08, roughness: 0.82 };
+  }
+  // 7) ABS — printed plastic, typically light/white.
+  if (n.includes("abs")) {
+    return { color: "#e8e8ea", metalness: 0.0, roughness: 0.72 };
+  }
+  // 8) Polymide / Kapton — amber-orange film.
+  if (n.includes("polymide") || n.includes("kapton")) {
+    return { color: "#b87a32", metalness: 0.1, roughness: 0.5, emissive: "#b87a32", emissiveIntensity: 0.06 };
+  }
+  // 9) EPX (resin) — engineering plastic, slate.
+  if (n.includes("epx")) {
+    return { color: "#5a5a60", metalness: 0.1, roughness: 0.55 };
+  }
+  // 10) Fallback — neutral dark grey so unknown materials never go pure black.
+  return { color: "#3a3a3e", metalness: 0.2, roughness: 0.6 };
+}
+
+const _tmpColor = new THREE.Color();
+function applyRoverMaterials(root: THREE.Object3D) {
+  root.traverse((obj) => {
+    if (!(obj as THREE.Mesh).isMesh) return;
+    const mesh = obj as THREE.Mesh;
+    const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    mats.forEach((m) => {
+      const std = m as THREE.MeshStandardMaterial;
+      if (!std.isMeshStandardMaterial) return;
+      const spec = remapMaterial(std.name ?? "");
+      std.color = _tmpColor.set(spec.color).clone();
+      std.metalness = spec.metalness;
+      std.roughness = spec.roughness;
+      if (spec.emissive) {
+        std.emissive = _tmpColor.set(spec.emissive).clone();
+        std.emissiveIntensity = spec.emissiveIntensity ?? 0.1;
+      } else {
+        std.emissive = _tmpColor.set("#000000").clone();
+        std.emissiveIntensity = 0;
+      }
+      std.envMapIntensity = 1.0;
+      std.needsUpdate = true;
+    });
+  });
+}
 
 type Refs = {
   progressRef: React.RefObject<number>;
@@ -24,43 +147,63 @@ type Refs = {
 };
 
 function Rover({ progressRef, velocityRef, dragOffsetRef }: Refs) {
-  const { scene } = useGLTF("/models/rover.glb", DRACO_DECODER);
+  const { scene } = useGLTF("/models/rover.glb", DRACO_DECODER, true);
   const group = useRef<THREE.Group>(null);
   const spin = useRef(0); // accumulated inertial spin
 
   const normalised = useMemo(() => {
     const cloned = scene.clone(true);
-    const box = new THREE.Box3().setFromObject(cloned);
+
+    // The FBX→glTF export is Z-up. Three.js is Y-up. Rotate the inner mesh
+    // -90° about X so the rover sits flat. We wrap everything in an outer
+    // group so the recentre + scale logic operates on a single object.
+    cloned.rotation.x = -Math.PI / 2;
+
+    const oriented = new THREE.Group();
+    oriented.add(cloned);
+    oriented.updateMatrixWorld(true);
+
+    // Compute bbox AFTER rotation. setFromObject walks descendants and
+    // uses their world matrices, so this returns the rotated bbox.
+    const box = new THREE.Box3().setFromObject(oriented);
     const size = new THREE.Vector3();
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
 
-    cloned.position.sub(center);
-
-    const targetHeight = 2.4;
+    // Scale to a target world-space size. Use max axis so the rover always
+    // fits the hero viewport regardless of which axis dominates.
+    const targetSize = 2.4;
     const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = targetHeight / maxDim;
-    cloned.scale.setScalar(scale);
-    cloned.position.y = -0.6;
+    const scale = targetSize / maxDim;
+    oriented.scale.setScalar(scale);
 
-    cloned.traverse((obj) => {
+    // After scaling, the bbox centroid is at `center * scale` in the outer
+    // group's parent frame. Shift the outer group so the centroid sits at
+    // the camera's lookAt target (0, 0.15, 0) — keeps the rover framed.
+    oriented.position.set(
+      -center.x * scale,
+      -center.y * scale + 0.15,
+      -center.z * scale,
+    );
+
+    // Walk meshes once: enable shadows, then apply the name→PBR remapper so
+    // the rover renders with realistic materials despite having no textures.
+    oriented.traverse((obj) => {
       if ((obj as THREE.Mesh).isMesh) {
         const mesh = obj as THREE.Mesh;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-        mats.forEach((m) => {
-          if ((m as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
-            const std = m as THREE.MeshStandardMaterial;
-            std.envMapIntensity = 0.7;
-          }
-        });
       }
     });
+    applyRoverMaterials(oriented);
 
-    return cloned;
+    return oriented;
   }, [scene]);
+
+  // Continuous idle yaw accumulator — used on mobile only (desktop is
+  // scroll-driven, so adding constant idle there would compete with input).
+  const idleY = useRef(0);
 
   useFrame((state, delta) => {
     if (!group.current) return;
@@ -68,29 +211,62 @@ function Rover({ progressRef, velocityRef, dragOffsetRef }: Refs) {
     const p = progressRef.current ?? 0;
     const v = velocityRef.current ?? 0;
     const drag = dragOffsetRef.current ?? 0;
+    const t = state.clock.elapsedTime;
+
+    // Gentle vertical bob — sine wave, tiny amplitude. Adds presence so
+    // the rover never feels static, on both desktop and mobile.
+    const bob = Math.sin(t * 0.9) * 0.025;
 
     let targetY: number;
     let targetX: number;
 
     if (isPortrait) {
       // ── MOBILE ─────────────────────────────────────────
-      // Drag is the primary input. Scroll adds slow ambient rotation only.
-      const ambient = p * Math.PI * 0.4; // ~1/5 turn over entire scroll
-      targetY = ambient + drag;
-      targetX = 0; // no pitch on mobile — keep rover stable for predictable drag
-      // No inertial velocity overlay on mobile (it conflicts with drag)
-      spin.current *= 0.5;
+      // Three layers stack:
+      //   1. Continuous idle — slow ambient turn (~1 rev / 28s) so the
+      //      rover is never frozen.
+      //   2. Scroll-driven — same eased cubic as desktop but smaller total
+      //      (1.2π ≈ 0.6 turns) since mobile scroll travel is shorter and
+      //      we don't want the rover to feel frantic on a phone.
+      //   3. Drag offset — finger input pushes the rover ahead with inertia
+      //      that decays after release (same `spin` accumulator as desktop).
+      idleY.current += 0.22 * delta;
+      const easedM =
+        p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      const scrollYm = easedM * Math.PI * 1.2;
+      // Flick-inertia from drag velocity (uses the velocityRef which the
+      // scroll-hero already plumbs from touch deltas on mobile).
+      spin.current += v * 0.0010;
+      spin.current *= Math.pow(0.08, delta);
+      targetY = idleY.current + scrollYm + drag + spin.current;
+      // Subtle pitch tied to scroll as you read.
+      targetX = -0.08 * Math.sin(p * Math.PI);
     } else {
       // ── DESKTOP ────────────────────────────────────────
-      const baseY = p * Math.PI * 2.8; // ~1.4 turns over hero scroll
-      spin.current += v * 0.0012;
-      spin.current *= Math.pow(0.04, delta);
-      targetY = baseY + spin.current;
-      targetX = -0.15 * Math.sin(p * Math.PI);
+      // Scroll-driven rotation with three polish layers:
+      //   1. Eased mapping — easeInOutCubic on `p` so rotation accelerates
+      //      into the middle of the scroll and decelerates near the ends,
+      //      instead of a flat 1:1 linear feed. Feels weighted, not robotic.
+      //   2. Larger total rotation (3.2π ≈ 1.6 turns) for more drama.
+      //   3. Stronger inertia coefficient (0.0016 vs 0.0012) so flick-
+      //      scrolls produce a satisfying carry-through spin that decays.
+      const eased =
+        p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      const scrollY = eased * Math.PI * 3.2;
+
+      spin.current += v * 0.0016;
+      spin.current *= Math.pow(0.06, delta); // slightly slower decay → richer carry
+
+      targetY = scrollY + spin.current;
+      // Pitch breathes: down a touch as you scroll in, level at extremes.
+      targetX = -0.18 * Math.sin(p * Math.PI);
     }
 
-    group.current.rotation.y += (targetY - group.current.rotation.y) * Math.min(1, delta * 6);
+    // Critically-damped lerp toward targets. Y eases tighter than X for
+    // crisp yaw response while pitch breathes more gently.
+    group.current.rotation.y += (targetY - group.current.rotation.y) * Math.min(1, delta * 7);
     group.current.rotation.x += (targetX - group.current.rotation.x) * Math.min(1, delta * 3);
+    group.current.position.y = bob;
   });
 
   return (
@@ -152,17 +328,22 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
       >
         <PerspectiveCamera makeDefault fov={35} position={[0, 0.45, 4.8]} />
 
-        <ambientLight intensity={0.32} color="#dcdce0" />
+        {/* Lighting tuned for the remapped-material rover. Key light from
+            front-top-right gives steel parts their highlights; a cool fill
+            from back-left separates the silhouette from the dark scene; a
+            warm rim from below-right adds a Mars-tinted edge glow. */}
+        <ambientLight intensity={0.45} color="#dcdce0" />
         <directionalLight
           position={[5, 7, 5]}
-          intensity={1.6}
+          intensity={2.2}
           color="#ffffff"
           castShadow={!isMobile}
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
-        <directionalLight position={[-5, 4, -2]} intensity={0.45} color="#a8d8ff" />
-        <hemisphereLight args={["#c0e0ff", "#1a1a22", 0.25]} />
+        <directionalLight position={[-5, 4, -2]} intensity={0.7} color="#a8d8ff" />
+        <directionalLight position={[2, -2, 4]} intensity={0.45} color="#d65a3a" />
+        <hemisphereLight args={["#c0e0ff", "#1a1a22", 0.35]} />
 
         <Suspense fallback={null}>
           <Rover
@@ -170,7 +351,7 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
             velocityRef={velocityRef}
             dragOffsetRef={dragOffsetRef}
           />
-          <Environment preset="studio" environmentIntensity={0.35} />
+          <Environment preset="studio" environmentIntensity={0.6} />
           <ContactShadows
             position={[0, -0.62, 0]}
             opacity={0.55}
