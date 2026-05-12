@@ -44,74 +44,62 @@ function remapMaterial(name: string): MatSpec {
   //    Common for indicators, decals, panels, wires.
   const rgb = name.match(/Opaque\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/i);
   if (rgb) {
-    const [r, g, b] = [
-      Number(rgb[1]) / 255,
-      Number(rgb[2]) / 255,
-      Number(rgb[3]) / 255,
-    ];
-    // Detect highly saturated reds/oranges → they're brand-aligned decals;
-    // give them a touch of emissive so they pop against the dark scene.
+    const r = Number(rgb[1]) / 255;
+    const g = Number(rgb[2]) / 255;
+    const b = Number(rgb[3]) / 255;
+    // Saturated reds/oranges → brand decals; gentle emissive lift to pop.
     const isVibrant = (r > 0.5 && g < 0.4 && b < 0.4) || (r > 0.9 && g > 0.4 && b < 0.3);
     return {
       color: `rgb(${rgb[1]}, ${rgb[2]}, ${rgb[3]})`,
-      metalness: 0.1,
-      roughness: 0.55,
+      metalness: 0.12,
+      roughness: 0.5,
       emissive: isVibrant ? `rgb(${rgb[1]}, ${rgb[2]}, ${rgb[3]})` : undefined,
-      emissiveIntensity: isVibrant ? 0.12 : 0,
+      emissiveIntensity: isVibrant ? 0.18 : 0,
     };
   }
 
   const n = name.toLowerCase();
 
-  // 2) Steel — catches light, becomes the "machinery silhouette".
   if (n.includes("steel")) {
     return { color: "#9a9da3", metalness: 0.88, roughness: 0.32 };
   }
-  // 3) Aluminum — slightly cooler / brighter than steel.
   if (n.includes("aluminum") && n.includes("polished")) {
     return { color: "#c8ccd2", metalness: 0.95, roughness: 0.18 };
   }
   if (n.includes("aluminum")) {
     return { color: "#aab0b8", metalness: 0.8, roughness: 0.42 };
   }
-  // 4) Chrome — high reflectivity.
   if (n.includes("chrome")) {
-    return { color: "#1a1a1d", metalness: 1.0, roughness: 0.22 };
+    return { color: "#1f1f23", metalness: 1.0, roughness: 0.22 };
   }
-  // 5) Paint — matte body panels. Different tints for variety.
   if (n.includes("paint") && n.includes("silver")) {
     return { color: "#9da0a4", metalness: 0.5, roughness: 0.45 };
   }
   if (n.includes("paint") && n.includes("yellow")) {
-    return { color: "#d4a838", metalness: 0.3, roughness: 0.5, emissive: "#d4a838", emissiveIntensity: 0.08 };
+    return { color: "#d4a838", metalness: 0.3, roughness: 0.5, emissive: "#d4a838", emissiveIntensity: 0.06 };
   }
   if (n.includes("paint") && n.includes("dark grey")) {
-    return { color: "#26262a", metalness: 0.15, roughness: 0.62 };
+    return { color: "#2a2b30", metalness: 0.18, roughness: 0.6 };
   }
   if (n.includes("paint") && n.includes("metallic")) {
-    return { color: "#1f1f23", metalness: 0.4, roughness: 0.4 };
+    return { color: "#26282d", metalness: 0.45, roughness: 0.38 };
   }
   if (n.includes("paint") && n.includes("enamel")) {
-    return { color: "#202024", metalness: 0.1, roughness: 0.55 };
+    return { color: "#24252a", metalness: 0.12, roughness: 0.52 };
   }
-  // 6) Powder coat — matte structural.
   if (n.includes("powder")) {
-    return { color: "#1a1a1d", metalness: 0.08, roughness: 0.82 };
+    return { color: "#1e1f23", metalness: 0.08, roughness: 0.82 };
   }
-  // 7) ABS — printed plastic, typically light/white.
   if (n.includes("abs")) {
-    return { color: "#e8e8ea", metalness: 0.0, roughness: 0.72 };
+    return { color: "#dedee0", metalness: 0.0, roughness: 0.7 };
   }
-  // 8) Polymide / Kapton — amber-orange film.
   if (n.includes("polymide") || n.includes("kapton")) {
     return { color: "#b87a32", metalness: 0.1, roughness: 0.5, emissive: "#b87a32", emissiveIntensity: 0.06 };
   }
-  // 9) EPX (resin) — engineering plastic, slate.
   if (n.includes("epx")) {
     return { color: "#5a5a60", metalness: 0.1, roughness: 0.55 };
   }
-  // 10) Fallback — neutral dark grey so unknown materials never go pure black.
-  return { color: "#3a3a3e", metalness: 0.2, roughness: 0.6 };
+  return { color: "#3e3f44", metalness: 0.2, roughness: 0.58 };
 }
 
 const _tmpColor = new THREE.Color();
@@ -134,7 +122,7 @@ function applyRoverMaterials(root: THREE.Object3D) {
         std.emissive = _tmpColor.set("#000000").clone();
         std.emissiveIntensity = 0;
       }
-      std.envMapIntensity = 1.0;
+      std.envMapIntensity = 0.6;
       std.needsUpdate = true;
     });
   });
@@ -284,9 +272,8 @@ function CameraRig({ progressRef }: { progressRef: React.RefObject<number> }) {
     const isPortrait = size.height > size.width;
     const p = progressRef.current ?? 0;
 
-    // Mobile camera pulls in tight — rover dominates the viewport
-    const baseDist = isPortrait ? 4.6 : 4.6;
-    const targetZ = baseDist - p * 0.3;
+    const baseDist = isPortrait ? 5.6 : 4.6;
+    const targetZ = baseDist - p * 0.25;
     const targetY = isPortrait ? 0.45 : 0.45 + p * 0.25;
     const targetX = isPortrait ? 0 : 0.25 - p * 0.2;
 
@@ -330,22 +317,20 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
       >
         <PerspectiveCamera makeDefault fov={35} position={[0, 0.45, 4.8]} />
 
-        {/* Lighting tuned for the remapped-material rover. Key light from
-            front-top-right gives steel parts their highlights; a cool fill
-            from back-left separates the silhouette from the dark scene; a
-            warm rim from below-right adds a Mars-tinted edge glow. */}
-        <ambientLight intensity={0.45} color="#dcdce0" />
+        {/* Soft three-point — moderate key + balanced fills so material
+            colours read true (no white-wash, no muddy shadows). */}
+        <ambientLight intensity={0.25} color="#bcbcc4" />
         <directionalLight
           position={[5, 7, 5]}
-          intensity={2.2}
-          color="#ffffff"
+          intensity={1.2}
+          color="#f4efe8"
           castShadow={!isMobile}
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
-        <directionalLight position={[-5, 4, -2]} intensity={0.7} color="#a8d8ff" />
-        <directionalLight position={[2, -2, 4]} intensity={0.45} color="#d65a3a" />
-        <hemisphereLight args={["#c0e0ff", "#1a1a22", 0.35]} />
+        <directionalLight position={[-5, 4, -2]} intensity={0.4} color="#7aa4d8" />
+        <directionalLight position={[2, -1, 4]} intensity={0.25} color="#b8482a" />
+        <hemisphereLight args={["#7896b8", "#140d0e", 0.18]} />
 
         <Suspense fallback={null}>
           <Rover
@@ -353,7 +338,7 @@ export function RoverScene({ progressRef, velocityRef, dragOffsetRef, className 
             velocityRef={velocityRef}
             dragOffsetRef={dragOffsetRef}
           />
-          <Environment preset="studio" environmentIntensity={0.6} />
+          <Environment preset="studio" environmentIntensity={0.35} />
           <ContactShadows
             position={[0, -0.62, 0]}
             opacity={0.55}
