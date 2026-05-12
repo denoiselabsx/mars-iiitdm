@@ -94,6 +94,17 @@ export const rovers: Rover[] = [
     highlight: "ERC 2025 build — autonomy, manipulation, science cache.",
   },
   {
+    slug: "brick",
+    name: "Rover Brick",
+    kind: "rover",
+    status: "active",
+    year: 2024,
+    forEvent: "IRC 2024",
+    blurb:
+      "Team Shunya's IRC 2024 build — a 4-wheel-drive Mars rover engineered for terrain traversal and manipulation tasks. 5-DOF manipulator powered by linear actuators for precise movement and object handling during mission operations. A reliable, robust platform built for autonomous exploration and competition-based rover tasks.",
+    highlight: "IRC 2024 — 4WD platform, 5-DOF linear-actuator arm.",
+  },
+  {
     slug: "destiny-rover",
     name: "Destiny",
     kind: "rover",
