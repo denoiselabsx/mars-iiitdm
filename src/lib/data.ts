@@ -775,6 +775,7 @@ export const team: TeamMember[] = [
   { name: "Parvathi R",           subteam: "Electronics", blurb: "Communications + telemetry — keeps the link alive on the field.",                                  linkedin: "https://www.linkedin.com/in/parvathi-r-5774ba351/" },
   { name: "Ujjwala Lekhi",        subteam: "Electronics", blurb: "Embedded firmware. Treats microcontrollers gently, then pushes them hard.",                       linkedin: "https://www.linkedin.com/in/ujjwalalekhi/" },
   { name: "Rohith T N",           subteam: "Electronics", blurb: "The one debugging the harness while everyone else celebrates the run.",                            linkedin: "https://www.linkedin.com/in/rohith-tn-b38a87203/" },
+  { name: "Adarsh Giri",          subteam: "Electronics", blurb: "Picks up the iron at midnight and doesn't put it down till the rail reads clean."                                                                                                            },
 
   // ── Software ────────────────────────────────────────────────────────
   { name: "Arpit Srivastava",     rolePrefix: "Software Lead", subteam: "Software", blurb: "Architecture brain. Code reviews land like surgical strikes.",                          linkedin: "https://www.linkedin.com/in/arpit-srivastava-8557aa34b/" },
