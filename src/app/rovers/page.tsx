@@ -1,10 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
-import { rovers, process } from "@/lib/data";
+import { RoverVideoFrame } from "@/components/rovers/rover-video-frame";
+import { rovers, process, type Rover } from "@/lib/data";
 import { site } from "@/lib/site";
 import { routeMeta } from "@/lib/seo";
 
@@ -150,39 +152,11 @@ export default function RoversPage() {
           </p>
         </div>
 
-        <ul className="space-y-px">
+        <ol className="space-y-px">
           {active.map((r, i) => (
-            <Reveal
-              key={r.slug}
-              as="li"
-              delay={i * 0.04}
-              className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-10 md:py-14 transition-colors hover:bg-[color:var(--color-surface)]/30"
-            >
-              <div className="grid grid-cols-12 gap-x-6 md:gap-x-10 gap-y-4 items-baseline">
-                <div className="col-span-12 md:col-span-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-                    {String(i + 1).padStart(2, "0")} · {r.forEvent ?? r.kind}
-                  </p>
-                  <h2 className="mt-3 font-sans text-[2.75rem] sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.025em] leading-[1] sm:leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
-                    {r.name}
-                  </h2>
-                </div>
-
-                <div className="col-span-12 md:col-span-7 md:pl-8 md:border-l md:border-[color:var(--color-line)]/40">
-                  <p className="text-base md:text-lg leading-relaxed text-[color:var(--color-muted)] max-w-xl">
-                    {r.blurb}
-                  </p>
-                  {r.highlight && (
-                    <p className="mt-5 inline-flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
-                      <span className="h-px w-8 bg-[color:var(--color-mars)]" />
-                      {r.highlight}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </Reveal>
+            <ActiveRoverRow key={r.slug} rover={r} index={i} />
           ))}
-        </ul>
+        </ol>
       </section>
 
       {/* ── Legacy ─────────────────────────────────────────────────────── */}
@@ -211,31 +185,49 @@ export default function RoversPage() {
 
           <RevealStagger
             as="ul"
-            className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
+            className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4"
           >
-            {legacy.map((r) => (
-              <Reveal
-                key={r.slug}
-                as="li"
-                className="group bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-8 min-h-[220px] flex flex-col"
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-                  Retired · {r.forEvent ?? r.kind}
-                </p>
-                <h3 className="mt-3 font-sans text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-500">
-                  {r.name}
-                </h3>
-                <p className="mt-5 text-sm md:text-base leading-relaxed text-[color:var(--color-muted)] flex-1 text-pretty">
-                  {r.blurb}
-                </p>
-                {r.highlight && (
-                  <p className="mt-5 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
-                    <span className="h-px w-8 bg-[color:var(--color-mars)]" />
-                    {r.highlight}
-                  </p>
-                )}
-              </Reveal>
-            ))}
+            {legacy.map((r) => {
+              const photo = r.photos?.[0];
+              const featured = !!photo;
+              return (
+                <Reveal
+                  key={r.slug}
+                  as="li"
+                  className={
+                    featured
+                      ? "md:col-span-7 group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors"
+                      : "md:col-span-5 group bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-8 min-h-[220px] flex flex-col"
+                  }
+                >
+                  {featured && photo && (
+                    <RoverFrame
+                      photo={photo}
+                      sizes="(min-width: 768px) 60vw, 100vw"
+                      aspectClass="aspect-[4/3]"
+                      priority={false}
+                    />
+                  )}
+                  <div className={featured ? "p-6 md:p-8" : "contents"}>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+                      Retired · {r.forEvent ?? r.kind}
+                    </p>
+                    <h3 className="mt-3 font-sans text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-500">
+                      {r.name}
+                    </h3>
+                    <p className="mt-5 text-sm md:text-base leading-relaxed text-[color:var(--color-muted)] flex-1 text-pretty">
+                      {r.blurb}
+                    </p>
+                    {r.highlight && (
+                      <p className="mt-5 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+                        <span className="h-px w-8 bg-[color:var(--color-mars)]" />
+                        {r.highlight}
+                      </p>
+                    )}
+                  </div>
+                </Reveal>
+              );
+            })}
           </RevealStagger>
         </section>
       )}
@@ -384,5 +376,151 @@ export default function RoversPage() {
         </div>
       </section>
     </>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Active fleet row.
+//
+// Editorial side-by-side: bold display type on one side, photograph on the
+// other. The orientation flips every other row so the page reads like a
+// printed feature instead of a stamped grid. Rows without a photo collapse
+// gracefully to a type-only treatment so Khoj / Vetri / Destiny Manipulator
+// still belong in the rhythm.
+// ──────────────────────────────────────────────────────────────────────────
+function ActiveRoverRow({ rover, index }: { rover: Rover; index: number }) {
+  const photo = rover.photos?.[0];
+  const video = rover.video;
+  const hasMedia = !!(video || photo);
+  const reversed = index % 2 === 1;
+  const numeral = String(index + 1).padStart(2, "0");
+  // Pick the slot's aspect from the video (when present) or the photo,
+  // so the frame's reserved space matches the source.
+  const mediaAspect = video
+    ? video.height > video.width
+      ? "aspect-[4/5]"
+      : "aspect-[16/9]"
+    : photo && photo.height > photo.width
+    ? "aspect-[4/5]"
+    : "aspect-[5/4]";
+
+  return (
+    <Reveal
+      as="li"
+      delay={index * 0.04}
+      className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-10 md:py-16 transition-colors hover:bg-[color:var(--color-surface)]/30"
+    >
+      <div
+        className={[
+          "grid grid-cols-12 gap-x-6 md:gap-x-10 gap-y-8 items-center",
+          reversed ? "md:[direction:rtl]" : "",
+        ].join(" ")}
+      >
+        {/* Type column */}
+        <div
+          className={[
+            "col-span-12 [direction:ltr]",
+            hasMedia ? "md:col-span-6" : "md:col-span-12",
+          ].join(" ")}
+        >
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+            {numeral} · {rover.forEvent ?? rover.kind}
+          </p>
+          <h3 className="mt-3 font-sans text-[2.75rem] sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.025em] leading-[1] sm:leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
+            {rover.name}
+          </h3>
+          <p className="mt-6 max-w-xl text-base md:text-lg leading-relaxed text-[color:var(--color-muted)]">
+            {rover.blurb}
+          </p>
+          {rover.highlight && (
+            <p className="mt-5 inline-flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+              <span className="h-px w-8 bg-[color:var(--color-mars)]" />
+              {rover.highlight}
+            </p>
+          )}
+        </div>
+
+        {/* Media column — video takes precedence over photo when both exist */}
+        {hasMedia && (
+          <div className="col-span-12 md:col-span-6 [direction:ltr]">
+            {video ? (
+              <RoverVideoFrame video={video} aspectClass={mediaAspect} />
+            ) : (
+              photo && (
+                <RoverFrame
+                  photo={photo}
+                  sizes="(min-width: 1024px) 45vw, (min-width: 768px) 50vw, 100vw"
+                  aspectClass={mediaAspect}
+                  priority={index === 0}
+                />
+              )
+            )}
+          </div>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Photographic frame.
+//
+// One concern: present the rover photograph as a static, posterized object —
+// no drop shadows, no parallax. Subtle 1.03× scale + a Mars-red wash on
+// hover hints at interactivity without theatrics. Caption sits below in
+// mono micro-type, matching every other footnote on the site.
+// ──────────────────────────────────────────────────────────────────────────
+function RoverFrame({
+  photo,
+  sizes,
+  aspectClass,
+  priority = false,
+}: {
+  photo: NonNullable<Rover["photos"]>[number];
+  sizes: string;
+  aspectClass: string;
+  priority?: boolean;
+}) {
+  return (
+    <figure className="group/frame">
+      <div
+        className={[
+          "relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50",
+          aspectClass,
+        ].join(" ")}
+      >
+        <Image
+          src={photo.src}
+          alt={photo.caption ?? "MaRS rover photograph"}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/frame:scale-[1.03]"
+        />
+        {/* Red wash that builds on hover — ties the photo into the Mars palette */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover/frame:opacity-100 transition-opacity duration-700 mix-blend-soft-light"
+          style={{
+            background:
+              "linear-gradient(140deg, color-mix(in oklab, var(--color-mars) 28%, transparent) 0%, transparent 55%)",
+          }}
+        />
+        {/* Bottom fade for caption legibility on photos that bleed light */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
+          style={{
+            background:
+              "linear-gradient(to top, color-mix(in oklab, var(--color-void) 70%, transparent) 0%, transparent 100%)",
+          }}
+        />
+      </div>
+      {photo.caption && (
+        <figcaption className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-faint)] leading-snug">
+          {photo.caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }

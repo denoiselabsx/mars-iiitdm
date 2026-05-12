@@ -9,6 +9,32 @@
 
 export type RoverStatus = "active" | "retired" | "concept" | "designing";
 
+export type RoverPhoto = {
+  /** Path under /public — e.g. "/rovers/shaurya_1.jpeg" */
+  src: string;
+  /** Natural pixel dimensions for Next/Image layout reservation */
+  width: number;
+  height: number;
+  /** Short factual caption — surfaced as a footnote under the image */
+  caption?: string;
+};
+
+export type RoverVideo = {
+  /** Path under /public — e.g. "/rovers/vetri_video.mp4" */
+  src: string;
+  /** Aspect ratio of the source video — drives the frame slot */
+  width: number;
+  height: number;
+  /** Second-mark to start playback from on load (and after each loop) */
+  startSeconds?: number;
+  /** Playback speed multiplier — 1 = real-time, 2 = double, etc. */
+  playbackRate?: number;
+  /** Optional poster image while the video buffers */
+  poster?: string;
+  /** Short factual caption — surfaced as a footnote under the video */
+  caption?: string;
+};
+
 export type Rover = {
   slug: string;
   name: string;
@@ -20,6 +46,11 @@ export type Rover = {
   year?: number;
   /** Competition the rover was built for, e.g. "IRC 2026", "ERC 2025" */
   forEvent?: string;
+  /** Photographs of the rover. First entry is the primary; second (if any) is
+   *  used as a supporting frame in the legacy/feature layout. */
+  photos?: RoverPhoto[];
+  /** Optional motion clip — rendered in place of the primary photo. */
+  video?: RoverVideo;
 };
 
 // Rover lineup, newest competition year first. Vajra (2023–24) lives in
@@ -59,6 +90,10 @@ export const rovers: Rover[] = [
     blurb:
       "Team Shunya's IRC 2026 build — an autonomous Mars rover for terrain navigation, scientific exploration, and precision manipulation. 4WD differential drive, ROS2 autonomy stack, 5-DOF manipulator with Cartesian control, and a science cache for soil and atmospheric analysis. ZED 2i stereo vision, EKF localisation, LoRa backup comms, and intelligent power management.",
     highlight: "IRC 2026 — ROS2 autonomy, ZED stereo, science cache.",
+    photos: [
+      { src: "/rovers/shaurya_1.jpeg", width: 1280, height: 960, caption: "Shaurya during pre-run service at IRC 2026, Manipal." },
+      { src: "/rovers/shaurya_2.jpeg", width: 1200, height: 1600, caption: "Manipulator extended for the equipment-servicing task." },
+    ],
   },
   {
     slug: "khoj-drone",
@@ -81,6 +116,13 @@ export const rovers: Rover[] = [
     blurb:
       "Debuted at SHAASTRA 2026 Caterpillar Autonomy Challenge. Earned the Design Innovation Award for its custom-engineered underbelly scooping mechanism — an in-house solution to autonomous berm construction.",
     highlight: "Design Innovation Award · SHAASTRA Caterpillar 2026.",
+    video: {
+      src: "/rovers/vetri_video.mp4",
+      width: 1280,
+      height: 720,
+      playbackRate: 2,
+      caption: "Vetri — underbelly scooping mechanism on the SHAASTRA arena.",
+    },
   },
   {
     slug: "lakshya",
@@ -92,6 +134,9 @@ export const rovers: Rover[] = [
     blurb:
       "Built for the European Rover Challenge 2025. ROS-based autonomy, a 5-DOF robotic arm, advanced communications, and a science-cache mechanism — engineered for autonomous navigation, terrain traversal, manipulation, and sample collection in harsh Martian-analog environments.",
     highlight: "ERC 2025 build — autonomy, manipulation, science cache.",
+    photos: [
+      { src: "/rovers/lakshya_1.jpeg", width: 1280, height: 847, caption: "Lakshya on the test floor ahead of ERC 2025." },
+    ],
   },
   {
     slug: "brick",
@@ -103,6 +148,10 @@ export const rovers: Rover[] = [
     blurb:
       "Team Shunya's IRC 2024 build — a 4-wheel-drive Mars rover engineered for terrain traversal and manipulation tasks. 5-DOF manipulator powered by linear actuators for precise movement and object handling during mission operations. A reliable, robust platform built for autonomous exploration and competition-based rover tasks.",
     highlight: "IRC 2024 — 4WD platform, 5-DOF linear-actuator arm.",
+    photos: [
+      { src: "/rovers/brick_1.jpeg", width: 2000, height: 1500, caption: "Rover Brick — IRC 2024 chassis on the workshop bench." },
+      { src: "/rovers/brick_2.jpeg", width: 1500, height: 2000, caption: "Linear-actuator manipulator, posed for inspection." },
+    ],
   },
   {
     slug: "destiny-rover",
@@ -111,6 +160,9 @@ export const rovers: Rover[] = [
     status: "active",
     blurb:
       "Companion rover platform. Engineered using AI-driven generative design for weight optimisation and structural resilience — proven on rocky, sandy, and inclined terrain.",
+    photos: [
+      { src: "/rovers/destiny_1.jpeg", width: 699, height: 424, caption: "Destiny — companion platform, generative-design chassis." },
+    ],
   },
   {
     slug: "destiny-manipulator",
@@ -132,6 +184,9 @@ export const rovers: Rover[] = [
     blurb:
       "The original flagship. Four-wheel differential-drive chassis with custom suspension and a low centre of gravity, engineered for Mars-analog terrain. Carried the manipulator that put MaRS on the international podium.",
     highlight: "ERC 2023 Onsite & IRC 2024 — 21st globally.",
+    photos: [
+      { src: "/rovers/vajra_1.jpeg", width: 602, height: 800, caption: "Vajra — the rover that put MaRS on the international podium." },
+    ],
   },
   {
     slug: "vajra-manipulator",
