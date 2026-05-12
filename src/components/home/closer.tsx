@@ -112,7 +112,7 @@ export function Closer() {
             />
           </div>
           <figcaption className="mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]">
-            Team Shunya · IRC 2024
+            Team Shunya · IRC 2026
           </figcaption>
         </motion.figure>
       </div>
