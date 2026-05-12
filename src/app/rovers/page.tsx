@@ -162,7 +162,7 @@ export default function RoversPage() {
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
                     {String(i + 1).padStart(2, "0")} · {r.forEvent ?? r.kind}
                   </p>
-                  <h2 className="mt-3 font-sans text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.025em] leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
+                  <h2 className="mt-3 font-sans text-[2.75rem] sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.025em] leading-[1] sm:leading-[0.95] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-700">
                     {r.name}
                   </h2>
                 </div>

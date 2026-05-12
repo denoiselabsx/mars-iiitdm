@@ -74,7 +74,7 @@ export function Subsystems() {
                 <span className="flex-1 h-px bg-gradient-to-r from-[color:var(--color-mars)]/60 via-[color:var(--color-line)] to-transparent transition-all duration-700 group-hover:from-[color:var(--color-mars)]" />
               </div>
 
-              <h3 className="mt-6 font-sans text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[0.98] text-[color:var(--color-paper)]">
+              <h3 className="mt-6 font-sans text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.02] sm:leading-[0.98] text-[color:var(--color-paper)]">
                 {s.name}
               </h3>
               <p className="mt-4 font-mono text-[11px] md:text-[12px] uppercase tracking-[0.16em] text-[color:var(--color-muted)]">

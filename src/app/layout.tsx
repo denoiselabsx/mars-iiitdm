@@ -73,9 +73,6 @@ export const metadata: Metadata = {
     description: site.description,
   },
   robots: { index: true, follow: true },
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export const viewport: Viewport = {
@@ -132,7 +129,11 @@ export default function RootLayout({
                     name: site.parent,
                     url: "https://www.iiitdm.ac.in",
                   },
-                  sameAs: [site.social.instagram, site.social.linkedin],
+                  sameAs: [
+                    site.social.instagram,
+                    site.social.linkedin,
+                    site.social.youtube,
+                  ],
                   knowsAbout: [
                     "Mars rover",
                     "Space robotics",

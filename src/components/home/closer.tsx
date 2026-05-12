@@ -38,7 +38,7 @@ export function Closer() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-20% 0px" }}
           transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-[16ch] md:max-w-none text-balance font-sans text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
+          className="max-w-[16ch] md:max-w-none text-balance font-sans text-[2.75rem] sm:text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[1] sm:leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
         >
           Build something that{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">
@@ -50,7 +50,7 @@ export function Closer() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-20% 0px" }}
           transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-[16ch] md:max-w-none -mt-2 md:-mt-4 text-balance font-sans text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
+          className="max-w-[16ch] md:max-w-none -mt-1 md:-mt-4 text-balance font-sans text-[2.75rem] sm:text-6xl md:text-[8vw] lg:text-[7vw] font-medium leading-[1] sm:leading-[0.95] tracking-[-0.025em] text-[color:var(--color-paper)]"
         >
           on{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">

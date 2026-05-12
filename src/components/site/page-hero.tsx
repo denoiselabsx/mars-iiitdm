@@ -26,7 +26,7 @@ export function PageHero({ index, eyebrow, title, lead, className, tight = false
           <MonoLabel index={index}>{eyebrow}</MonoLabel>
         </Reveal>
         <Reveal delay={0.1}>
-          <h1 className="mt-6 text-balance font-sans text-5xl md:text-7xl font-medium leading-[0.95] tracking-tight text-[color:var(--color-paper)]">
+          <h1 className="mt-6 text-balance font-sans text-[2.5rem] sm:text-5xl md:text-7xl font-medium leading-[1.02] sm:leading-[0.98] md:leading-[0.95] tracking-tight text-[color:var(--color-paper)]">
             {title}
           </h1>
         </Reveal>

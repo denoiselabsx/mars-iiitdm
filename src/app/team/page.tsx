@@ -108,7 +108,7 @@ export default function TeamPage() {
             </h2>
           </div>
           <nav className="md:col-span-5 md:pl-8" aria-label="Sub-team index">
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
               {grouped.map((s) => (
                 <li key={s.key}>
                   <a

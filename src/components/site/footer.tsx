@@ -157,6 +157,16 @@ export function Footer() {
                 LinkedIn · mars-research-station
               </a>
             </li>
+            <li>
+              <a
+                href={site.social.youtube}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
+              >
+                YouTube · @mars_iiitdm
+              </a>
+            </li>
           </ul>
         </div>
       </div>

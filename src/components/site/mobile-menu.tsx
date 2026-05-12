@@ -8,6 +8,7 @@ import { X } from "lucide-react";
 
 import { site } from "@/lib/site";
 import { ThemeToggle } from "./theme-toggle";
+import { DenoiseMark } from "./denoise-mark";
 
 type Item = { href: string; label: string };
 
@@ -221,8 +222,8 @@ export function MobileMenu({ open, onClose }: Props) {
                 </span>
               </Link>
 
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-y-2">
-                <div className="flex items-center gap-5">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                   <a
                     href={site.social.instagram}
                     target="_blank"
@@ -239,6 +240,14 @@ export function MobileMenu({ open, onClose }: Props) {
                   >
                     LinkedIn
                   </a>
+                  <a
+                    href={site.social.youtube}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] hover:text-[color:var(--color-mars)] transition-colors"
+                  >
+                    YouTube
+                  </a>
                 </div>
                 <a
                   href={`mailto:${site.email}`}
@@ -247,6 +256,20 @@ export function MobileMenu({ open, onClose }: Props) {
                   {site.email}
                 </a>
               </div>
+
+              {/* Crafted-by: Denoise Labs */}
+              <Link
+                href="/credits"
+                onClick={onClose}
+                className="mt-6 pt-5 border-t border-[color:var(--color-line)]/40 flex items-center justify-between gap-3 text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                  Crafted by
+                </span>
+                <span className="inline-flex items-center gap-2 opacity-80">
+                  <DenoiseMark height={20} variant="plate" />
+                </span>
+              </Link>
             </motion.div>
           </div>
         </motion.div>

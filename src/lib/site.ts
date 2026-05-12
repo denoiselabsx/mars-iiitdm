@@ -11,6 +11,7 @@ export const site = {
   social: {
     instagram: "https://instagram.com/mars_iiitdm",
     linkedin: "https://linkedin.com/company/mars-research-station",
+    youtube: "https://www.youtube.com/@mars_iiitdm",
   },
   agency: {
     name: "Denoise Labs",

@@ -19,7 +19,7 @@ export function HeroFallback() {
 
       <div className="container-page pb-20 md:pb-32 pt-32">
         <MonoLabel index={1}>Mars Rover Students Club · IIITDM Kancheepuram</MonoLabel>
-        <h1 className="mt-8 max-w-5xl text-balance font-sans text-6xl md:text-8xl lg:text-[9rem] font-medium leading-[0.92] tracking-tight">
+        <h1 className="mt-8 max-w-5xl text-balance font-sans text-[3rem] sm:text-6xl md:text-8xl lg:text-[9rem] font-medium leading-[1] sm:leading-[0.94] md:leading-[0.92] tracking-tight">
           Exploration{" "}
           <span className="font-serif italic text-[color:var(--color-mars)]">begins</span>{" "}
           here.
