@@ -28,21 +28,28 @@ type Props = {
 // ─────────────────────────────────────────────────────────────────────────
 // MOBILE MENU — display-scale, edge-to-edge, kinetic
 // ----------------------------------------------------------------------
-// Layout target: 360×640 (iPhone SE class) up. Three zones, no scroll:
-//   • header (h-20, logo gets air)
-//   • nav (flex-1, vertically centered — links fill the row, hairline
-//          goes edge-to-edge, label is the visual hero)
-//   • footer (Instagram pill + socials + denoise credit)
+// Layout target: 360×640 (iPhone SE class) up. Three zones, no scroll.
+//
+// LINK ROW ANATOMY (top→bottom):
+//   ┌──────────────────────────────────────────────────────────┐
+//   │                                          01 / →   eyebrow│  ← right-aligned
+//   │ COMPETITIONS                                              │  ← full row width
+//   ├──────────────────────────────────────────────────────────┤  ← hairline
+//
+// Eyebrow above (counter + arrow) keeps the label free of right-edge
+// competition so it can scale to text-[3rem]+ without overflowing the
+// longest item ("Competitions" = 12ch).
 //
 // Animation pass — "credits-sequence" feel:
-//   Open  → backdrop fades in (260ms) → topbar settles (320ms) → each link
-//           reveals via clip-path wipe (text wipes left→right over 540ms)
-//           PAIRED with the hairline beneath drawing in sync (origin-left
-//           scale-x 0→1). Cascade with 80ms stagger so the eye reads each
-//           row as a deliberate event. Footer rises last (400ms).
-//   Hover → label nudges 4px right · arrow swings 12px right with a Mars
-//           ghost arrow sliding in from -12px · hairline brightens to
-//           full Mars from line/40. Three coordinated micro-moves.
+//   Open  → backdrop fades in (260ms) → topbar settles (320ms) → each
+//           row enters: eyebrow fades from right (380ms), label wipes
+//           via clip-path left→right (600ms), hairline draws beneath
+//           (550ms) — all on the same per-row timeline. 80ms stagger
+//           between rows. Footer rises last (420ms).
+//   Hover → eyebrow goes Mars · arrow swings 12px right with a Mars
+//           ghost arrow sliding in from -12px · label nudges 4px right
+//           and shifts to Mars · hairline brightens line/45 → full Mars.
+//           Four coordinated micro-moves.
 //   Close → reverse stagger, exits in ~340ms.
 // All transforms are translate/opacity/clip-path — no layout thrash.
 // ─────────────────────────────────────────────────────────────────────────
@@ -134,11 +141,11 @@ const hairlineDrawVariants: Variants = {
 };
 
 const metaFadeVariants: Variants = {
-  initial: { opacity: 0, x: 6 },
+  initial: { opacity: 0, x: 8 },
   animate: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.42, ease: EASE_OUT, delay: 0.18 },
+    transition: { duration: 0.38, ease: EASE_OUT, delay: 0.04 },
   },
   exit: {
     opacity: 0,
@@ -255,26 +262,14 @@ export function MobileMenu({ open, onClose }: Props) {
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="group relative flex items-baseline justify-between gap-3 py-3 xs:py-3.5"
+                      className="group relative block py-2.5 xs:py-3"
                     >
-                      {/* Label — clip-path wipes in from left.
-                          Wrapper masks overflow so descenders don't bleed
-                          past the wipe boundary. */}
-                      <span className="relative inline-block overflow-hidden pb-1 -mb-1">
-                        <motion.span
-                          variants={labelWipeVariants}
-                          className="block font-sans text-[2.75rem] xs:text-[3rem] sm:text-[3.5rem] font-medium tracking-[-0.02em] leading-[1] text-[color:var(--color-paper)] transition-[transform,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:text-[color:var(--color-mars)]"
-                          style={{ willChange: "clip-path, transform" }}
-                        >
-                          {item.label}
-                        </motion.span>
-                      </span>
-
-                      {/* Counter + arrow — fades + slides in slightly
-                          after the label wipe completes */}
-                      <motion.span
+                      {/* Eyebrow row — right-aligned counter + arrow.
+                          Lives ABOVE the label so the label gets the
+                          full row width. */}
+                      <motion.div
                         variants={metaFadeVariants}
-                        className="shrink-0 inline-flex items-center gap-2 translate-y-[-0.35em]"
+                        className="flex justify-end items-center gap-2 mb-0.5 xs:mb-1"
                       >
                         <span
                           aria-hidden
@@ -291,7 +286,7 @@ export function MobileMenu({ open, onClose }: Props) {
                         {/* Two-arrow swing — same trick as desktop "Join" */}
                         <span
                           aria-hidden
-                          className="relative inline-block w-5 overflow-hidden font-mono text-[15px] leading-none text-[color:var(--color-paper)]"
+                          className="relative inline-block w-4 overflow-hidden font-mono text-[13px] leading-none text-[color:var(--color-faint)] group-hover:text-[color:var(--color-paper)] transition-colors duration-[400ms]"
                         >
                           <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
                             →
@@ -303,7 +298,20 @@ export function MobileMenu({ open, onClose }: Props) {
                             →
                           </span>
                         </span>
-                      </motion.span>
+                      </motion.div>
+
+                      {/* Label — clip-path wipes in from left.
+                          Wrapper masks overflow so descenders don't bleed
+                          past the wipe boundary. Full row width. */}
+                      <span className="relative block overflow-hidden pb-1 -mb-1">
+                        <motion.span
+                          variants={labelWipeVariants}
+                          className="block font-sans text-[2.5rem] xs:text-[3rem] sm:text-[3.5rem] font-medium tracking-[-0.025em] leading-[1] text-[color:var(--color-paper)] transition-[transform,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:text-[color:var(--color-mars)]"
+                          style={{ willChange: "clip-path, transform" }}
+                        >
+                          {item.label}
+                        </motion.span>
+                      </span>
 
                       {/* Hairline — DRAWS in from left during entrance,
                           and BRIGHTENS to mars on hover */}
