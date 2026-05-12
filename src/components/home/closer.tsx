@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Magnetic } from "@/components/motion/magnetic";
@@ -87,6 +88,33 @@ export function Closer() {
             <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>
         </motion.div>
+
+        {/* Team group photo — anchors the CTA with a concrete face of the club */}
+        <motion.figure
+          initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-15% 0px" }}
+          transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mt-20 md:mt-28"
+        >
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] w-full overflow-hidden rounded-2xl md:rounded-3xl ring-1 ring-white/10">
+            <Image
+              src="/team/team_shunya.jpeg"
+              alt="Team Shunya — Mars Rover Students Club"
+              fill
+              sizes="(min-width: 1024px) 90vw, 100vw"
+              priority={false}
+              className="object-cover"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)]/70 via-transparent to-transparent"
+            />
+          </div>
+          <figcaption className="mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]">
+            Team Shunya · IRC 2024
+          </figcaption>
+        </motion.figure>
       </div>
     </section>
   );
