@@ -26,22 +26,25 @@ type Props = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────
-// MOBILE MENU — tight, non-scrolling, choreographed
+// MOBILE MENU — display-scale, edge-to-edge, kinetic
 // ----------------------------------------------------------------------
-// Vertical budget for 360×640 / 375×667 (iPhone SE class):
-//   header ~64px · nav ~280px · footer ~140px · safe-area ~16px ≈ 500px
-// The layout is `h-[100dvh] flex flex-col justify-between` — no overflow,
-// no scroll. Visual rhythm: links sit closer together, footer is one
-// compact strip + denoise mark on its own hairline.
+// Layout target: 360×640 (iPhone SE class) up. Three zones, no scroll:
+//   • header (h-20, logo gets air)
+//   • nav (flex-1, vertically centered — links fill the row, hairline
+//          goes edge-to-edge, label is the visual hero)
+//   • footer (Instagram pill + socials + denoise credit)
 //
-// Animation pass:
-//   Open  → backdrop drops in (260ms) → topbar settles (220ms) → eyebrow,
-//           links cascade (440ms each, 38ms stagger), each with a blur
-//           release + y-translate → footer rises (320ms) → denoise plate
-//           fades last.
-//   Hover → hairline sweep grows from left under each link.
-//   Close → reverse stagger, exits in ~320ms total.
-// All transforms are translate/opacity/filter — no layout thrash.
+// Animation pass — "credits-sequence" feel:
+//   Open  → backdrop fades in (260ms) → topbar settles (320ms) → each link
+//           reveals via clip-path wipe (text wipes left→right over 540ms)
+//           PAIRED with the hairline beneath drawing in sync (origin-left
+//           scale-x 0→1). Cascade with 80ms stagger so the eye reads each
+//           row as a deliberate event. Footer rises last (400ms).
+//   Hover → label nudges 4px right · arrow swings 12px right with a Mars
+//           ghost arrow sliding in from -12px · hairline brightens to
+//           full Mars from line/40. Three coordinated micro-moves.
+//   Close → reverse stagger, exits in ~340ms.
+// All transforms are translate/opacity/clip-path — no layout thrash.
 // ─────────────────────────────────────────────────────────────────────────
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
@@ -55,17 +58,17 @@ const backdropVariants: Variants = {
       duration: 0.26,
       ease: EASE_OUT,
       when: "beforeChildren",
-      staggerChildren: 0.038,
+      staggerChildren: 0.06,
       delayChildren: 0.04,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.28,
+      duration: 0.3,
       ease: EASE_IN,
       when: "afterChildren",
-      staggerChildren: 0.022,
+      staggerChildren: 0.03,
       staggerDirection: -1,
     },
   },
@@ -76,55 +79,82 @@ const topBarVariants: Variants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.32, ease: EASE_OUT },
+    transition: { duration: 0.34, ease: EASE_OUT },
   },
   exit: { opacity: 0, y: -6, transition: { duration: 0.22, ease: EASE_IN } },
-};
-
-const eyebrowVariants: Variants = {
-  initial: { opacity: 0, y: 8 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.36, ease: EASE_OUT },
-  },
-  exit: { opacity: 0, y: 4, transition: { duration: 0.22, ease: EASE_IN } },
 };
 
 const linksListVariants: Variants = {
   initial: {},
   animate: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.08 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
   exit: {
-    transition: { staggerChildren: 0.028, staggerDirection: -1 },
+    transition: { staggerChildren: 0.035, staggerDirection: -1 },
   },
 };
 
-const linkItemVariants: Variants = {
-  initial: { opacity: 0, y: 16, filter: "blur(6px)" },
+// Each link is a single orchestrator variant — its CHILDREN (the label
+// clip-path wipe, the hairline draw, the counter+arrow fade) ride off
+// the same timeline so they enter as one event.
+const linkRowVariants: Variants = {
+  initial: {},
   animate: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.44, ease: EASE_OUT },
+    transition: { duration: 0.54, ease: EASE_OUT },
   },
   exit: {
-    opacity: 0,
-    y: 8,
-    filter: "blur(4px)",
+    transition: { duration: 0.24, ease: EASE_IN },
+  },
+};
+
+const labelWipeVariants: Variants = {
+  initial: { clipPath: "inset(0 100% 0 0)", y: 6 },
+  animate: {
+    clipPath: "inset(0 0% 0 0)",
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT },
+  },
+  exit: {
+    clipPath: "inset(0 100% 0 0)",
+    y: 4,
+    transition: { duration: 0.28, ease: EASE_IN },
+  },
+};
+
+const hairlineDrawVariants: Variants = {
+  initial: { scaleX: 0 },
+  animate: {
+    scaleX: 1,
+    transition: { duration: 0.55, ease: EASE_OUT, delay: 0.08 },
+  },
+  exit: {
+    scaleX: 0,
     transition: { duration: 0.22, ease: EASE_IN },
   },
 };
 
+const metaFadeVariants: Variants = {
+  initial: { opacity: 0, x: 6 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.42, ease: EASE_OUT, delay: 0.18 },
+  },
+  exit: {
+    opacity: 0,
+    x: 4,
+    transition: { duration: 0.18, ease: EASE_IN },
+  },
+};
+
 const footerVariants: Variants = {
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 14 },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: EASE_OUT, delay: 0.08 },
+    transition: { duration: 0.42, ease: EASE_OUT, delay: 0.18 },
   },
-  exit: { opacity: 0, y: 6, transition: { duration: 0.22, ease: EASE_IN } },
+  exit: { opacity: 0, y: 8, transition: { duration: 0.22, ease: EASE_IN } },
 };
 
 export function MobileMenu({ open, onClose }: Props) {
@@ -153,7 +183,7 @@ export function MobileMenu({ open, onClose }: Props) {
           exit="exit"
           className="fixed inset-0 z-[70] md:hidden h-[100dvh] overflow-hidden overscroll-contain bg-[color:var(--color-void)]"
         >
-          {/* Subtle Mars horizon glow — pinned bottom */}
+          {/* Mars horizon glow — pinned bottom */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-0 h-[55vh]"
@@ -173,12 +203,12 @@ export function MobileMenu({ open, onClose }: Props) {
             }}
           />
 
-          {/* Content — three zones, no scroll */}
+          {/* Three-zone column — no scroll */}
           <div className="relative h-[100dvh] flex flex-col">
-            {/* ── Top bar ──────────────────────────────────────────── */}
+            {/* ── Top bar — logo gets full air, h-20 ───────────────── */}
             <motion.div
               variants={topBarVariants}
-              className="container-page flex items-center justify-between h-16 shrink-0"
+              className="container-page flex items-center justify-between h-20 shrink-0"
             >
               <Link
                 href="/"
@@ -189,12 +219,12 @@ export function MobileMenu({ open, onClose }: Props) {
                 <Image
                   src="/brand/mars-logo.png"
                   alt="MaRS"
-                  width={40}
-                  height={40}
-                  className="h-9 w-9 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
+                  width={48}
+                  height={48}
+                  className="h-11 w-11 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
                   style={{
                     filter:
-                      "drop-shadow(0 0 14px color-mix(in oklab, var(--color-mars) 35%, transparent))",
+                      "drop-shadow(0 0 16px color-mix(in oklab, var(--color-mars) 38%, transparent))",
                   }}
                 />
               </Link>
@@ -210,52 +240,78 @@ export function MobileMenu({ open, onClose }: Props) {
               </div>
             </motion.div>
 
-            {/* ── Nav (flex-1, vertically centered) ───────────────── */}
+            {/* ── Nav — display-scale, full-width rows ─────────────── */}
             <nav
               className="container-page flex-1 min-h-0 flex flex-col justify-center"
               aria-label="Primary"
             >
-              <motion.p
-                variants={eyebrowVariants}
-                className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
-              >
-                <span className="text-[color:var(--color-mars)]">—</span> Navigate
-              </motion.p>
-
-              <motion.ul
-                variants={linksListVariants}
-                className="mt-3 xs:mt-4"
-              >
+              <motion.ul variants={linksListVariants}>
                 {items.map((item, i) => (
                   <motion.li
                     key={item.href}
-                    variants={linkItemVariants}
+                    variants={linkRowVariants}
                     className="relative"
                   >
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="group relative flex items-baseline justify-between gap-4 py-1.5 xs:py-2"
+                      className="group relative flex items-baseline justify-between gap-3 py-3 xs:py-3.5"
                     >
-                      <span className="font-sans text-[1.85rem] xs:text-[2.1rem] sm:text-[2.5rem] font-medium tracking-tight leading-[1.05] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-400">
-                        {item.label}
-                      </span>
-                      <span
-                        aria-hidden
-                        className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors translate-y-[-2px]"
-                      >
-                        0{i + 1}
+                      {/* Label — clip-path wipes in from left.
+                          Wrapper masks overflow so descenders don't bleed
+                          past the wipe boundary. */}
+                      <span className="relative inline-block overflow-hidden pb-1 -mb-1">
+                        <motion.span
+                          variants={labelWipeVariants}
+                          className="block font-sans text-[2.75rem] xs:text-[3rem] sm:text-[3.5rem] font-medium tracking-[-0.02em] leading-[1] text-[color:var(--color-paper)] transition-[transform,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:text-[color:var(--color-mars)]"
+                          style={{ willChange: "clip-path, transform" }}
+                        >
+                          {item.label}
+                        </motion.span>
                       </span>
 
-                      {/* Static hairline divider */}
-                      <span
+                      {/* Counter + arrow — fades + slides in slightly
+                          after the label wipe completes */}
+                      <motion.span
+                        variants={metaFadeVariants}
+                        className="shrink-0 inline-flex items-center gap-2 translate-y-[-0.35em]"
+                      >
+                        <span
+                          aria-hidden
+                          className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors duration-400"
+                        >
+                          0{i + 1}
+                        </span>
+                        <span
+                          aria-hidden
+                          className="font-mono text-[10px] text-[color:var(--color-faint)]"
+                        >
+                          /
+                        </span>
+                        {/* Two-arrow swing — same trick as desktop "Join" */}
+                        <span
+                          aria-hidden
+                          className="relative inline-block w-5 overflow-hidden font-mono text-[15px] leading-none text-[color:var(--color-paper)]"
+                        >
+                          <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
+                            →
+                          </span>
+                          <span
+                            aria-hidden
+                            className="absolute left-0 top-0 inline-block -translate-x-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 text-[color:var(--color-mars)]"
+                          >
+                            →
+                          </span>
+                        </span>
+                      </motion.span>
+
+                      {/* Hairline — DRAWS in from left during entrance,
+                          and BRIGHTENS to mars on hover */}
+                      <motion.span
+                        variants={hairlineDrawVariants}
                         aria-hidden
-                        className="absolute inset-x-0 bottom-0 h-px bg-[color:var(--color-line)]/40"
-                      />
-                      {/* Sweep hairline — grows from left on hover/focus */}
-                      <span
-                        aria-hidden
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 bg-[color:var(--color-mars)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left bg-[color:var(--color-line)]/45 group-hover:bg-[color:var(--color-mars)] transition-colors duration-500"
+                        style={{ willChange: "transform" }}
                       />
                     </Link>
                   </motion.li>
@@ -263,12 +319,11 @@ export function MobileMenu({ open, onClose }: Props) {
               </motion.ul>
             </nav>
 
-            {/* ── Footer block — compact, single zone ─────────────── */}
+            {/* ── Footer — Instagram pill + socials + denoise credit ─ */}
             <motion.div
               variants={footerVariants}
               className="container-page shrink-0 pb-[max(env(safe-area-inset-bottom),1rem)]"
             >
-              {/* Primary CTA — Instagram (no duplicate chip below) */}
               <a
                 href={site.social.instagram}
                 target="_blank"
@@ -326,12 +381,12 @@ export function MobileMenu({ open, onClose }: Props) {
               <Link
                 href="/credits"
                 onClick={onClose}
-                className="mt-3 pt-3 border-t border-[color:var(--color-line)]/40 flex items-center justify-between gap-3 text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
+                className="group/credit mt-3 pt-3 border-t border-[color:var(--color-line)]/40 flex items-center justify-between gap-3 text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
               >
                 <span className="font-mono text-[9px] uppercase tracking-[0.22em]">
                   Crafted by
                 </span>
-                <span className="inline-flex items-center opacity-80 group-hover:opacity-100 transition-opacity">
+                <span className="inline-flex items-center opacity-80 group-hover/credit:opacity-100 transition-opacity">
                   <DenoiseMark height={18} variant="plate" />
                 </span>
               </Link>
