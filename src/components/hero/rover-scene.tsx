@@ -179,11 +179,13 @@ function Rover({ progressRef, velocityRef, dragOffsetRef }: Refs) {
     oriented.scale.setScalar(scale);
 
     // After scaling, the bbox centroid is at `center * scale` in the outer
-    // group's parent frame. Shift the outer group so the centroid sits at
-    // the camera's lookAt target (0, 0.15, 0) — keeps the rover framed.
+    // group's parent frame. Shift the outer group so the centroid sits
+    // below the camera's lookAt point — this keeps the rover's tall
+    // manipulator arm from poking into the navbar area at the top of the
+    // viewport when the model rotates.
     oriented.position.set(
       -center.x * scale,
-      -center.y * scale + 0.15,
+      -center.y * scale - 0.15,
       -center.z * scale,
     );
 
