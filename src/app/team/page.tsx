@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
@@ -30,6 +31,16 @@ const grouped = teamSubteams.map((s) => {
 });
 
 const totalMembers = team.length;
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 export default function TeamPage() {
   return (
@@ -183,10 +194,10 @@ export default function TeamPage() {
 
             <RevealStagger
               as="ul"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40"
             >
-              {s.members.map((m) => (
-                <MemberCard key={m.name} member={m} />
+              {s.members.map((m, idx) => (
+                <MemberCard key={m.name} member={m} index={idx} />
               ))}
             </RevealStagger>
           </section>
@@ -196,6 +207,10 @@ export default function TeamPage() {
   );
 }
 
+/* ───────────────────────────────────────────────────────────────────
+   Leadership Card — large portrait + tier numeral watermark.
+   The photo dominates; meta sits below in a strict editorial block.
+   ─────────────────────────────────────────────────────────────────── */
 function LeadershipCard({
   member,
 }: {
@@ -213,106 +228,197 @@ function LeadershipCard({
       as="li"
       className="group relative isolate overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/60 transition-colors"
     >
-      {/* corner accent — animates on hover */}
+      {/* corner accent */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-px left-0 h-px w-12 bg-[color:var(--color-mars)] origin-left scale-x-100 group-hover:scale-x-[5] transition-transform duration-500 ease-out"
-      />
-      {/* radial glow on hover */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 30% 100%, color-mix(in oklab, var(--color-mars) 18%, transparent) 0%, transparent 70%)",
-        }}
+        className="pointer-events-none absolute -top-px left-0 z-20 h-px w-12 bg-[color:var(--color-mars)] origin-left scale-x-100 group-hover:scale-x-[5] transition-transform duration-500 ease-out"
       />
 
-      <div className="p-6 md:p-8 lg:p-10 min-h-[clamp(220px,30vw,320px)] flex flex-col">
-        {/* rank chip */}
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-mars)]">
-          {tierLabel}
-        </p>
+      {/* Portrait — 4:5 aspect, dominant */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-surface)]">
+        {member.image ? (
+          <Image
+            src={`/team/${member.image}-hero.webp`}
+            alt={`${member.name} portrait`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover object-[center_22%] grayscale-[40%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[900ms] ease-out"
+            priority={member.leadershipRank === 1}
+          />
+        ) : (
+          <InitialsTile name={member.name} large />
+        )}
 
-        {/* big rank numeral, watermark style */}
+        {/* gradient overlay — keeps name strip legible on photo edge */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)] via-[color:var(--color-void)]/0 to-transparent"
+        />
+
+        {/* watermark rank numeral */}
         <p
           aria-hidden
-          className="absolute top-6 right-6 md:top-8 md:right-8 font-sans text-5xl md:text-6xl lg:text-7xl font-medium tracking-[-0.04em] text-[color:var(--color-paper)]/[0.05] group-hover:text-[color:var(--color-mars)]/15 transition-colors duration-500"
+          className="pointer-events-none absolute top-4 right-5 md:top-5 md:right-6 font-sans text-7xl md:text-8xl font-medium tracking-[-0.05em] leading-none text-[color:var(--color-paper)]/10 group-hover:text-[color:var(--color-mars)]/35 transition-colors duration-500"
         >
           0{member.leadershipRank}
         </p>
 
-        <h3 className="mt-5 md:mt-7 font-sans text-2xl md:text-3xl lg:text-4xl font-medium tracking-[-0.01em] text-[color:var(--color-paper)] leading-[1.1] text-balance">
+        {/* tier chip — top-left */}
+        <p className="absolute top-5 left-5 md:top-6 md:left-6 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-paper)] mix-blend-difference">
+          {tierLabel}
+        </p>
+      </div>
+
+      {/* Body */}
+      <div className="p-6 md:p-7 lg:p-8">
+        <h3 className="font-sans text-2xl md:text-3xl font-medium tracking-[-0.01em] text-[color:var(--color-paper)] leading-[1.1] text-balance">
           {member.name}
         </h3>
-
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-paper)]">
+        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-mars)]">
           {member.rolePrefix}
         </p>
-
-        <p className="mt-5 md:mt-6 text-sm md:text-[15px] text-[color:var(--color-muted)] leading-relaxed text-pretty">
+        <p className="mt-4 text-sm md:text-[15px] text-[color:var(--color-muted)] leading-relaxed text-pretty">
           {member.blurb}
         </p>
 
-        <div className="mt-auto pt-6 md:pt-8">
-          {member.linkedin && (
-            <a
-              href={member.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
-              aria-label={`${member.name} on LinkedIn`}
+        {member.linkedin && (
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+            aria-label={`${member.name} on LinkedIn`}
+          >
+            <span aria-hidden>LinkedIn</span>
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-1"
             >
-              <span aria-hidden>LinkedIn</span>
-              <span
-                aria-hidden
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              >
-                ↗
-              </span>
-            </a>
-          )}
-        </div>
+              ↗
+            </span>
+          </a>
+        )}
       </div>
     </Reveal>
   );
 }
 
-function MemberCard({ member }: { member: TeamMember }) {
+/* ───────────────────────────────────────────────────────────────────
+   Member Card — portrait dominant, meta slides up on hover (desktop)
+   and stays visible on mobile. Sub-team leads carry a rust ring.
+   ─────────────────────────────────────────────────────────────────── */
+function MemberCard({ member, index }: { member: TeamMember; index: number }) {
   const isLead = member.rolePrefix?.toLowerCase().includes("lead");
   return (
     <Reveal
       as="li"
-      className={`group relative bg-[color:var(--color-void)] p-6 md:p-7 hover:bg-[color:var(--color-surface)] transition-colors ${
-        isLead ? "ring-1 ring-inset ring-[color:var(--color-mars)]/30" : ""
+      className={`group relative isolate overflow-hidden bg-[color:var(--color-void)] hover:bg-[color:var(--color-surface)] transition-colors ${
+        isLead ? "ring-1 ring-inset ring-[color:var(--color-mars)]/40" : ""
       }`}
     >
-      {member.rolePrefix && (
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
-          {member.rolePrefix}
-        </p>
-      )}
-      <h3
-        className={`mt-3 font-sans font-medium tracking-tight text-[color:var(--color-paper)] leading-tight ${
-          member.rolePrefix ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
-        }`}
-      >
-        {member.name}
-      </h3>
-      <p className="mt-3 text-sm text-[color:var(--color-muted)] leading-snug text-pretty">
-        {member.blurb}
-      </p>
-      {member.linkedin && (
-        <a
-          href={member.linkedin}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="mt-4 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
-          aria-label={`${member.name} on LinkedIn`}
+      {/* Portrait — 4:5 aspect, edge-to-edge */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-surface)]">
+        {member.image ? (
+          <Image
+            src={`/team/${member.image}-grid.webp`}
+            alt={`${member.name} portrait`}
+            fill
+            sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 50vw"
+            className="object-cover object-[center_22%] grayscale-[55%] group-hover:grayscale-0 group-hover:scale-[1.05] transition-all duration-[700ms] ease-out"
+            loading={index < 6 ? "eager" : "lazy"}
+          />
+        ) : (
+          <InitialsTile name={member.name} />
+        )}
+
+        {/* permanent edge vignette for legibility of overlaid index */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)]/85 via-[color:var(--color-void)]/0 to-[color:var(--color-void)]/30"
+        />
+
+        {/* mono index in top-right — gives the grid an editorial feel */}
+        <span
+          aria-hidden
+          className="absolute top-3 right-3 md:top-4 md:right-4 font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]/60"
         >
-          LinkedIn ↗
-        </a>
-      )}
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        {/* role pill on photo for leads */}
+        {isLead && member.rolePrefix && (
+          <span className="absolute top-3 left-3 md:top-4 md:left-4 px-2 py-1 bg-[color:var(--color-mars)]/90 backdrop-blur-sm font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]">
+            {member.rolePrefix}
+          </span>
+        )}
+
+        {/* name strip — anchored bottom, name always visible, blurb slides on hover */}
+        <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
+          <h3 className="font-sans text-base md:text-lg font-medium tracking-tight text-[color:var(--color-paper)] leading-tight">
+            {member.name}
+          </h3>
+          {!isLead && member.rolePrefix && (
+            <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+              {member.rolePrefix}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Body — blurb + linkedin */}
+      <div className="p-4 md:p-5">
+        <p className="text-xs md:text-sm text-[color:var(--color-muted)] leading-snug text-pretty min-h-[2.5em]">
+          {member.blurb}
+        </p>
+        {member.linkedin && (
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-3 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
+            aria-label={`${member.name} on LinkedIn`}
+          >
+            LinkedIn ↗
+          </a>
+        )}
+      </div>
     </Reveal>
+  );
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   Initials tile — typographic fallback when no photo exists.
+   Mars-red serif monogram on a subtly noised gradient backdrop.
+   ─────────────────────────────────────────────────────────────────── */
+function InitialsTile({ name, large }: { name: string; large?: boolean }) {
+  const i = initials(name);
+  return (
+    <div
+      aria-hidden
+      className="absolute inset-0 flex items-center justify-center"
+      style={{
+        background:
+          "radial-gradient(ellipse 110% 80% at 50% 30%, color-mix(in oklab, var(--color-mars) 12%, transparent) 0%, transparent 70%), linear-gradient(180deg, var(--color-surface) 0%, var(--color-void) 100%)",
+      }}
+    >
+      {/* faint grid hatch — gives the empty tile texture */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, color-mix(in oklab, var(--color-paper) 60%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--color-paper) 60%, transparent) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <span
+        className={`relative font-serif italic text-[color:var(--color-mars)]/75 select-none ${
+          large ? "text-[14vw] md:text-[8vw] lg:text-[6vw]" : "text-[16vw] sm:text-[10vw] md:text-[7vw] lg:text-[5vw]"
+        }`}
+        style={{ lineHeight: 1 }}
+      >
+        {i}
+      </span>
+    </div>
   );
 }
