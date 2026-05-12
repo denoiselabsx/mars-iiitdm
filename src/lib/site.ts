@@ -15,7 +15,8 @@ export const site = {
   },
   agency: {
     name: "Denoise Labs",
-    url: "https://denoiselabs.in",
+    url: "https://denoiselabs.com",
+    domain: "denoiselabs.com",
     email: "hello@denoiselabs.com",
   },
 } as const;

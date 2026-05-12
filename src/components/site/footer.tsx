@@ -32,9 +32,9 @@ export function Footer() {
               Partners & Sponsors
             </p>
             <h2 className="mt-5 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
-              Building rovers is{" "}
+              None of this exists{" "}
               <span className="font-serif italic text-[color:var(--color-mars)]">
-                expensive
+                without them
               </span>
               .
             </h2>

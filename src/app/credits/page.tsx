@@ -174,9 +174,26 @@ export default function CreditsPage() {
               04 — Studio
             </p>
             <h2 className="mt-4">
-              <DenoiseMark height={32} />
-              <span className="sr-only">Denoise Labs</span>
+              <a
+                href={site.agency.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Denoise Labs"
+                className="inline-block transition-opacity hover:opacity-80"
+              >
+                <DenoiseMark height={32} />
+                <span className="sr-only">Denoise Labs</span>
+              </a>
             </h2>
+            <a
+              href={site.agency.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] hover:text-[color:var(--color-signal)] transition-colors"
+            >
+              {site.agency.domain}
+              <span aria-hidden>↗</span>
+            </a>
           </Reveal>
 
           <Reveal className="md:col-span-8" delay={0.1}>
@@ -194,7 +211,7 @@ export default function CreditsPage() {
             <div className="mt-10 flex flex-wrap items-center gap-6">
               <Magnetic>
                 <a
-                  href={`mailto:${site.email.replace("mars@", "hello@denoiselabs.").replace("iiitdm.ac.in", "in")}`}
+                  href={`mailto:${site.agency.email}`}
                   className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-6 py-3 text-sm font-medium transition-colors"
                 >
                   Start a conversation
@@ -207,7 +224,7 @@ export default function CreditsPage() {
                 rel="noreferrer noopener"
                 className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
               >
-                Visit denoiselabs.in
+                Visit {site.agency.domain}
                 <span aria-hidden className="transition-transform group-hover:translate-x-0.5">↗</span>
               </a>
             </div>

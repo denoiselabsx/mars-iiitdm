@@ -173,7 +173,7 @@ export default function RootLayout({
    IIITDM Kancheepuram
 
    Crafted by Denoise Labs
-   denoiselabs.in
+   denoiselabs.com
 
    Four students who wanted to ship the best
    engineering-club site on the internet.

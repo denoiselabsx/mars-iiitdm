@@ -150,13 +150,13 @@ export const rovers: Rover[] = [
     name: "Rover Brick",
     kind: "rover",
     status: "active",
-    year: 2024,
-    forEvent: "IRC 2024",
+    year: 2025,
+    forEvent: "IRC 2025",
     blurb:
-      "Team Shunya's IRC 2024 build — a 4-wheel-drive Mars rover engineered for terrain traversal and manipulation tasks. 5-DOF manipulator powered by linear actuators for precise movement and object handling during mission operations. A reliable, robust platform built for autonomous exploration and competition-based rover tasks.",
-    highlight: "IRC 2024 — 4WD platform, 5-DOF linear-actuator arm.",
+      "Team Shunya's IRC 2025 build — a 4-wheel-drive Mars rover engineered for terrain traversal and manipulation tasks. 5-DOF manipulator powered by linear actuators for precise movement and object handling during mission operations. A reliable, robust platform built for autonomous exploration and competition-based rover tasks.",
+    highlight: "IRC 2025 — 4WD platform, 5-DOF linear-actuator arm.",
     photos: [
-      { src: "/rovers/brick_1.jpeg", width: 2000, height: 1500, caption: "Rover Brick — IRC 2024 chassis on the workshop bench." },
+      { src: "/rovers/brick_1.jpeg", width: 2000, height: 1500, caption: "Rover Brick — IRC 2025 chassis on the workshop bench." },
       { src: "/rovers/brick_2.jpeg", width: 1500, height: 2000, caption: "Linear-actuator manipulator, posed for inspection." },
     ],
   },
