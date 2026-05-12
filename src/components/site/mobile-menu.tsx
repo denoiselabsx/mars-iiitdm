@@ -278,7 +278,7 @@ export function MobileMenu({ open, onClose }: Props) {
                       >
                         <span
                           aria-hidden
-                          className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors duration-400"
+                          className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] group-hover:text-[color:var(--color-mars)] transition-colors duration-[400ms]"
                         >
                           0{i + 1}
                         </span>
