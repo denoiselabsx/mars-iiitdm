@@ -377,13 +377,6 @@ function DesktopHeroText() {
             <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>
         </Magnetic>
-        <Link
-          href="/join"
-          className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
-        >
-          Join the team
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-        </Link>
       </motion.div>
     </>
   );
@@ -415,12 +408,6 @@ function MobileHeroText() {
         >
           See our rovers
           <span aria-hidden>→</span>
-        </Link>
-        <Link
-          href="/join"
-          className="inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
-        >
-          Join →
         </Link>
       </motion.div>
     </>

@@ -107,7 +107,6 @@ export function Footer() {
               { href: "/gallery", label: "Gallery" },
               { href: "/sponsors", label: "Sponsors" },
               { href: "/press", label: "Press" },
-              { href: "/join", label: "Join" },
             ].map((l) => (
               <li key={l.href}>
                 <Link

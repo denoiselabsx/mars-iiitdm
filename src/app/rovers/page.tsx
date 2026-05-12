@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Reveal, RevealStagger } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { rovers, process } from "@/lib/data";
+import { site } from "@/lib/site";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/rovers", {
@@ -351,20 +352,26 @@ export default function RoversPage() {
         />
         <div className="container-page">
           <h2 className="max-w-3xl text-balance font-sans text-4xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1]">
-            Helped build one?{" "}
+            Want to{" "}
             <span className="font-serif italic text-[color:var(--color-mars)]">
-              Or want to.
+              follow along?
             </span>
           </h2>
+          <p className="mt-6 max-w-xl text-base md:text-lg leading-relaxed text-[color:var(--color-muted)]">
+            Recruitment for the current cycle is closed. Next intake is March
+            2027 — follow on Instagram for the call.
+          </p>
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Magnetic>
-              <Link
-                href="/join"
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
                 className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-7 py-3.5 text-sm font-medium transition-colors"
               >
-                Apply to MaRS
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-              </Link>
+                Follow on Instagram
+                <span aria-hidden className="transition-transform group-hover:translate-x-1">↗</span>
+              </a>
             </Magnetic>
             <Link
               href="/competitions"

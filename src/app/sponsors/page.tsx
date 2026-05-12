@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
@@ -301,13 +300,6 @@ export default function SponsorsPage() {
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
               </a>
             </Magnetic>
-            <Link
-              href="/join"
-              className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
-            >
-              See recruitment for students
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-            </Link>
           </div>
 
           <p className="mt-12 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-faint)]">

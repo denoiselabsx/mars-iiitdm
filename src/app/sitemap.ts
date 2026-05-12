@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/team", priority: 0.8, freq: "monthly" },
     { path: "/alumni", priority: 0.7, freq: "monthly" },
     { path: "/sponsors", priority: 0.8, freq: "monthly" },
-    { path: "/join", priority: 0.8, freq: "monthly" },
+    { path: "/join", priority: 0.3, freq: "yearly" },
     { path: "/gallery", priority: 0.6, freq: "weekly" },
     { path: "/press", priority: 0.6, freq: "monthly" },
     { path: "/credits", priority: 0.3, freq: "yearly" },

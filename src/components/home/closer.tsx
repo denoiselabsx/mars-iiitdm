@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Magnetic } from "@/components/motion/magnetic";
+import { site } from "@/lib/site";
 
 export function Closer() {
   return (
@@ -27,8 +28,8 @@ export function Closer() {
             transition={{ duration: 0.6 }}
             className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-mars)]" />
-            Recruitment · July 2026
+            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-faint)]" />
+            Recruitment closed · Next intake March 2027
           </motion.div>
         </div>
 
@@ -68,13 +69,15 @@ export function Closer() {
           className="mt-14 md:mt-20 flex flex-wrap items-center gap-x-8 gap-y-4"
         >
           <Magnetic>
-            <Link
-              href="/join"
+            <a
+              href={site.social.instagram}
+              target="_blank"
+              rel="noreferrer noopener"
               className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-paper)] hover:bg-[color:var(--color-signal)] text-[color:var(--color-void)] px-8 py-4 text-sm font-medium transition-colors"
             >
-              Apply to MaRS
-              <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-            </Link>
+              Follow on Instagram
+              <span aria-hidden className="transition-transform group-hover:translate-x-1">↗</span>
+            </a>
           </Magnetic>
           <Link
             href="/team"

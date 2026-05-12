@@ -284,10 +284,10 @@ export default function CompetitionsPage() {
               </Link>
             </Magnetic>
             <Link
-              href="/join"
+              href="/team"
               className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
             >
-              Help build the next one
+              Meet the team behind it
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
             </Link>
           </div>

@@ -1,15 +1,14 @@
-import Link from "next/link";
-
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Magnetic } from "@/components/motion/magnetic";
 import { org } from "@/lib/data";
+import { site } from "@/lib/site";
 import { routeMeta } from "@/lib/seo";
 
 export const metadata = routeMeta("/join", {
   title: "Join",
   description:
-    "Apply to MaRS as a first-year IIITDM engineer. Recruitment opens July 2026 — Open House is the entry point.",
+    "Recruitment for the current cycle is closed. The next MaRS intake is in March 2027 — follow on Instagram for the call.",
 });
 
 export default function JoinPage() {
@@ -28,27 +27,27 @@ export default function JoinPage() {
         eyebrow="Join"
         title={
           <>
-            Build something that{" "}
+            Recruitment is{" "}
             <span className="font-serif italic text-[color:var(--color-mars)]">
-              moves
+              closed
             </span>
             .
           </>
         }
-        lead="MaRS recruits during first-year orientation week. The Open House is our primary entry point — drop in, see the rovers, talk to the leads, and find which sub-team fits how you want to engineer."
+        lead="The March 2026 intake is complete. MaRS recruits once a year — the next call goes out in March 2027 on Instagram."
       />
 
-      {/* ── Recruitment intro ────────────────────────────────────────── */}
+      {/* ── Status + next steps ──────────────────────────────────────── */}
       <section className="container-page pb-24 md:pb-32 grid md:grid-cols-12 gap-8 md:gap-12">
         <div className="md:col-span-5">
           <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
-            For students
+            Status
           </p>
           <h2 className="mt-6 text-balance font-sans text-4xl md:text-5xl font-medium tracking-tight leading-[1.05]">
-            Recruitment opens{" "}
+            Next intake{" "}
             <span className="font-serif italic text-[color:var(--color-mars)]">
-              July 2026
+              March 2027
             </span>
             .
           </h2>
@@ -60,39 +59,39 @@ export default function JoinPage() {
             <span className="text-[color:var(--color-paper)]">
               {org.memberCount} engineers
             </span>{" "}
-            across mechanical, electronics, and software. No prior experience
-            required — only curiosity and the willingness to ship hardware that
-            actually moves.
+            across mechanical, electronics, and software — and the team for this
+            year is set. Thanks to everyone who turned up at Open House.
           </p>
           <p>
-            Open House is where it starts. Follow MaRS on Instagram for dates,
-            requirements, and how to prepare.
+            We open recruitment once a year. The next call goes out in March
+            2027. Follow MaRS on Instagram so you don&rsquo;t miss it, or drop us
+            a line if you want to chat in the meantime.
           </p>
 
           <div className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             <Magnetic>
               <a
-                href={`mailto:${org.emailGeneral}?subject=MaRS%20%C2%B7%20Recruitment%20query`}
+                href={site.social.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
                 className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] text-white px-6 py-3 text-sm font-medium transition-colors"
               >
-                Email the team
-                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+                Follow on Instagram
+                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">↗</span>
               </a>
             </Magnetic>
             <a
-              href="https://instagram.com/mars_iiitdm"
-              target="_blank"
-              rel="noreferrer noopener"
+              href={`mailto:${org.emailGeneral}?subject=MaRS%20%C2%B7%20Hello`}
               className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-signal)] transition-colors"
             >
-              Follow recruitment updates on Instagram
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">↗</span>
+              Email the team
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
             </a>
           </div>
         </div>
       </section>
 
-      {/* ── Sub-teams to choose from ─────────────────────────────────── */}
+      {/* ── Sub-teams (informational) ────────────────────────────────── */}
       <section className="relative py-24 md:py-32 border-t border-[color:var(--color-line)]/40">
         <div className="container-page">
           <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
@@ -100,12 +99,15 @@ export default function JoinPage() {
             Sub-teams
           </p>
           <h2 className="mt-6 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
-            Pick where you want to{" "}
+            How MaRS is{" "}
             <span className="font-serif italic text-[color:var(--color-mars)]">
-              specialise
+              built
             </span>
             .
           </h2>
+          <p className="mt-6 max-w-2xl text-base md:text-lg leading-relaxed text-[color:var(--color-muted)]">
+            For when recruitment reopens — here&rsquo;s the lay of the land.
+          </p>
 
           <ul className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-line)]/40 border border-[color:var(--color-line)]/40">
             {[
@@ -142,34 +144,6 @@ export default function JoinPage() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      {/* ── Pointer to /sponsors ─────────────────────────────────────── */}
-      <section className="container-page py-24 md:py-32">
-        <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-end">
-          <div className="md:col-span-7">
-            <div className="h-px w-16 bg-[color:var(--color-mars)] mb-6" />
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
-              For sponsors
-            </p>
-            <h2 className="mt-6 text-balance font-sans text-3xl md:text-5xl font-medium tracking-tight leading-[1.05]">
-              Looking to partner?
-            </h2>
-            <p className="mt-6 max-w-xl text-base md:text-lg leading-relaxed text-[color:var(--color-muted)]">
-              Tiers, ways to support, and how to reach the team — all on the
-              sponsors page.
-            </p>
-          </div>
-          <div className="md:col-span-5 md:pl-8">
-            <Link
-              href="/sponsors"
-              className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] text-white px-7 py-3.5 text-sm font-medium transition-colors"
-            >
-              See sponsorship details
-              <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-          </div>
         </div>
       </section>
     </>

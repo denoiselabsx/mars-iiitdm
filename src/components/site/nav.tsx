@@ -11,7 +11,7 @@ import { nav as primaryNav, site } from "@/lib/site";
 import { MobileMenu } from "./mobile-menu";
 import { ThemeToggle } from "./theme-toggle";
 
-const visibleNav = primaryNav.filter((n) => n.href !== "/join" && n.href !== "/");
+const visibleNav = primaryNav.filter((n) => n.href !== "/");
 
 // ─────────────────────────────────────────────────────────────────────────
 // FLOATING NAV — no-reflow technique
@@ -132,35 +132,9 @@ export function Nav() {
               })}
             </nav>
 
-            {/* Right: theme toggle + Join CTA + mobile toggle */}
+            {/* Right: theme toggle + mobile toggle */}
             <div className="flex items-center gap-3 sm:gap-5 shrink-0">
               <ThemeToggle className="hidden sm:inline-flex" />
-
-              <Link
-                href="/join"
-                className="group hidden sm:inline-flex items-baseline gap-2 py-1 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
-              >
-                <span className="font-serif italic text-[15px] leading-none">
-                  Join
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] leading-none">
-                  MaRS
-                </span>
-                <span
-                  aria-hidden
-                  className="relative inline-block w-5 overflow-hidden font-mono text-[13px] leading-none translate-y-[1px]"
-                >
-                  <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
-                    →
-                  </span>
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-0 inline-block -translate-x-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 text-[color:var(--color-mars)]"
-                  >
-                    →
-                  </span>
-                </span>
-              </Link>
 
               <button
                 aria-label="Open menu"

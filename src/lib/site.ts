@@ -26,7 +26,6 @@ export const nav = [
   { href: "/team", label: "Team" },
   { href: "/alumni", label: "Alumni" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/join", label: "Join" },
 ] as const;
 
 /** Secondary routes — reachable via footer, mobile menu, direct URL. Not in primary nav. */

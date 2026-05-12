@@ -36,12 +36,6 @@ export function HeroFallback() {
             See our rovers
             <span aria-hidden>→</span>
           </Link>
-          <Link
-            href="/join"
-            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] px-6 py-3 text-sm font-medium text-[color:var(--color-paper)] transition-colors hover:border-[color:var(--color-paper)]"
-          >
-            Join the team
-          </Link>
         </div>
       </div>
     </section>

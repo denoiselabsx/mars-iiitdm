@@ -208,19 +208,22 @@ export function MobileMenu({ open, onClose }: Props) {
               variants={itemVariants}
               className="container-page pb-[max(env(safe-area-inset-bottom),2rem)]"
             >
-              <Link
-                href="/join"
-                onClick={onClose}
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
                 className="group flex items-center justify-between w-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-6 py-4 text-white transition-colors rounded-full"
               >
-                <span className="font-sans text-base font-medium">Join MaRS</span>
+                <span className="font-sans text-base font-medium">
+                  Follow on Instagram
+                </span>
                 <span
                   aria-hidden
                   className="transition-transform group-hover:translate-x-1"
                 >
-                  →
+                  ↗
                 </span>
-              </Link>
+              </a>
 
               <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
