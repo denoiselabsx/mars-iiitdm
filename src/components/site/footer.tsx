@@ -188,7 +188,7 @@ export function Footer() {
                 rel="noreferrer noopener"
                 className="text-sm text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] transition-colors"
               >
-                LinkedIn · mars-research-station
+                LinkedIn · mars-rover-students-club-iiitdm-kancheepuram
               </a>
             </li>
             <li>

@@ -10,7 +10,7 @@ export const site = {
   address: "B5, PEMS Block, IIITDM Kancheepuram, Vandalur-Kelambakkam Road, Chennai – 600127, India",
   social: {
     instagram: "https://instagram.com/mars_iiitdm",
-    linkedin: "https://linkedin.com/company/mars-research-station",
+    linkedin: "https://www.linkedin.com/company/mars-rover-students-club-iiitdm-kancheepuram/",
     youtube: "https://www.youtube.com/@mars_iiitdm",
   },
   agency: {
