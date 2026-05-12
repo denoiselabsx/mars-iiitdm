@@ -26,17 +26,22 @@ type Props = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────
-// MOBILE MENU — variants pattern
+// MOBILE MENU — tight, non-scrolling, choreographed
 // ----------------------------------------------------------------------
-// Both open AND close are choreographed. AnimatePresence runs `exit`
-// variants in reverse-stagger, so the last-in-first-out feel is automatic.
+// Vertical budget for 360×640 / 375×667 (iPhone SE class):
+//   header ~64px · nav ~280px · footer ~140px · safe-area ~16px ≈ 500px
+// The layout is `h-[100dvh] flex flex-col justify-between` — no overflow,
+// no scroll. Visual rhythm: links sit closer together, footer is one
+// compact strip + denoise mark on its own hairline.
 //
-//   Open  : backdrop fade-up (200ms) → topbar (100ms in) → links cascade
-//           (each 320ms in, 40ms stagger) → footer (200ms in)
-//   Close : footer fades out → links cascade out (reverse) → topbar →
-//           backdrop. Total ≈ 380ms.
-//
-// No clipPath, no scale tricks — pure opacity + y. Reads as premium.
+// Animation pass:
+//   Open  → backdrop drops in (260ms) → topbar settles (220ms) → eyebrow,
+//           links cascade (440ms each, 38ms stagger), each with a blur
+//           release + y-translate → footer rises (320ms) → denoise plate
+//           fades last.
+//   Hover → hairline sweep grows from left under each link.
+//   Close → reverse stagger, exits in ~320ms total.
+// All transforms are translate/opacity/filter — no layout thrash.
 // ─────────────────────────────────────────────────────────────────────────
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
@@ -47,45 +52,79 @@ const backdropVariants: Variants = {
   animate: {
     opacity: 1,
     transition: {
-      duration: 0.35,
+      duration: 0.26,
       ease: EASE_OUT,
       when: "beforeChildren",
-      staggerChildren: 0.04,
-      delayChildren: 0.05,
+      staggerChildren: 0.038,
+      delayChildren: 0.04,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.28,
       ease: EASE_IN,
       when: "afterChildren",
-      staggerChildren: 0.025,
+      staggerChildren: 0.022,
       staggerDirection: -1,
     },
   },
 };
 
-const itemVariants: Variants = {
-  initial: { opacity: 0, y: 18, filter: "blur(6px)" },
+const topBarVariants: Variants = {
+  initial: { opacity: 0, y: -8 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.32, ease: EASE_OUT },
+  },
+  exit: { opacity: 0, y: -6, transition: { duration: 0.22, ease: EASE_IN } },
+};
+
+const eyebrowVariants: Variants = {
+  initial: { opacity: 0, y: 8 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.36, ease: EASE_OUT },
+  },
+  exit: { opacity: 0, y: 4, transition: { duration: 0.22, ease: EASE_IN } },
+};
+
+const linksListVariants: Variants = {
+  initial: {},
+  animate: {
+    transition: { staggerChildren: 0.05, delayChildren: 0.08 },
+  },
+  exit: {
+    transition: { staggerChildren: 0.028, staggerDirection: -1 },
+  },
+};
+
+const linkItemVariants: Variants = {
+  initial: { opacity: 0, y: 16, filter: "blur(6px)" },
   animate: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.5, ease: EASE_OUT },
+    transition: { duration: 0.44, ease: EASE_OUT },
   },
   exit: {
     opacity: 0,
-    y: 12,
+    y: 8,
     filter: "blur(4px)",
-    transition: { duration: 0.25, ease: EASE_IN },
+    transition: { duration: 0.22, ease: EASE_IN },
   },
 };
 
-const topBarVariants: Variants = {
-  initial: { opacity: 0, y: -8 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE_OUT } },
-  exit: { opacity: 0, y: -6, transition: { duration: 0.2, ease: EASE_IN } },
+const footerVariants: Variants = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: EASE_OUT, delay: 0.08 },
+  },
+  exit: { opacity: 0, y: 6, transition: { duration: 0.22, ease: EASE_IN } },
 };
 
 export function MobileMenu({ open, onClose }: Props) {
@@ -112,24 +151,34 @@ export function MobileMenu({ open, onClose }: Props) {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 z-[70] md:hidden h-[100dvh] overflow-y-auto overscroll-contain bg-[color:var(--color-void)]"
+          className="fixed inset-0 z-[70] md:hidden h-[100dvh] overflow-hidden overscroll-contain bg-[color:var(--color-void)]"
         >
-          {/* Subtle Mars horizon glow */}
+          {/* Subtle Mars horizon glow — pinned bottom */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[50vh]"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[55vh]"
             style={{
               background:
-                "radial-gradient(ellipse 100% 70% at 50% 100%, color-mix(in oklab, var(--color-mars) 22%, transparent) 0%, transparent 70%)",
+                "radial-gradient(ellipse 110% 75% at 50% 100%, color-mix(in oklab, var(--color-mars) 24%, transparent) 0%, transparent 70%)",
             }}
           />
 
-          {/* Content */}
-          <div className="relative min-h-[100dvh] flex flex-col">
-            {/* Top bar */}
+          {/* Hairline accent at the very top of the panel */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-px"
+            style={{
+              background:
+                "linear-gradient(to right, transparent 0%, color-mix(in oklab, var(--color-mars) 55%, transparent) 18%, color-mix(in oklab, var(--color-mars) 55%, transparent) 82%, transparent 100%)",
+            }}
+          />
+
+          {/* Content — three zones, no scroll */}
+          <div className="relative h-[100dvh] flex flex-col">
+            {/* ── Top bar ──────────────────────────────────────────── */}
             <motion.div
               variants={topBarVariants}
-              className="container-page flex items-center justify-between h-20"
+              className="container-page flex items-center justify-between h-16 shrink-0"
             >
               <Link
                 href="/"
@@ -140,46 +189,55 @@ export function MobileMenu({ open, onClose }: Props) {
                 <Image
                   src="/brand/mars-logo.png"
                   alt="MaRS"
-                  width={44}
-                  height={44}
-                  className="h-10 w-10 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
+                  width={40}
+                  height={40}
+                  className="h-9 w-9 object-contain transition-transform duration-700 group-hover:rotate-[14deg]"
                   style={{
                     filter:
                       "drop-shadow(0 0 14px color-mix(in oklab, var(--color-mars) 35%, transparent))",
                   }}
                 />
               </Link>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <ThemeToggle />
                 <button
                   onClick={onClose}
                   aria-label="Close menu"
-                  className="p-2 -m-2 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
+                  className="p-2 -m-1 text-[color:var(--color-paper)] hover:text-[color:var(--color-mars)] transition-colors"
                 >
                   <X size={22} strokeWidth={1.5} />
                 </button>
               </div>
             </motion.div>
 
-            {/* Eyebrow */}
-            <motion.p
-              variants={itemVariants}
-              className="container-page mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
+            {/* ── Nav (flex-1, vertically centered) ───────────────── */}
+            <nav
+              className="container-page flex-1 min-h-0 flex flex-col justify-center"
+              aria-label="Primary"
             >
-              <span className="text-[color:var(--color-mars)]">—</span> Navigate
-            </motion.p>
+              <motion.p
+                variants={eyebrowVariants}
+                className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]"
+              >
+                <span className="text-[color:var(--color-mars)]">—</span> Navigate
+              </motion.p>
 
-            {/* Links — big editorial */}
-            <nav className="container-page flex-1 flex flex-col justify-center py-6">
-              <ul className="space-y-0.5">
+              <motion.ul
+                variants={linksListVariants}
+                className="mt-3 xs:mt-4"
+              >
                 {items.map((item, i) => (
-                  <motion.li key={item.href} variants={itemVariants}>
+                  <motion.li
+                    key={item.href}
+                    variants={linkItemVariants}
+                    className="relative"
+                  >
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="group flex items-baseline justify-between gap-4 py-2.5 border-b border-[color:var(--color-line)]/40"
+                      className="group relative flex items-baseline justify-between gap-4 py-1.5 xs:py-2"
                     >
-                      <span className="font-sans text-[2.25rem] sm:text-5xl font-medium tracking-tight leading-[1] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors">
+                      <span className="font-sans text-[1.85rem] xs:text-[2.1rem] sm:text-[2.5rem] font-medium tracking-tight leading-[1.05] text-[color:var(--color-paper)] group-hover:text-[color:var(--color-mars)] transition-colors duration-400">
                         {item.label}
                       </span>
                       <span
@@ -188,53 +246,57 @@ export function MobileMenu({ open, onClose }: Props) {
                       >
                         0{i + 1}
                       </span>
+
+                      {/* Static hairline divider */}
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 bottom-0 h-px bg-[color:var(--color-line)]/40"
+                      />
+                      {/* Sweep hairline — grows from left on hover/focus */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 bg-[color:var(--color-mars)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                      />
                     </Link>
                   </motion.li>
                 ))}
-              </ul>
-
-              {/* Italic accent line */}
-              <motion.p
-                variants={itemVariants}
-                className="mt-8 max-w-xs font-serif italic text-xl sm:text-2xl leading-snug text-[color:var(--color-muted)]"
-              >
-                Exploration begins{" "}
-                <span className="text-[color:var(--color-mars)]">here</span>.
-              </motion.p>
+              </motion.ul>
             </nav>
 
-            {/* Footer block — Join CTA + socials */}
+            {/* ── Footer block — compact, single zone ─────────────── */}
             <motion.div
-              variants={itemVariants}
-              className="container-page pb-[max(env(safe-area-inset-bottom),2rem)]"
+              variants={footerVariants}
+              className="container-page shrink-0 pb-[max(env(safe-area-inset-bottom),1rem)]"
             >
+              {/* Primary CTA — Instagram (no duplicate chip below) */}
               <a
                 href={site.social.instagram}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group flex items-center justify-between w-full bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-6 py-4 text-white transition-colors rounded-full"
+                className="group relative flex items-center justify-between w-full overflow-hidden bg-[color:var(--color-mars)] hover:bg-[color:var(--color-mars-glow)] px-5 py-3 text-white transition-colors rounded-full"
               >
-                <span className="font-sans text-base font-medium">
+                <span className="font-sans text-[15px] font-medium">
                   Follow on Instagram
                 </span>
                 <span
                   aria-hidden
-                  className="transition-transform group-hover:translate-x-1"
+                  className="relative inline-block w-5 overflow-hidden font-mono text-[15px] leading-none"
                 >
-                  ↗
+                  <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
+                    ↗
+                  </span>
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 inline-block -translate-x-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0"
+                  >
+                    ↗
+                  </span>
                 </span>
               </a>
 
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                  <a
-                    href={site.social.instagram}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-muted)] hover:text-[color:var(--color-mars)] transition-colors"
-                  >
-                    Instagram
-                  </a>
+              {/* Socials + email on one tight row */}
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-4">
                   <a
                     href={site.social.linkedin}
                     target="_blank"
@@ -254,23 +316,23 @@ export function MobileMenu({ open, onClose }: Props) {
                 </div>
                 <a
                   href={`mailto:${site.email}`}
-                  className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] hover:text-[color:var(--color-mars)] transition-colors"
+                  className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] hover:text-[color:var(--color-mars)] transition-colors truncate"
                 >
                   {site.email}
                 </a>
               </div>
 
-              {/* Crafted-by: Denoise Labs */}
+              {/* Crafted-by — Denoise Labs */}
               <Link
                 href="/credits"
                 onClick={onClose}
-                className="mt-6 pt-5 border-t border-[color:var(--color-line)]/40 flex items-center justify-between gap-3 text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
+                className="mt-3 pt-3 border-t border-[color:var(--color-line)]/40 flex items-center justify-between gap-3 text-[color:var(--color-faint)] hover:text-[color:var(--color-paper)] transition-colors"
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em]">
                   Crafted by
                 </span>
-                <span className="inline-flex items-center gap-2 opacity-80">
-                  <DenoiseMark height={20} variant="plate" />
+                <span className="inline-flex items-center opacity-80 group-hover:opacity-100 transition-opacity">
+                  <DenoiseMark height={18} variant="plate" />
                 </span>
               </Link>
             </motion.div>

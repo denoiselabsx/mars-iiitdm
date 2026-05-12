@@ -147,6 +147,10 @@ html[data-theme="light"] [aria-hidden=""][style*="radial-gradient"] {
   --ease-out-quart: var(--ease-out-quart);
   --ease-out-expo: var(--ease-out-expo);
   --ease-in-out-quart: var(--ease-in-out-quart);
+
+  /* Custom breakpoint for narrow phones (iPhone SE et al.). Tailwind's
+     default sm: starts at 640px — we need a tier below that. */
+  --breakpoint-xs: 25rem; /* 400px */
 }
 
 /* ─── Base ────────────────────────────────────────────────────────────────── */
