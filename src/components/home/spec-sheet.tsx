@@ -61,7 +61,7 @@ const lineup: RoverCard[] = [
     name: "Lakshya",
     year: "2025",
     event: "ERC 2025",
-    status: "active",
+    status: "legacy",
     signature: "5-DOF arm · science cache",
   },
   {
@@ -69,7 +69,7 @@ const lineup: RoverCard[] = [
     name: "Rover Brick",
     year: "2025",
     event: "IRC 2025",
-    status: "active",
+    status: "legacy",
     signature: "4WD · linear-actuator arm",
   },
   {

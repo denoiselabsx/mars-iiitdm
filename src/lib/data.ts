@@ -128,7 +128,7 @@ export const rovers: Rover[] = [
       width: 1280,
       height: 720,
       playbackRate: 2,
-      caption: "Vetri — underbelly scooping mechanism on the SHAASTRA arena.",
+      caption: "Vetri — underbelly scooping mechanism in action.",
     },
   },
   {
