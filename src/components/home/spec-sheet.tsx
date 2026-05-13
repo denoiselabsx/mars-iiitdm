@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useAnimationFrame, useMotionValue } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 // One card per machine the team has actually shipped (or is shipping).
@@ -109,9 +108,9 @@ function Card({ r }: { r: RoverCard }) {
   const isLegacy = r.status === "legacy";
   return (
     <Link
-      href="/rovers"
+      href={`/rovers#${r.slug}`}
       aria-label={`${r.name} — ${r.event}`}
-      className="group/card relative shrink-0 w-[300px] md:w-[360px] px-7 md:px-9 py-9 md:py-11 border-l border-[color:var(--color-line)]/40 first:border-l-0 hover:bg-[color:var(--color-surface)]/30 transition-colors"
+      className="group/card relative shrink-0 w-[280px] md:w-[360px] px-7 md:px-9 py-9 md:py-11 border-l border-[color:var(--color-line)]/40 first:border-l-0 hover:bg-[color:var(--color-surface)]/30 transition-colors"
     >
       {/* Diagonal accent — only on retired/legacy, signals 'archived' without text */}
       {isLegacy && (
@@ -167,38 +166,141 @@ function Card({ r }: { r: RoverCard }) {
   );
 }
 
-function Row({ direction = 1 }: { direction?: 1 | -1 }) {
-  const x = useMotionValue(0);
+function Strip() {
   const ref = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
   const reduced = useReducedMotion();
-  const paused = useRef(false);
 
-  useAnimationFrame((_, delta) => {
-    if (reduced) return;
-    if (paused.current) return;
-    if (!ref.current) return;
-    const width = ref.current.scrollWidth / 2;
-    const speed = 0.022;
-    const next = x.get() - direction * delta * speed;
-    if (direction === 1 && next <= -width) x.set(next + width);
-    else if (direction === -1 && next >= 0) x.set(next - width);
-    else x.set(next);
+  // Auto-scroll state — paused on hover, touch, drag, or focus.
+  const paused = useRef(false);
+  const resumeAt = useRef(0);
+  const drag = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
+    active: false,
+    startX: 0,
+    startScroll: 0,
+    moved: false,
   });
 
-  const list = [...lineup, ...lineup];
+  // Track scroll position → progress bar.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => {
+      const half = el.scrollWidth / 2;
+      const max = el.scrollWidth - el.clientWidth;
+      // Treat the first copy as the canonical track for the progress bar.
+      const x = half > 0 ? el.scrollLeft % half : el.scrollLeft;
+      const denom = half > 0 ? half : max;
+      setProgress(denom > 0 ? Math.min(1, x / denom) : 0);
+    };
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  // Auto-scroll loop. Duplicated list lets us wrap by subtracting half scrollWidth.
+  useEffect(() => {
+    if (reduced) return;
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    let last = performance.now();
+    const speed = 28; // px/sec — slow, ambient
+
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      if (!paused.current && now >= resumeAt.current) {
+        const half = el.scrollWidth / 2;
+        let next = el.scrollLeft + speed * dt;
+        if (half > 0 && next >= half) next -= half;
+        el.scrollLeft = next;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+
+  // Any user input pauses auto-scroll; idle for ~1.5s before resuming.
+  const nudgePause = (ms = 1500) => {
+    resumeAt.current = performance.now() + ms;
+  };
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    nudgePause();
+    if (e.pointerType === "touch") return; // touch uses native scroll
+    const el = ref.current;
+    if (!el) return;
+    drag.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
+    el.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!drag.current.active) return;
+    const el = ref.current;
+    if (!el) return;
+    const dx = e.clientX - drag.current.startX;
+    if (Math.abs(dx) > 4) drag.current.moved = true;
+    el.scrollLeft = drag.current.startScroll - dx;
+    nudgePause();
+  };
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (el && el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    requestAnimationFrame(() => {
+      drag.current.active = false;
+    });
+    nudgePause();
+  };
+  const onClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (drag.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      drag.current.moved = false;
+    }
+  };
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ x }}
-      onMouseEnter={() => { paused.current = true; }}
-      onMouseLeave={() => { paused.current = false; }}
-      className="flex items-stretch whitespace-nowrap"
-    >
-      {list.map((r, i) => (
-        <Card key={`${r.slug}-${i}`} r={r} />
-      ))}
-    </motion.div>
+    <div className="relative">
+      <div
+        ref={ref}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onClickCapture={onClickCapture}
+        onMouseEnter={() => { paused.current = true; }}
+        onMouseLeave={() => { paused.current = false; }}
+        onTouchStart={() => nudgePause(2200)}
+        onTouchMove={() => nudgePause(2200)}
+        onTouchEnd={() => nudgePause(2200)}
+        onFocusCapture={() => { paused.current = true; }}
+        onBlurCapture={() => { paused.current = false; }}
+        className="flex items-stretch overflow-x-auto overflow-y-hidden overscroll-x-contain scrollbar-none cursor-grab active:cursor-grabbing [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {/* spacer so first card starts inside the mask */}
+        <span aria-hidden className="shrink-0 w-4 md:w-8" />
+        {/* Doubled list — auto-scroll wraps by subtracting half the width */}
+        {[...lineup, ...lineup].map((r, i) => (
+          <Card key={`${r.slug}-${i}`} r={r} />
+        ))}
+      </div>
+
+      {/* Progress rail — quiet indicator that there's more to scroll */}
+      <div className="container-page mt-6 md:mt-8">
+        <div className="relative h-px w-full max-w-[200px] bg-[color:var(--color-line)]/40">
+          <div
+            className="absolute inset-y-0 left-0 bg-[color:var(--color-mars)] transition-[width] duration-150"
+            style={{ width: `${Math.max(8, progress * 100)}%` }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -234,10 +336,7 @@ export function SpecSheet() {
         </Link>
       </div>
 
-      {/* Edge-fade marquee */}
-      <div className="relative [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
-        <Row direction={1} />
-      </div>
+      <Strip />
     </section>
   );
 }

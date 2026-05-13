@@ -100,7 +100,8 @@ export default function RoversPage() {
               <Reveal
                 key={r.slug}
                 as="li"
-                className="group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/50 transition-colors p-6 md:p-8 lg:p-10 flex flex-col min-h-[clamp(260px,28vw,360px)]"
+                id={r.slug}
+                className="group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/50 transition-colors p-6 md:p-8 lg:p-10 flex flex-col min-h-[clamp(260px,28vw,360px)] scroll-mt-24"
               >
                 <div
                   aria-hidden
@@ -154,7 +155,7 @@ export default function RoversPage() {
 
         <ol className="space-y-px">
           {active.map((r, i) => (
-            <ActiveRoverRow key={r.slug} rover={r} index={i} />
+            <ActiveRoverRow key={r.slug} rover={r} index={i} id={r.slug} />
           ))}
         </ol>
       </section>
@@ -194,10 +195,11 @@ export default function RoversPage() {
                 <Reveal
                   key={r.slug}
                   as="li"
+                  id={r.slug}
                   className={
                     featured
-                      ? "md:col-span-7 group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors"
-                      : "md:col-span-5 group bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-8 min-h-[220px] flex flex-col"
+                      ? "md:col-span-7 group relative overflow-hidden bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors scroll-mt-24"
+                      : "md:col-span-5 group bg-[color:var(--color-void)] border border-[color:var(--color-line)]/50 hover:border-[color:var(--color-mars)]/40 transition-colors p-6 md:p-8 min-h-[220px] flex flex-col scroll-mt-24"
                   }
                 >
                   {featured && photo && (
@@ -388,7 +390,7 @@ export default function RoversPage() {
 // gracefully to a type-only treatment so Khoj / Vetri / Destiny Manipulator
 // still belong in the rhythm.
 // ──────────────────────────────────────────────────────────────────────────
-function ActiveRoverRow({ rover, index }: { rover: Rover; index: number }) {
+function ActiveRoverRow({ rover, index, id }: { rover: Rover; index: number; id?: string }) {
   const photo = rover.photos?.[0];
   const video = rover.video;
   const hasMedia = !!(video || photo);
@@ -407,8 +409,9 @@ function ActiveRoverRow({ rover, index }: { rover: Rover; index: number }) {
   return (
     <Reveal
       as="li"
+      id={id}
       delay={index * 0.04}
-      className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-10 md:py-16 transition-colors hover:bg-[color:var(--color-surface)]/30"
+      className="group relative border-t border-[color:var(--color-line)]/50 last:border-b py-10 md:py-16 transition-colors hover:bg-[color:var(--color-surface)]/30 scroll-mt-24"
     >
       <div
         className={[

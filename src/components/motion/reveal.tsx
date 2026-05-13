@@ -10,6 +10,7 @@ type Props = {
   y?: number;
   as?: "div" | "section" | "article" | "header" | "li" | "p" | "span";
   once?: boolean;
+  id?: string;
 };
 
 export function Reveal({
@@ -19,6 +20,7 @@ export function Reveal({
   y = 24,
   as = "div",
   once = true,
+  id,
 }: Props) {
   const MotionTag = motion[as];
   const reduced = motionUseReducedMotion();
@@ -40,11 +42,12 @@ export function Reveal({
   // Reduced-motion users: skip the reveal entirely. Content is visible from initial render —
   // avoids any chance of keyboard-focus landing on a hidden element below the fold.
   if (reduced) {
-    return <MotionTag className={cn(className)}>{children}</MotionTag>;
+    return <MotionTag id={id} className={cn(className)}>{children}</MotionTag>;
   }
 
   return (
     <MotionTag
+      id={id}
       className={cn(className)}
       variants={variants}
       initial="hidden"
