@@ -9,7 +9,6 @@ import { SceneController } from "@/components/providers/scene-controller";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { CursorTrail } from "@/components/site/cursor-trail";
-import { DenoiseBadge } from "@/components/site/denoise-badge";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -190,7 +189,6 @@ export default function RootLayout({
             <Nav />
             <main className="flex-1">{children}</main>
             <Footer />
-            <DenoiseBadge />
             <CursorTrail />
           </LenisProvider>
         </MotionProvider>
