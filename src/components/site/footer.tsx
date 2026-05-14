@@ -255,7 +255,7 @@ function SponsorTile({ name, logo }: { name: string; logo?: string }) {
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-sans text-sm md:text-base font-medium tracking-tight text-[color:var(--color-void)] text-center px-3 leading-tight">
+          <span className="font-sans text-sm md:text-base font-medium tracking-tight text-[#08080c] text-center px-3 leading-tight">
             {name}
           </span>
         </div>
