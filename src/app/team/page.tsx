@@ -447,7 +447,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
         {/* mono index in top-right — gives the grid an editorial feel */}
         <span
           aria-hidden
-          className="absolute top-3 right-3 md:top-4 md:right-4 font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]/60"
+          className="absolute top-3 right-3 md:top-4 md:right-4 font-mono text-[9px] uppercase tracking-[0.22em] text-white/70"
         >
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -461,7 +461,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
 
         {/* name strip — anchored bottom, name always visible, blurb slides on hover */}
         <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
-          <h3 className="font-sans text-base md:text-lg font-medium tracking-tight text-[color:var(--color-paper)] leading-tight">
+          <h3 className="font-sans text-base md:text-lg font-medium tracking-tight text-white leading-tight">
             {member.name}
           </h3>
           {!isLead && member.rolePrefix && (

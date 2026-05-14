@@ -108,7 +108,7 @@ export function Closer() {
             />
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)]/70 via-transparent to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"
             />
           </div>
           <figcaption className="mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]">

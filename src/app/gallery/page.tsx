@@ -233,8 +233,8 @@ function Figure({
         aria-hidden
         className={`pointer-events-none absolute inset-x-0 bottom-0 ${
           variant === "feature"
-            ? "h-1/3 bg-gradient-to-t from-[color:var(--color-void)]/80 via-[color:var(--color-void)]/30 to-transparent"
-            : "h-2/5 bg-gradient-to-t from-[color:var(--color-void)]/85 via-[color:var(--color-void)]/25 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
+            ? "h-1/3 bg-gradient-to-t from-black/75 via-black/25 to-transparent"
+            : "h-2/5 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
         }`}
       />
       <figcaption
@@ -244,11 +244,11 @@ function Figure({
             : "bottom-3 md:left-5 md:bottom-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300"
         }`}
       >
-        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]/70 shrink-0">
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/70 shrink-0">
           {String(index).padStart(2, "0")}
         </span>
         <span
-          className={`leading-tight text-[color:var(--color-paper)] ${
+          className={`leading-tight text-white ${
             variant === "feature" ? "text-sm md:text-base max-w-2xl" : "text-xs md:text-sm"
           }`}
         >

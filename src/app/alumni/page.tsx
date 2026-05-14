@@ -169,11 +169,6 @@ export default function AlumniPage() {
                           </span>
                         </div>
                       )}
-                      {/* Subtle bottom gradient — always visible on touch for caption read-through */}
-                      <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[color:var(--color-void)]/60 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
-                      />
                     </div>
 
                     {/* Body */}
