@@ -211,7 +211,15 @@ function Strip() {
       const dt = Math.min(0.1, (now - last) / 1000); // clamp dt after tab-blur
       last = now;
 
-      if (!paused.current && !offscreen.current && now >= resumeAt.current && !drag.current.active) {
+      // Auto-advance only when nothing else is driving the offset (drag /
+      // flick momentum / explicit hover-pause / off-screen).
+      const handsOff =
+        !paused.current &&
+        !offscreen.current &&
+        now >= resumeAt.current &&
+        !drag.current.active &&
+        !momentumRaf.current;
+      if (handsOff) {
         offset.current += speed * dt;
       }
 
