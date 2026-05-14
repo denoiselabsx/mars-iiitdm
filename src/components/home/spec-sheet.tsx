@@ -304,15 +304,31 @@ function Strip() {
     startX: 0,
     startY: 0,
     startOffset: 0,
+    lastX: 0,
+    lastT: 0,
+    velocity: 0,   // px / ms, smoothed
     engaged: false,
     armed: false,
   });
+  // Decay loop for flick momentum after touch-release.
+  const momentumRaf = useRef(0);
+  const stopMomentum = () => {
+    if (momentumRaf.current) {
+      cancelAnimationFrame(momentumRaf.current);
+      momentumRaf.current = 0;
+    }
+  };
+
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    stopMomentum();
     const t = e.touches[0];
     touch.current = {
       startX: t.clientX,
       startY: t.clientY,
       startOffset: offset.current,
+      lastX: t.clientX,
+      lastT: performance.now(),
+      velocity: 0,
       engaged: false,
       armed: true,
     };
@@ -325,23 +341,49 @@ function Strip() {
     const dy = t.clientY - touch.current.startY;
 
     if (!touch.current.engaged) {
-      // Wait until the user has moved enough to declare intent.
       if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
       if (Math.abs(dx) > Math.abs(dy)) {
-        touch.current.engaged = true; // horizontal — claim the gesture
+        touch.current.engaged = true;
       } else {
-        touch.current.armed = false;  // vertical — release to page scroll
+        touch.current.armed = false;
         return;
       }
     }
 
     offset.current = touch.current.startOffset - dx;
+
+    // Track instantaneous velocity for flick inertia.
+    const now = performance.now();
+    const dt = Math.max(1, now - touch.current.lastT);
+    const vNow = -(t.clientX - touch.current.lastX) / dt; // px/ms, +ve = forward
+    touch.current.velocity = touch.current.velocity * 0.6 + vNow * 0.4;
+    touch.current.lastX = t.clientX;
+    touch.current.lastT = now;
     nudgePause(2200);
   };
   const onTouchEnd = () => {
+    const wasEngaged = touch.current.engaged;
+    const v0 = touch.current.velocity;
     touch.current.armed = false;
     touch.current.engaged = false;
     nudgePause(2200);
+
+    // Glide on release if the flick was decisive enough.
+    if (!wasEngaged || Math.abs(v0) < 0.05) return;
+    let v = v0;
+    let last = performance.now();
+    const decay = (now: number) => {
+      const dt = now - last;
+      last = now;
+      offset.current += v * dt;
+      v *= Math.pow(0.94, dt / 16); // exponential decay, ~340ms half-life
+      if (Math.abs(v) < 0.02) {
+        momentumRaf.current = 0;
+        return;
+      }
+      momentumRaf.current = requestAnimationFrame(decay);
+    };
+    momentumRaf.current = requestAnimationFrame(decay);
   };
 
   return (
