@@ -167,63 +167,91 @@ function Card({ r }: { r: RoverCard }) {
 }
 
 function Strip() {
-  const ref = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const reduced = useReducedMotion();
 
-  // Auto-scroll state — paused on hover, touch, drag, or focus.
+  // Carousel uses GPU-composited transform on the inner track instead of
+  // writing scrollLeft. scrollLeft only accepts integer pixels, so at the
+  // slow ambient speed (~28 px/s ≈ 0.45 px/frame) most frames produced no
+  // visible movement and the carousel looked stuck. Transform takes sub-
+  // pixel values and doesn't fight Lenis.
+  const offset = useRef(0); // current track translation (px)
   const paused = useRef(false);
+  const offscreen = useRef(true);
   const resumeAt = useRef(0);
-  const drag = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
+  const drag = useRef<{ active: boolean; startX: number; startOffset: number; moved: boolean }>({
     active: false,
     startX: 0,
-    startScroll: 0,
+    startOffset: 0,
     moved: false,
   });
 
-  // Track scroll position → progress bar.
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const update = () => {
-      const half = el.scrollWidth / 2;
-      const max = el.scrollWidth - el.clientWidth;
-      // Treat the first copy as the canonical track for the progress bar.
-      const x = half > 0 ? el.scrollLeft % half : el.scrollLeft;
-      const denom = half > 0 ? half : max;
-      setProgress(denom > 0 ? Math.min(1, x / denom) : 0);
-    };
-    update();
-    el.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      el.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
-
-  // Auto-scroll loop. Duplicated list lets us wrap by subtracting half scrollWidth.
+  // Single RAF: advance offset, apply transform, update progress bar.
   useEffect(() => {
     if (reduced) return;
-    const el = ref.current;
-    if (!el) return;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+
     let raf = 0;
     let last = performance.now();
-    const speed = 28; // px/sec — slow, ambient
+    const speed = 36; // px/sec — slightly quicker now that motion is buttery
+    let lastProgress = -1;
 
     const tick = (now: number) => {
-      const dt = (now - last) / 1000;
+      const dt = Math.min(0.1, (now - last) / 1000); // clamp dt after tab-blur
       last = now;
-      if (!paused.current && now >= resumeAt.current) {
-        const half = el.scrollWidth / 2;
-        let next = el.scrollLeft + speed * dt;
-        if (half > 0 && next >= half) next -= half;
-        el.scrollLeft = next;
+
+      if (!paused.current && !offscreen.current && now >= resumeAt.current && !drag.current.active) {
+        offset.current += speed * dt;
       }
+
+      // Wrap: one full lineup is half the track's scrollWidth (it's doubled).
+      const half = track.scrollWidth / 2;
+      if (half > 0) {
+        if (offset.current >= half) offset.current -= half;
+        else if (offset.current < 0) offset.current += half;
+      }
+
+      track.style.transform = `translate3d(${-offset.current}px, 0, 0)`;
+
+      // Throttle progress updates — only re-render when the % changes by ≥1.
+      if (half > 0) {
+        const p = Math.min(1, offset.current / half);
+        const stepped = Math.round(p * 100);
+        if (stepped !== lastProgress) {
+          lastProgress = stepped;
+          setProgress(p);
+        }
+      }
+
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    // Pause the loop entirely when off-screen — no wasted work during
+    // initial page load or when the reader is elsewhere on the page.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        offscreen.current = !entry.isIntersecting;
+      },
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(viewport);
+
+    // Resume timing baseline when tab regains focus so we don't lurch.
+    const onVis = () => {
+      last = performance.now();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [reduced]);
 
   // Any user input pauses auto-scroll; idle for ~1.5s before resuming.
@@ -232,25 +260,23 @@ function Strip() {
   };
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch") return; // touch: native pan-x via wheel/scroll feel handled separately
     nudgePause();
-    if (e.pointerType === "touch") return; // touch uses native scroll
-    const el = ref.current;
-    if (!el) return;
-    drag.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
-    el.setPointerCapture(e.pointerId);
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    drag.current = { active: true, startX: e.clientX, startOffset: offset.current, moved: false };
+    viewport.setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!drag.current.active) return;
-    const el = ref.current;
-    if (!el) return;
     const dx = e.clientX - drag.current.startX;
     if (Math.abs(dx) > 4) drag.current.moved = true;
-    el.scrollLeft = drag.current.startScroll - dx;
+    offset.current = drag.current.startOffset - dx;
     nudgePause();
   };
   const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (el && el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    const viewport = viewportRef.current;
+    if (viewport && viewport.hasPointerCapture(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
     requestAnimationFrame(() => {
       drag.current.active = false;
     });
@@ -264,10 +290,25 @@ function Strip() {
     }
   };
 
+  // Touch: native horizontal wheel/trackpad still works for desktop touchpads,
+  // and a mobile finger swipe drives the same offset via touch events.
+  const touchStartX = useRef(0);
+  const touchStartOffset = useRef(0);
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    nudgePause(2200);
+    touchStartX.current = e.touches[0].clientX;
+    touchStartOffset.current = offset.current;
+  };
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const dx = e.touches[0].clientX - touchStartX.current;
+    offset.current = touchStartOffset.current - dx;
+    nudgePause(2200);
+  };
+
   return (
     <div className="relative">
       <div
-        ref={ref}
+        ref={viewportRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -275,20 +316,24 @@ function Strip() {
         onClickCapture={onClickCapture}
         onMouseEnter={() => { paused.current = true; }}
         onMouseLeave={() => { paused.current = false; }}
-        onTouchStart={() => nudgePause(2200)}
-        onTouchMove={() => nudgePause(2200)}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
         onTouchEnd={() => nudgePause(2200)}
         onFocusCapture={() => { paused.current = true; }}
         onBlurCapture={() => { paused.current = false; }}
-        className="flex items-stretch overflow-x-auto overflow-y-hidden overscroll-x-contain scrollbar-none cursor-grab active:cursor-grabbing [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
-        style={{ scrollbarWidth: "none" }}
+        className="relative overflow-hidden cursor-grab active:cursor-grabbing [mask-image:linear-gradient(to_right,transparent_0,black_8%,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0,black_8%,black_92%,transparent_100%)]"
+        style={{ touchAction: "pan-y" }}
       >
-        {/* spacer so first card starts inside the mask */}
-        <span aria-hidden className="shrink-0 w-4 md:w-8" />
-        {/* Doubled list — auto-scroll wraps by subtracting half the width */}
-        {[...lineup, ...lineup].map((r, i) => (
-          <Card key={`${r.slug}-${i}`} r={r} />
-        ))}
+        <div
+          ref={trackRef}
+          className="flex items-stretch will-change-transform"
+          style={{ transform: "translate3d(0,0,0)" }}
+        >
+          {/* Doubled list — track wraps by subtracting half the track width */}
+          {[...lineup, ...lineup].map((r, i) => (
+            <Card key={`${r.slug}-${i}`} r={r} />
+          ))}
+        </div>
       </div>
 
       {/* Progress rail — quiet indicator that there's more to scroll */}

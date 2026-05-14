@@ -13,7 +13,21 @@ import { HeroFallback } from "./hero-fallback";
 
 const RoverScene = dynamic(
   () => import("./rover-scene").then((m) => m.RoverScene),
-  { ssr: false },
+  {
+    ssr: false,
+    // Lightweight placeholder while three.js / R3F / GLB stream in.
+    // Same horizon glow the scene uses, so the swap is visually quiet.
+    loading: () => (
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 60% at 60% 50%, color-mix(in oklab, var(--color-mars) 14%, transparent) 0%, transparent 70%)",
+        }}
+      />
+    ),
+  },
 );
 
 if (typeof window !== "undefined") {
