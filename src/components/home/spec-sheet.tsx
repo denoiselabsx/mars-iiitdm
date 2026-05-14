@@ -200,7 +200,11 @@ function Strip() {
 
     let raf = 0;
     let last = performance.now();
-    const speed = 36; // px/sec — slightly quicker now that motion is buttery
+    // Mobile gets a touch more speed — narrower viewport means cards cross
+    // sooner, so the same px/sec feels slower on a phone. Majority of traffic
+    // is mobile, so we tune for that as the primary case.
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const speed = isMobile ? 48 : 36;
     let lastProgress = -1;
 
     const tick = (now: number) => {
