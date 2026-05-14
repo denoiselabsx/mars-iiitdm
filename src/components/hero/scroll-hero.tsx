@@ -218,6 +218,96 @@ export function ScrollHero() {
     };
   }, [isTouch, reduced]);
 
+  // Desktop mouse-drag rotation.
+  // - Engages immediately on mousedown over the rover area
+  // - dx → dragOffsetRef (1 px ≈ 0.008 rad — slightly tighter than mobile so a
+  //   ~400px swipe = ~one half-turn, which feels right with a mouse)
+  // - Inertia on release so a flick keeps spinning briefly
+  useEffect(() => {
+    if (reduced) return;
+    if (isTouch) return;
+
+    const root = containerRef.current;
+    if (!root) return;
+    const dragLayer = root.querySelector<HTMLDivElement>("[data-desktop-drag-layer]");
+    if (!dragLayer) return;
+
+    let engaged = false;
+    let startX = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let velocity = 0;
+    let baseOffset = 0;
+    let rafId = 0;
+
+    const decay = () => {
+      if (Math.abs(velocity) < 0.0005) {
+        velocity = 0;
+        rafId = 0;
+        return;
+      }
+      dragOffsetRef.current += velocity;
+      velocity *= 0.93;
+      rafId = requestAnimationFrame(decay);
+    };
+
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      // Only left button
+      if (e.button !== 0) return;
+      engaged = true;
+      startX = e.clientX;
+      lastX = e.clientX;
+      lastT = e.timeStamp;
+      velocity = 0;
+      baseOffset = dragOffsetRef.current;
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+      try {
+        dragLayer.setPointerCapture(e.pointerId);
+      } catch {}
+      e.preventDefault();
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (!engaged) return;
+      const dx = e.clientX - startX;
+      dragOffsetRef.current = baseOffset + dx * 0.008;
+
+      const now = e.timeStamp;
+      const dt = Math.max(1, now - lastT);
+      velocity = ((e.clientX - lastX) * 0.008) / dt * 16;
+      lastX = e.clientX;
+      lastT = now;
+    };
+
+    const onUp = (e: PointerEvent) => {
+      if (!engaged) return;
+      engaged = false;
+      try {
+        dragLayer.releasePointerCapture(e.pointerId);
+      } catch {}
+      if (Math.abs(velocity) > 0.002 && !rafId) {
+        rafId = requestAnimationFrame(decay);
+      }
+    };
+
+    dragLayer.addEventListener("pointerdown", onDown);
+    dragLayer.addEventListener("pointermove", onMove);
+    dragLayer.addEventListener("pointerup", onUp);
+    dragLayer.addEventListener("pointercancel", onUp);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      dragLayer.removeEventListener("pointerdown", onDown);
+      dragLayer.removeEventListener("pointermove", onMove);
+      dragLayer.removeEventListener("pointerup", onUp);
+      dragLayer.removeEventListener("pointercancel", onUp);
+    };
+  }, [isTouch, reduced]);
+
   if (reduced) return <HeroFallback />;
 
   return (
@@ -234,7 +324,10 @@ export function ScrollHero() {
             Mobile: bottom-half of viewport, drag-driven rotation
         */}
         {/* Desktop scene */}
-        <div className="hidden md:block absolute inset-y-0 right-0 w-[58%] lg:w-[55%] -z-0">
+        <div
+          data-desktop-drag-layer
+          className="hidden md:block absolute inset-y-0 right-0 w-[58%] lg:w-[55%] z-0 cursor-grab active:cursor-grabbing"
+        >
           <RoverScene
             progressRef={progressRef}
             velocityRef={velocityRef}
@@ -277,10 +370,12 @@ export function ScrollHero() {
         />
 
         {/* ── Text column ──────────────────────────────────────────────── */}
-        {/* Desktop: vertically centered, left-anchored */}
-        <div className="hidden md:flex relative z-10 h-full">
+        {/* Desktop: vertically centered, left-anchored.
+            pointer-events-none on the wrappers so the right-half rover layer
+            stays draggable; re-enabled on the actual text/CTA block. */}
+        <div className="hidden md:flex relative z-10 h-full pointer-events-none">
           <div className="container-page h-full flex items-center">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl pointer-events-auto">
               <DesktopHeroText />
             </div>
           </div>

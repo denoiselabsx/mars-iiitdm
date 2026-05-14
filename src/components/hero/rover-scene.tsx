@@ -247,7 +247,7 @@ function Rover({ progressRef, velocityRef, dragOffsetRef }: Refs) {
       spin.current += v * 0.0016;
       spin.current *= Math.pow(0.06, delta); // slightly slower decay → richer carry
 
-      targetY = scrollY + spin.current;
+      targetY = scrollY + drag + spin.current;
       // Pitch breathes: down a touch as you scroll in, level at extremes.
       targetX = -0.18 * Math.sin(p * Math.PI);
     }
