@@ -297,18 +297,50 @@ function Strip() {
     }
   };
 
-  // Touch: native horizontal wheel/trackpad still works for desktop touchpads,
-  // and a mobile finger swipe drives the same offset via touch events.
-  const touchStartX = useRef(0);
-  const touchStartOffset = useRef(0);
+  // Touch handling — engage carousel drag ONLY when horizontal motion clearly
+  // dominates. Otherwise the gesture is a vertical page scroll and we must
+  // not hijack it. (Hijacking is the #1 mobile-carousel UX bug.)
+  const touch = useRef({
+    startX: 0,
+    startY: 0,
+    startOffset: 0,
+    engaged: false,
+    armed: false,
+  });
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0];
+    touch.current = {
+      startX: t.clientX,
+      startY: t.clientY,
+      startOffset: offset.current,
+      engaged: false,
+      armed: true,
+    };
     nudgePause(2200);
-    touchStartX.current = e.touches[0].clientX;
-    touchStartOffset.current = offset.current;
   };
   const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const dx = e.touches[0].clientX - touchStartX.current;
-    offset.current = touchStartOffset.current - dx;
+    if (!touch.current.armed) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touch.current.startX;
+    const dy = t.clientY - touch.current.startY;
+
+    if (!touch.current.engaged) {
+      // Wait until the user has moved enough to declare intent.
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        touch.current.engaged = true; // horizontal — claim the gesture
+      } else {
+        touch.current.armed = false;  // vertical — release to page scroll
+        return;
+      }
+    }
+
+    offset.current = touch.current.startOffset - dx;
+    nudgePause(2200);
+  };
+  const onTouchEnd = () => {
+    touch.current.armed = false;
+    touch.current.engaged = false;
     nudgePause(2200);
   };
 
