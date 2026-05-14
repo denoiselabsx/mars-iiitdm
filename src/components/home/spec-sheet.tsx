@@ -256,6 +256,7 @@ function Strip() {
 
     return () => {
       cancelAnimationFrame(raf);
+      if (momentumRaf.current) cancelAnimationFrame(momentumRaf.current);
       io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
     };
