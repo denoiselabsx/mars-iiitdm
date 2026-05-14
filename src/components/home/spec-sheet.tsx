@@ -61,8 +61,8 @@ const lineup: RoverCard[] = [
     name: "Destiny",
     year: "2026",
     event: "Companion platform",
-    status: "active",
-    signature: "Generative-design chassis · weight-optimised",
+    status: "legacy",
+    signature: "Generative-design chassis",
     result: "Rocky · sandy · inclined terrain",
   },
   {
