@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
@@ -7,6 +8,13 @@ import { Magnetic } from "@/components/motion/magnetic";
 import { DenoiseMark } from "@/components/site/denoise-mark";
 import { site } from "@/lib/site";
 import { routeMeta } from "@/lib/seo";
+
+const socialUrl = {
+  instagram: (h: string) => `https://instagram.com/${h}`,
+  x: (h: string) => `https://x.com/${h}`,
+  linkedin: (h: string) => `https://www.linkedin.com/in/${h}/`,
+  github: (h: string) => `https://github.com/${h}`,
+} as const;
 
 export const metadata = routeMeta("/credits", {
   title: "Credits",
@@ -231,6 +239,113 @@ export default function CreditsPage() {
           </Reveal>
         </div>
       </section>
+
+      <div className="container-page">
+        <div className="h-px bg-[color:var(--color-line)]/60" />
+      </div>
+
+      {/* Denoise founders — the four people behind the build */}
+      <section className="container-page py-20 md:py-28 grid gap-10 md:gap-16 md:grid-cols-12">
+        <Reveal className="md:col-span-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-mars)]">
+            05 — Founders
+          </p>
+          <h2 className="mt-4 font-sans text-3xl font-medium tracking-tight">
+            Four founders.{" "}
+            <span className="font-serif italic text-[color:var(--color-mars)]">
+              Same bar.
+            </span>
+          </h2>
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-[color:var(--color-muted)]">
+            The team that designed, engineered, and shipped this site. All four
+            of us are at IIITDM Kancheepuram with you.
+          </p>
+        </Reveal>
+
+        <div className="md:col-span-8">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 md:gap-x-8 md:gap-y-12">
+            {site.agency.founders.map((f, i) => (
+              <Reveal key={f.name} delay={0.05 + i * 0.05} as="li">
+                <article className="group">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-[color:var(--color-line)]/30 ring-1 ring-[color:var(--color-line)]/50 transition-all duration-500 group-hover:ring-[color:var(--color-mars)]/40">
+                    {f.portrait ? (
+                      <>
+                        <Image
+                          src={f.portrait.mono}
+                          alt=""
+                          fill
+                          sizes="(min-width: 768px) 22vw, 50vw"
+                          className="object-cover transition-opacity duration-500 ease-out group-hover:opacity-0"
+                        />
+                        <Image
+                          src={f.portrait.color}
+                          alt={f.name}
+                          fill
+                          sizes="(min-width: 768px) 22vw, 50vw"
+                          className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+                        />
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-serif italic text-6xl md:text-7xl text-[color:var(--color-muted)]/40 transition-colors duration-500 group-hover:text-[color:var(--color-mars)]/70">
+                          {f.initials}
+                        </span>
+                      </div>
+                    )}
+                    <span className="absolute left-3 top-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-paper)]/80 mix-blend-difference">
+                      0{i + 1}
+                    </span>
+                  </div>
+
+                  <div className="mt-5">
+                    <p className="font-sans text-lg font-medium tracking-tight text-[color:var(--color-paper)]">
+                      {f.name}
+                    </p>
+                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
+                      {f.role}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-muted)]">
+                      {f.oneLiner}
+                    </p>
+
+                    <ul className="mt-4 flex items-center gap-4">
+                      {(["instagram", "x", "linkedin", "github"] as const).map(
+                        (k) => {
+                          const handle = f.socials[k];
+                          if (!handle) return null;
+                          const label = {
+                            instagram: "IG",
+                            x: "X",
+                            linkedin: "IN",
+                            github: "GH",
+                          }[k];
+                          return (
+                            <li key={k}>
+                              <a
+                                href={socialUrl[k](handle)}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                aria-label={`${f.name} on ${k}`}
+                                className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--color-faint)] hover:text-[color:var(--color-signal)] transition-colors"
+                              >
+                                {label}
+                              </a>
+                            </li>
+                          );
+                        },
+                      )}
+                    </ul>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <div className="container-page">
+        <div className="h-px bg-[color:var(--color-line)]/60" />
+      </div>
 
       {/* Closing line */}
       <section className="container-page pb-32 md:pb-48 text-center">
