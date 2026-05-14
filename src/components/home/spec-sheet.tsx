@@ -57,6 +57,15 @@ const lineup: RoverCard[] = [
     result: "9th — ISDC 2026",
   },
   {
+    slug: "destiny-rover",
+    name: "Destiny",
+    year: "2026",
+    event: "Companion platform",
+    status: "active",
+    signature: "Generative-design chassis · weight-optimised",
+    result: "Rocky · sandy · inclined terrain",
+  },
+  {
     slug: "lakshya",
     name: "Lakshya",
     year: "2025",
@@ -461,7 +470,7 @@ export function SpecSheet() {
         <div className="flex items-baseline gap-4">
           <span className="h-px w-12 bg-[color:var(--color-mars)]" />
           <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-[color:var(--color-muted)]">
-            The lineup · seven machines, three seasons
+            The lineup · eight machines, three seasons
           </span>
         </div>
         <Link
