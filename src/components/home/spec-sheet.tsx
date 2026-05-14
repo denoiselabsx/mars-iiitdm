@@ -357,7 +357,8 @@ function Strip() {
         onMouseLeave={() => { paused.current = false; }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
-        onTouchEnd={() => nudgePause(2200)}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchEnd}
         onFocusCapture={() => { paused.current = true; }}
         onBlurCapture={() => { paused.current = false; }}
         className="relative overflow-hidden cursor-grab active:cursor-grabbing [mask-image:linear-gradient(to_right,transparent_0,black_8%,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0,black_8%,black_92%,transparent_100%)]"
