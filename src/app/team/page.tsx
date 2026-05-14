@@ -270,10 +270,6 @@ function FacultyCard({ member }: { member: FacultyMember }) {
           className="object-cover object-[center_20%] group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
           priority
         />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)] via-[color:var(--color-void)]/10 to-transparent"
-        />
         <p className="absolute top-5 left-5 md:top-6 md:left-6 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-paper)] mix-blend-difference">
           {member.role}
         </p>
@@ -366,12 +362,6 @@ function LeadershipCard({
           <InitialsTile name={member.name} large />
         )}
 
-        {/* gradient overlay — keeps name strip legible on photo edge */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)] via-[color:var(--color-void)]/0 to-transparent"
-        />
-
         {/* watermark rank numeral */}
         <p
           aria-hidden
@@ -451,7 +441,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
         {/* permanent edge vignette for legibility of overlaid index */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--color-void)]/85 via-[color:var(--color-void)]/0 to-[color:var(--color-void)]/30"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/20"
         />
 
         {/* mono index in top-right — gives the grid an editorial feel */}
