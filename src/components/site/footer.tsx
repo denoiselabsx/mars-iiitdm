@@ -236,7 +236,7 @@ export function Footer() {
 
 function SponsorTile({ name, logo }: { name: string; logo?: string }) {
   return (
-    <div className="relative aspect-[5/3] overflow-hidden rounded-md bg-[color:var(--color-paper)] ring-1 ring-[color:var(--color-line)]/60 transition-all duration-500 ease-out group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-0.5">
+    <div className="relative aspect-[5/3] overflow-hidden rounded-md bg-white ring-1 ring-[color:var(--color-line)]/60 transition-all duration-500 ease-out group-hover:ring-[color:var(--color-mars)]/50 group-hover:-translate-y-0.5">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-60"
