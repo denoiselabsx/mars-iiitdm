@@ -179,7 +179,10 @@ function Strip() {
   // pixel values and doesn't fight Lenis.
   const offset = useRef(0); // current track translation (px)
   const paused = useRef(false);
-  const offscreen = useRef(true);
+  // Assume on-screen at mount — IntersectionObserver corrects on first callback.
+  // Starting `true` made the carousel sit motionless for ~one frame on mobile,
+  // which read as "stuck" since the next user instinct is to scroll past it.
+  const offscreen = useRef(false);
   const resumeAt = useRef(0);
   const drag = useRef<{ active: boolean; startX: number; startOffset: number; moved: boolean }>({
     active: false,
